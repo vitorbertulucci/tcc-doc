@@ -1,19 +1,36 @@
 \chapter[Introdução]{Introdução}
 % \addcontentsline{toc}{chapter}{Introdução}
 
-A informatização dos processos judiciais é um processo de automação que vem sendo utilizado, atualizado e evoluido desde os anos 90 nos Estados Unidos \cite{automating-judicial-doc} e, no Brasil, a partir de 2006 com a publicação da Lei nº 11.419, sancionada pelo então presidente Luiz Inácio Lula da Silva, permitindo a tramitação de processos judiciais em ambientes eletrônicos \cite{digitalizacao-de-proc-judiciais}. Tal lei possibilitou informatizar qualquer forma de armazenamento e tráfego de informações referentes aos processos em arquivos digitais.
+A automação com a informatização dos processos judiciais vem sendo utilizado, atualizado e evoluido nos Estados Unidos desde os anos 90 \cite{automating-judicial-doc} e, no Brasil, a partir de 2006 com a publicação da Lei nº 11.419. Essa lei permitiu não só a tramitação de processos judiciais em ambientes eletrônicos \cite{digitalizacao-de-proc-judiciais} como também possibilitou informatizar qualquer forma de armazenamento e tráfego de informações referentes aos processos em arquivos digitais.
 
-Em 2010, o Superior Tribunal de Justiça tornou-se o primeiro tribunal brasileiro totalmente virtualizado, com todos os seus processos disponíveis em plataformas online \cite{digitalizacao-de-proc-judiciais}, onde a maior parte desses processos foi transferida para a plataforma lançada oficialmente em 2011 pelo Conselho Nacional de Justiça (CNJ), o PJe ou Processo Judicial Eletrônico. Tal plataforma permitiu não só a facilidade no trabalho dos advogados, juízes, procuradores e estagiários com a sua mudança de paradigma de trabalho como também auxiliou na diminuição do tempo de vida de boa parte dos processos \cite{pje-diminuicao-tempo-do=proc}, onde, segundo o CNJ em seu relatório \textit{Justiça em Números} de 2018 sobre os dados de 2017, mostram que o tempo de vida médio dos processos podem chegar a 7 anos e 11 meses na fase de execução da Justiça Federal.
+Em 2010, o Superior Tribunal de Justiça tornou-se o primeiro tribunal brasileiro totalmente virtualizado com todos os seus processos disponíveis em plataformas online \cite{digitalizacao-de-proc-judiciais}, onde a maior parte desses processos foi transferida para a plataforma lançada oficialmente em 2011 pelo Conselho Nacional de Justiça (CNJ), o Processo Judicial Eletrônico, comumente chamado de PJe. A plataforma permitiu não só facilitar o trabalho dos advogados, juízes, procuradores e estagiários com a sua mudança de paradigma de trabalho como também auxiliou na diminuição do tempo de duração de boa parte dos processos \cite{pje-diminuicao-tempo-do=proc}, que, segundo o CNJ em seu relatório \textit{Justiça em Números} de 2018, o tempo de vida médio dos processos podem chegar a 7 anos e 11 meses na fase de execução da Justiça Federal.
 
-Contudo, a adoção de um modelo mais inovador de trabalho para o ramo jurídico não soluciona o problema de criação de novos processos físicos e nem dos processos físicos ainda em vigência e, por isso, é necessário uma etapa de digitalização dos mesmos. Tal atividade, manual e exaustiva, é preciso passar os documentos por \textit{scanners} para permitir o uso dos mesmos em sistemas digitais, como o PJe, sem contar que com isso, o processo passa a ser digitalizado e não de fato digital, ou seja, não é possível selecionar o texto de um documento digitalizado, extrair informações, etc. Documentos digitalizados nada mais são do que fotos em páginas de PDF, limitando assim o uso das informações das mesmas de maneira simplificada.
+Contudo, a adoção de um modelo mais inovador de trabalho para o ramo jurídico não soluciona o problema de criação de novos processos físicos nem dos processos físicos ainda em vigência e, por isso, é necessário uma etapa de digitalização dos mesmos. Nessa atividade, manual e exaustiva, é preciso passar os documentos por \textit{scanners} para permitir o uso dos dos processos em sistemas digitais, como o PJe, sem contar que com isso, o processo passa a ser digitalizado
+    \footnote{
+        O processo de digitalização ocorre na etapa de transformação de um sinal analógico para um sinal digital. Consiste em tornar uma informação disponível fisicamente para que essa possa ser acessada em um meio digital.
+    }.
 
-Para solucionar uma parte dos problemas da digitalização e extração de texto a partir de imagens, utiliza-se uma tecnologia denominada \textit{Optical Character Recognition} ou OCR onde, a partir dos documentos digitalizados, os mesmos são colocados em um processamento utilizando ORC para extrair texto a partir das imagens dos documentos digitais. Porém, tal tecnologia precisa de uma imagem limpa e clara do conteúdo nela presente, o que nem sempre é verdade.
+A partir disso então, utiliza-se uma tecnologia denominada \textit{Optical Character Recognition} ou OCR onde, tendo os documentos digitalizados, extraem-se os textos dos mesmos, permitindo que possam ser colocados em documentos totalmente digitais. Porém, tal tecnologia precisa de uma imagem limpa e clara do conteúdo nela presente, o que nem sempre é realidade. A principal problemática dos processamentos de imagem para a extração de texto se dá pela dificuldade de manter os documentos digitalizados com informações limpas e sem ruídos.
 
 \newpage
 
 \section{Objetivo}
 
-Tendo em vista a problemática apresentada a respeito do processo de informatização dos documentos jurídicos, o objetivo principal desse trabalho de conclusão de curso é apresentar um novo modelo que pode vir a auxiliar as tecnologias de OCR a apresentarem melhores resultados, fazendo o uso de 
+Tendo em vista a problemática apresentada a respeito do processo de informatização dos documentos jurídicos, o objetivo principal desse trabalho de conclusão de curso é propor um novo modelo que pode vir a auxiliar as tecnologias de OCR a alcançarem melhores resultados, criando uma etapa prévia de processamento para melhorar as imagens disponíveis. Essa melhoria é baseada em criar uma nova imagem a partir de imagens ruins ou com ruídos, corrigindo assim os pontos na imagem que influenciam negativamente na qualidade final no reconhecimento de caractéres pelo OCR.
+
+A criação de novas imagens é possível utilizando uma das áreas de \textit{Machine Learning}, mais especificamente o \textit{Deep Learning}, o qual vem sendo provado como um excelente método para o campo de visão computacional \cite{dl-brief-review}. O foco é criar um modelo de Inteligência Artificial que, a partir de imagens ruins de documentos digitalizaos, consiga criar novas imagens com as mesmas características mas corrigindo os ruídos que afetam o OCR, melhorando assim a qualidade da imagem e clareza de suas informações.
+
+Esse modelo é baseado em Redes Neurais Artificiais para a criação de um modelo generativo, onde, diferentemente dos modelos discriminativos, o dado de saída é uma nova imagem gerada e não uma classificação do dado de entrada. Com isso, a hipótese do estudo de caso é que a partir das imagens geradas pelo modelo, o processamento de imagem pelo OCR atinja melhores resultados.
+
+\section{Método}
+
+O método de desenvolvimento do projeto consiste em criar uma \textit{pipeline}
+    \footnote{
+        \textit{Pipelines}, na computação, é um termo comumente utilizado quando precisa-se contruir um conjunto de processamentos os quais a saída de um processamento é a entrada do próximo, onde, em alguns casos, existe dependência entre si e na sua ordem. As \textit{pipelines} seguem a ideia de fila (\textit{first-in-first-out}).
+    }
+de processamento capaz
+
+
 
 
 % Este documento apresenta considerações gerais e preliminares relacionadas 
