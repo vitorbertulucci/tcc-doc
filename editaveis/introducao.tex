@@ -5,12 +5,13 @@ A automação com a informatização dos processos judiciais vem sendo utilizado
 
 Em 2010, o Superior Tribunal de Justiça tornou-se o primeiro tribunal brasileiro totalmente virtualizado com todos os seus processos disponíveis em plataformas online \cite{digitalizacao-de-proc-judiciais}, onde a maior parte desses processos foi transferida para a plataforma lançada oficialmente em 2011 pelo Conselho Nacional de Justiça (CNJ), o Processo Judicial Eletrônico, comumente chamado de PJe. A plataforma permitiu não só facilitar o trabalho dos advogados, juízes, procuradores e estagiários com a sua mudança de paradigma de trabalho como também auxiliou na diminuição do tempo de duração de boa parte dos processos \cite{pje-diminuicao-tempo-do=proc}, que, segundo o CNJ em seu relatório \textit{Justiça em Números} de 2018, o tempo de vida médio dos processos podem chegar a 7 anos e 11 meses na fase de execução da Justiça Federal.
 
-Contudo, a adoção de um modelo mais inovador de trabalho para o ramo jurídico não soluciona o problema de criação de novos processos físicos nem dos processos físicos ainda em vigência e, por isso, é necessário uma etapa de digitalização dos mesmos. Nessa atividade, manual e exaustiva, é preciso passar os documentos por \textit{scanners} para permitir o uso dos dos processos em sistemas digitais, como o PJe, sem contar que com isso, o processo passa a ser digitalizado
+% review this
+Contudo, a adoção de um modelo mais inovador de trabalho para o ramo jurídico não soluciona o problema de criação de novos processos físicos nem dos processos físicos ainda em vigência e, por isso, é necessário uma etapa de digitalização dos mesmos. Nessa atividade, manual e exaustiva, é preciso passar os documentos por \textit{scanners} para permitir o uso dos processos em sistemas digitais, como o PJe, sem contar que com isso, o processo passa a ser digitalizado
     \footnote{
         O processo de digitalização ocorre na etapa de transformação de um sinal analógico para um sinal digital. Consiste em tornar uma informação disponível fisicamente para que essa possa ser acessada em um meio digital.
     }.
 
-A partir disso então, utiliza-se uma tecnologia denominada \textit{Optical Character Recognition} ou OCR onde, tendo os documentos digitalizados, extraem-se os textos dos mesmos, permitindo que possam ser colocados em documentos totalmente digitais. Porém, tal tecnologia precisa de uma imagem limpa e clara do conteúdo nela presente, o que nem sempre é realidade. A principal problemática dos processamentos de imagem para a extração de texto se dá pela dificuldade de manter os documentos digitalizados com informações limpas e sem ruídos.
+A partir disso, utiliza-se uma tecnologia denominada \textit{Optical Character Recognition} ou OCR onde, tendo os documentos digitalizados, extraem-se os textos dos mesmos, permitindo que possam ser colocados em documentos totalmente digitais. Porém, tal tecnologia precisa de uma imagem limpa e clara do conteúdo nela presente, o que nem sempre é realidade. A principal problemática dos processamentos de imagem para a extração de texto se dá pela dificuldade de manter os documentos digitalizados com informações limpas e sem ruídos.
 
 \newpage
 
@@ -24,14 +25,15 @@ Esse modelo é baseado em Redes Neurais Artificiais para a criação de um model
 
 \section{Método}
 
-O método de desenvolvimento do projeto consiste em criar uma \textit{pipeline}
-    \footnote{
-        \textit{Pipelines}, na computação, é um termo comumente utilizado quando precisa-se contruir um conjunto de processamentos os quais a saída de um processamento é a entrada do próximo, onde, em alguns casos, existe dependência entre si e na sua ordem. As \textit{pipelines} seguem a ideia de fila (\textit{first-in-first-out}).
-    }
-de processamento capaz
+O método de trabalho a ser desenvolvido para a presente hipótese do problema consiste em desenvolver um modelo de \textit{Deep Learning}, mais especificamente uma Rede Neural Artificial - do ingês \textit{Artificial Neural Network} - que possibilite construir uma Inteligência Artificial capaz de gerar novas imagens a partir de imagens ruins ou com ruídos. Com isso, será possível generalizar o modelo que, independente da imagem de texto inserida nele, o mesmo possa criar uma nova imagem com menos ruídos e mais limpa do que a imagem de entrada.
 
+O \textit{dataset} disponível para o treinamento, teste e validação dos modelos a serem construídos são provenientes de extrações dos processos do Supremo Tribunal Federal adquiridos pelos alunos de projeto de pesquisa do laboratório LADES da Universidade de Brasília. Tal acervo conta com aproximadamente 90 mil documentos em formato PDF.
 
+Tendo esses documentos em formato PDF como base, os mesmos passarão por um algoritmo de transformação de PDF para Imagem em escala preto e branco e aplicando então um processamento de extração de texto de imagens por meio de OCR. Dado o resultado do OCR das imagens boas em mãos, é possível agora "estragar" programaticamente as imagens, adicionando ruídos nas mesmas para que o OCR dessas fotos ruins possa ser diferente - e pior - do que o resultado apresentado no reconhecimento de caracteres anteriores.
 
+Com a diferença dos dois OCRs, em imagens boas e ruins, serão geradas então novas imagens que visam alcançar ou ficar o mais próximo possível dos resultados atingidos pelo OCR nas imagens boas. A hipótese então, de conseguir melhorar o resultado de reconhecimento de caracteres pelo processamento de imagens a partir da criação de um modelo generativo capaz de corrigir defeitos em imagens de texto ruins, poderá ser experimentada e validada.
+
+Essa experimentação, em caso de sucesso, permitirá construir um algoritmo capaz de ser acoplado aos processamentos de imagens e digitalizações para melhorar a qualidade de qualquer documento digitalizado, permitindo que a clareza e nitidez das informações neles apresentada sejam melhores do que as que são atualmente alcançadas por \textit{softwares} convecionais.
 
 % Este documento apresenta considerações gerais e preliminares relacionadas 
 % à redação de relatórios de Projeto de Graduação da Faculdade UnB Gama 
