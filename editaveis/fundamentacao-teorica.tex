@@ -9,13 +9,18 @@ Aprendizado de Máquina do inglês \textit{Machine Learning} (ML) é uma das sub
 O processo de aprendizagem se da início a partir de observações ou dados, como exemplos, experiência direta ou instruções que possibilitem identificar padrões do dado para realizar e atingir melhores decisões em futuras apresentações ou exemplos de dados que possam ser fornecidas. Dentro do processo de permitir que uma máquina aprenda, existem três áreas as quais os mecanismos de aprendizagem são classificados \cite{python-ml}:
 
 \begin{itemize}
-  \item \textbf{Aprendizado supervisionado:} o objetivo principal de algoritmos supervisionados é conseguir aprender um modelo matemático a partir de um conjunto de dados anotados, no caso, dados de treinamento. O \textit{supervisionado} diz respeito ao conjunto de dados os quais já se sabe a saída esperada, ou seja, o dado já é anotado previamente.
+  \item \textbf{Aprendizado supervisionado:} o objetivo principal de algoritmos supervisionados é conseguir desenvolver um modelo matemático a partir de um conjunto de dados anotados, no caso, dados de treinamento. O \textit{supervisionado} diz respeito ao conjunto de dados os quais já se sabe a saída esperada, ou seja, o dado já é anotado previamente. Em geral, esses algoritmos são utilizados para problemas de classificação e regressão.
   \begin{figure}
     \includegraphics[width=\linewidth]{figuras/nvidia-supervised-learning.png}
-    \caption{Aprendizado supervisionado}
+    \caption{Aprendizado supervisionado \color{red} OBS: COLOCAR FONTE}
     \label{fig:nvidia-supervised-learning}
   \end{figure}
   \newpage
-  \item \textbf{Aprendizado não supervisionado:} diz respeito aos métodos de aprendizagem de máquina os quais utiliza-se como dado de entrada um dado que não possui nenhum tipo de anotação e que, muitas vezes, sua estrutura é desconhecida. Tal processo de aprendizagem permite extrair características relevantes sobre o dado que possam servir de insumo para uma futura categorização e classificação do mesmo.
-  \item \textbf{Aprendizado semi-supervisionado:}
+  \item \textbf{Aprendizado não supervisionado:} diz respeito aos métodos de aprendizagem de máquina os quais utiliza-se como dado de entrada um dado que não possui nenhum tipo de anotação e que, muitas vezes, sua estrutura é desconhecida.
+
+  Tal processo de aprendizagem permite extrair características relevantes sobre o dado que possam servir de insumo para uma futura categorização e classificação do mesmo. Dependendo do problema em questão, a aprendizagem supervisionada pode organizar o dado em diferentes categorias \cite{learning-types} como clusterização, associação, \textit{autoencoders}, \textit{anomaly detection}, etc.
+
+  Por não ser o foco do estudo em questão, esses pontos não serão aprofundados no presente trabalho.
+
+  \item \textbf{Aprendizado semi-supervisionado:} já o aprendizado semi-supervisionado junta um pouco dos dois mundos: dados com registros anotados e também dados com registros não anotados. A aplicabilidade para esse tipo de aprendizagem é quando se possui um dado onde não é trivial extrair informações relevantes sobre ele e tampouco é realizar toda a anotação da amostra em questão \cite{learning-types}.
 \end{itemize}
