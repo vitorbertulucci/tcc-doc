@@ -15,7 +15,7 @@ O processo de aprendizagem se da início a partir de observações ou dados, com
 
   \begin{figure}
     \includegraphics[width=\linewidth]{figuras/nvidia-supervised-learning.png}
-    \caption{Aprendizado supervisionado \color{red} OBS: COLOCAR FONTE}
+    \caption{Aprendizado supervisionado \hl{OBS: COLOCAR FONTE}}
     \label{fig:nvidia-supervised-learning}
   \end{figure}
   \newpage
@@ -30,7 +30,7 @@ Dentro dos tipos de algoritmos que podem ser utilizados para construir ML, um qu
 
 \subsection{\textit{Neural Networks}}
 
-Em 1943, Warren McCulloch e Walter Pitts em seu artigo \textit{A Logical Calculus of the Ideas Immanent in Nervous Activity} desenvolveram um estudo para tentar explicar como o cérebro consegue reconhecer um nível complexo de padrões por meio dos neurônios \cite{first-neuron-study}, desenvolvendo um modelo chamado MCP, que atualmente é conhecido como o ancestral das redes neurais artificiais \cite{dl-brief-review}. Tal estudo possibilitou dar-se o pontapé para a evolução das redes neurais que conhecemos hoje.
+Em 1943, Warren McCullock e Walter Pitts em seu artigo \textit{A Logical Calculus of the Ideas Immanent in Nervous Activity} desenvolveram um estudo para tentar explicar como o cérebro consegue reconhecer um nível complexo de padrões por meio dos neurônios \cite{first-neuron-study}, desenvolvendo um modelo chamado MCP (McCullock-Pitts), que atualmente é conhecido como o ancestral das redes neurais artificiais \cite{dl-brief-review}. Tal estudo possibilitou dar-se o pontapé para a evolução das redes neurais que conhecemos hoje.
 
 Na década de 1950 surgiu então o modelo de \textit{Perceptron} \cite{perceptron}, que é a primeira rede neural formalmente desenvolvida composta de apenas uma única camada, descrito como um modelo matemático que recebe várias entradas e produz uma saída binária.
 
@@ -38,13 +38,13 @@ Na década de 1950 surgiu então o modelo de \textit{Perceptron} \cite{perceptro
 
 \begin{figure}[h]
   \includegraphics[width=13cm, center]{figuras/perceptron}
-  \caption{O \textit{Perceptron} \color{red} OBS: COLOCAR FONTE}
+  \caption{O \textit{Perceptron} \hl{OBS: COLOCAR FONTE}}
   \label{fig:perceptron}
 \end{figure}
 
 Cada entrada ou \textit{input} representa um dado de entrada que são inseridos diretamente nos nós de entrada ou \textit{input nodes}, representados pela letra \(x\). Cada um desses nós representam separadamente uma característica do dado de entrada. Na figura \ref{fig:perceptron}, a quantidade de características é delimitada pela letra \(m\) e o intervalo de características é dado por [1, \(m\)]. A camada caracterizada pelas letras \textit{x} é chamada de camada de entrada ou \textit{input layer}. Redes Neurais só podem receber como entrada valores numéricos \cite{deep-learning-book}.
 
-É importante reparar na figura \ref{fig:perceptron} que todo nó da camada de entrada está diretamente associado com uma seta caracterizada pela letra \(w\), também de intervalo [1, \(m\)]. Tais letras caracterizam o que é conhecido como os pesos ou \textit{weights}. Tais setas são chamadas de sinapses\footnote
+É importante reparar na figura \ref{fig:perceptron} que todo nó da camada de entrada está diretamente associado com uma seta caracterizada pela letra \(w\), também de intervalo [1, \(m\)]. Tais letras caracterizam o que é conhecido como os pesos ou \textit{weights}. As setas são chamadas de sinapses\footnote
 {
   Na biologia, sinapse é a região localizada entre os neurônios e agem como neurotransmissores, responsáveis por realizar a transferência de inpulso nervoso de um neurônio para o outro \cite{synapses}.
 }.
@@ -54,17 +54,50 @@ Por fim, tem-se o nó de maior tamanho definido pela letra \(y\), conhecido como
 
 A função matemática que define o valor encontrado em \(y\) é:
 
-\[ f(y) = \sum_{i=1}^{m} x_iw_i \]
+\[ y = f(x) = \sum_{i=1}^{m} x_iw_i + B\]
 
-onde a função de ativação consome o valor resultante da função \(f(y)\).
+onde a função de ativação consome o valor resultante da função \(f(x)\), que serão melhor detalhadas na seção \ref{sssec:activation-func}. \(B\) na função define o \textit{bias} ou erro, adicionado ao valor resultante da soma de multiplicações para possíveis correções. O termo \textit{bias} foi introduzido por Tom M. Mitchell em seu artigo \textit{The Need for Biases in Learning Generalizations} \cite{biases} e o objetivo dele é possibilitar que o modelo generalize melhor o problema e seja menos sensível ao dado de entrada.
 
-\subsubsection{Função de Ativação}
+\subsubsection{Função de Ativação} \label{sssec:activation-func}
 
-\subsubsection{Forward pass}
+Funções de ativação são funções matemáticas que determinam o resultado de uma saída \textbf{\(z\)} de um neurônio em uma rede neural, baseando-se em um \textit{threshold}\footnote{
+  o que é threshold
+} \textbf{\(t\)} \hl{COLOCAR DEFINICAO}.
+A partir do valor resultante \textbf{\(y\)} da soma dos valores de entrada \(x_i\) multiplicados pelos pesos \(w_i\) dentro do intervalo \([1, m]\) definido na fórmula \ref{math:weighted-sum}, se esse valor alcança ou ultrapassa o \textit{threshold}, o neurônio é ativado. Caso não alcante, ele não é ativado e seu sinal não é propagado \cite{python-ml}.
 
-\subsubsection{Backpropagation}
+\[
+  z =
+  \begin{cases}
+    1, & \text{se } y\geq \textit{t} \\
+    0, & \text{se } y < \textit{t}
+  \end{cases}
+\]
+
+A função principal das funções de ativação dentro de uma rede neural é adicionar a não-linearidade ao problema, permitindo assim que tais redes consigam computar problemas não triviais \cite{gentle-intro-to-nn}. Os principais problemas que envolvem ML, principalmente no âmbito da computação visual - foco do presente trabalho -, a porcentagem de problemas que a solução é resolvida por meio de uma equação linear é praticamente - se não - zero.
+
+Existem diversos tipos de funções de ativação com aplicabilidade em diversos tipos de problemáticas a serem resolvidas. A figura \ref{fig:activation-functions} lista as principais e mais conhecidas funções de ativação, sendo que pesquisadores ainda realizam estudos para encontrar funções que apresentem melhores resultados \cite{intro-to-act-func}.
+
+% fonte: https://medium.com/@shrutijadon10104776/survey-on-activation-functions-for-deep-learning-9689331ba092
+
+\begin{figure}[H]
+  \includegraphics[width=12cm, center]{figuras/activation-functions}
+  \caption{Principais funções de atiação \hl{OBS: COLOCAR FONTE}}
+  \label{fig:activation-functions}
+\end{figure}
+
+\subsubsection{\textit{Weights}}
+
+Os pesos representam o grau de conexão entre dois neurônios distintos. Por exemplo: se o peso de um neurônio 1 para o neurônio 2 tem uma maior magnitude, significa que o neurônio 1 tem maior importância sobre o neurônio 2.
+
+Em termos práticos, o peso consegue definir o quão relevante para o problema aquele determinado valor de entrada é. Pesos que se aproximam de zero tendem a diminuir a importância do valor de entrada para o valor resultante da rede \cite{everything-about-nn}.
+
+\subsubsection{\textit{Forward pass}}
+
+\subsubsection{\textit{Backpropagation}}
 
 \subsubsection{Hiperparâmetros}
+
+\subsubsection{CNN}
 
 \subsection{Discriminativo vs Generativo}
 

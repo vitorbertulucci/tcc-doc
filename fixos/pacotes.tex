@@ -7,6 +7,8 @@
 \usepackage{lastpage}
 \usepackage{indentfirst}
 \usepackage{color}
+\usepackage{soul}
+\usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{units}
 \usepackage[brazilian,hyperpageref]{backref}
@@ -14,3 +16,20 @@
 \usepackage{bold-extra}
 \usepackage{eso-pic}
 \usepackage[export]{adjustbox}
+
+\usepackage{float}
+\usepackage{aliascnt}
+\newaliascnt{eqfloat}{equation}
+\newfloat{eqfloat}{h}{eqflts}
+\floatname{eqfloat}{Equation}
+
+\newcommand*{\ORGeqfloat}{}
+\let\ORGeqfloat\eqfloat
+\def\eqfloat{%
+  \let\ORIGINALcaption\caption
+  \def\caption{%
+    \addtocounter{equation}{-1}%
+    \ORIGINALcaption
+  }%
+  \ORGeqfloat
+}
