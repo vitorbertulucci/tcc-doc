@@ -4,7 +4,7 @@ O estudo de Inteligência Artificial vem sendo cada vez mais comum na comunidade
 
 \section{Aprendizagem de Máquina}
 
-Aprendizado de Máquina do inglês \textit{Machine Learning} (ML) é uma das subáreas da Inteligência Artificial que visa criar mecanismos que possibilitem fazer com que uma máquina possa "aprender" sobre um determinado problema a partir de um conjunto de dados de entrada. Em outras palavras, ML permite que um dado algoritmo desenvolva uma função matemática que consiga representar tal conjunto de dados. Com essa função ou modelo matemático, é possível agora realizar inferências sobre outros dados, desde que esses sejam relacionados à mesma problemática \cite{deep-learning-book}.
+Aprendizado de Máquina do inglês \textit{Machine Learning} (ML) é uma das subáreas da Inteligência Artificial que visa criar mecanismos que possibilitem fazer com que uma máquina possa "aprender" sobre um determinado problema a partir de um conjunto de dados de entrada. Em outras palavras, ML permite que um dado algoritmo desenvolva uma função matemática que consiga representar tal conjunto de dados. Com essa função ou modelo matemático, é possível agora realizar inferências sobre outros dados, desde que esses sejam relacionados à mesma problemática \cite{deep-learning-book-br}.
 
 O processo de aprendizagem se da início a partir de observações ou dados, como exemplos, experiência direta ou instruções que possibilitem identificar padrões do dado para realizar e atingir melhores decisões em futuras apresentações ou exemplos de dados que possam ser fornecidas. Dentro do processo de permitir que uma máquina aprenda, existem três áreas as quais os mecanismos de aprendizagem são classificados \cite{python-ml}:
 
@@ -42,7 +42,7 @@ Na década de 1950 surgiu então o modelo de \textit{Perceptron} \cite{perceptro
   \label{fig:perceptron}
 \end{figure}
 
-Cada entrada ou \textit{input} representa um dado de entrada que são inseridos diretamente nos nós de entrada ou \textit{input nodes}, representados pela letra \(x\). Cada um desses nós representam separadamente uma característica do dado de entrada. Na figura \ref{fig:perceptron}, a quantidade de características é delimitada pela letra \(m\) e o intervalo de características é dado por [1, \(m\)]. A camada caracterizada pelas letras \textit{x} é chamada de camada de entrada ou \textit{input layer}. Redes Neurais só podem receber como entrada valores numéricos \cite{deep-learning-book}.
+Cada entrada ou \textit{input} representa um dado de entrada que são inseridos diretamente nos nós de entrada ou \textit{input nodes}, representados pela letra \(x\). Cada um desses nós representam separadamente uma característica do dado de entrada. Na figura \ref{fig:perceptron}, a quantidade de características é delimitada pela letra \(m\) e o intervalo de características é dado por [1, \(m\)]. A camada caracterizada pelas letras \textit{x} é chamada de camada de entrada ou \textit{input layer}. Redes Neurais só podem receber como entrada valores numéricos \cite{deep-learning-book-br}.
 
 É importante reparar na figura \ref{fig:perceptron} que todo nó da camada de entrada está diretamente associado com uma seta caracterizada pela letra \(w\), também de intervalo [1, \(m\)]. Tais letras caracterizam o que é conhecido como os pesos ou \textit{weights}. As setas são chamadas de sinapses\footnote
 {
@@ -85,19 +85,42 @@ Existem diversos tipos de funções de ativação com aplicabilidade em diversos
   \label{fig:activation-functions}
 \end{figure}
 
+É importante ressaltar que um único \textit{Perceptron} não é capaz de solucionar problemas não-lineares. Algoritmos que possibilitam solucionar problemas não-lineares serão descritos na seção \ref{sssec:cnn}, detalhando um pouco da evolução dos algoritmos para algo mais conhecido atualmente.
+
 \subsubsection{\textit{Weights}}
 
 Os pesos representam o grau de conexão entre dois neurônios distintos. Por exemplo: se o peso de um neurônio 1 para o neurônio 2 tem uma maior magnitude, significa que o neurônio 1 tem maior importância sobre o neurônio 2.
 
 Em termos práticos, o peso consegue definir o quão relevante para o problema aquele determinado valor de entrada é. Pesos que se aproximam de zero tendem a diminuir a importância do valor de entrada para o valor resultante da rede \cite{everything-about-nn}.
 
-\subsubsection{\textit{Forward pass}}
+\subsubsection{Redes Neurais Convolucionais} \label{sssec:cnn}
 
-\subsubsection{\textit{Backpropagation}}
+Conhecendo melhor o \textit{Perceptron} e entendendo como ele funciona, é possível identificar da sua limitação: a linearidade. Para solucioar esse problema, adiciona-se uma função de ativação para cada valor resultante de um nó e coloca-se esses nós em contato com mais nós de uma outra camada, adicionando assim mais camadas de processamento e identificação de características dos dados. As redes de camadas multiplas de nós ou \textit{perceptrons} é chamada de \textit{Multilayer Perceptrons} ou MLP \cite{deep-learning-book-br}.
+
+O conjunto de de novas camadas, sendo essas diferentes da \textit{input} e \textit{output layers}, são chamadas de camadas ocultas ou \textit{hidden layers} \cite{goodfellow-et-al-2016}. A definiçãode \textit{Deep Learning} se dá pela quantidade de camadas ocultas na arquitetura da sua rede neural, sendo a MLP a "\textit{Hello World}" das arquiteturas de RNAs.
+
+Mais tarde, em 1998, o pesquisador Yann LeCun, Leon Bottou, Yosuha Bengio e Patrick Haffner desenvolveram uma nova arquitetura de rede neural herdando as características já existentes no MLP, como \textit{forward pass} (seção \ref{sssec:forward-pass}), \textit{backpropagation} (seção \ref{sssec:backpropagation}), taxa de aprendizagem (seção \ref{sssec:learning-rate}), entre outros. Tal arquitetura foi chamada de LeNet-5 \cite{le-net} e sua função era conseguir reconhecer dígitos manuscritos de 0 à 9. Os dados utilizados para o experimento é chamado de \href{http://yann.lecun.com/exdb/mnist/}{MNIST}. Essa nova arquitetura evoluiu para o que conhecemos hoje como Redes Neurais Convolucionais ou CNN (\textit{Convolutional Neural Networks}) \cite{goodfellow-et-al-2016}.
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{figuras/le-net.png}
+  \caption{Arquitetura da LeNet-5 \hl{OBS: COLOCAR FONTE}}
+  \label{fig:le-net}
+\end{figure}
+
+As CNNs são redes neurais especializadas em dados mais complexos, principalmente para lidar com dados de imagens \cite{goodfellow-et-al-2016}. O nome "convolução" está diretamente associado à operação matemática \textbf{convolução}. Diferentemente das redes neurais convencionais como a MLP, as CNNs utilizam da convolução como forma de cálcular os valores dos neurons em um ou mais camadas, ao invés de utilizar cálculo matricial convencional.
+
+\begin{itemize}
+  \item \textbf{Convolução:}
+\end{itemize}
+
+\subsubsection{\textit{Forward pass}} \label{sssec:forward-pass}
+
+\subsubsection{\textit{Backpropagation}} \label{sssec:backpropagation}
+
+\subsubsection{\textit{Learning Rate}} \label{sssec:learning-rate}
 
 \subsubsection{Hiperparâmetros}
 
-\subsubsection{CNN}
 
 \subsection{Discriminativo vs Generativo}
 
