@@ -1,6 +1,6 @@
 \chapter[Fundamentação Teórica]{Fundamentação Teórica}
 
-O estudo de Inteligência Artificial vem sendo cada vez mais comum na comunidade de tecnologia da informação para a criação de sistemas que buscam automatizar e auxiliar de maneira mais eficiente o trabalho humano. O ramo de aplicação para essa tecnologia é imensa, e o uso para a área do Direito não seria diferente.
+O estudo de Inteligência Artificial vem sendo cada vez mais comum na comunidade de tecnologia da informação para a criação de sistemas que buscam automatizar e auxiliar de maneira mais eficiente o trabalho humano. O presente capítulo traz a explicação de um conjunto de tecnologias da área de IA para que seja possível contextualizar o leitor sobre o tema abordado no presente trabalho \hl{MELHORAR DESCR}.
 
 \section{Aprendizagem de Máquina}
 
@@ -30,7 +30,7 @@ Dentro dos tipos de algoritmos que podem ser utilizados para construir ML, geral
 
 \subsection{\textit{Neural Networks}}
 
-Em 1943, Warren McCullock e Walter Pitts em seu artigo \textit{A Logical Calculus of the Ideas Immanent in Nervous Activity} desenvolveram um estudo para tentar explicar como o cérebro consegue reconhecer um nível complexo de padrões por meio dos neurônios \cite{first-neuron-study}, desenvolvendo um modelo chamado MCP (McCullock-Pitts), que atualmente é conhecido como o ancestral das redes neurais artificiais \cite{dl-brief-review}. Tal estudo possibilitou dar-se o pontapé para a evolução das redes neurais que conhecemos hoje.
+Em 1943, Warren McCullock e Walter Pitts em seu artigo \textit{A Logical Calculus of the Ideas Immanent in Nervous Activity} desenvolveram um estudo para tentar explicar como o cérebro consegue reconhecer um nível complexo de padrões por meio dos neurônios \cite{first-neuron-study}, desenvolvendo um modelo chamado MCP (McCullock-Pitts) que atualmente é conhecido como o ancestral das redes neurais artificiais \cite{dl-brief-review}. Tal estudo possibilitou dar-se o pontapé para a evolução das redes neurais que conhecemos hoje.
 
 Na década de 1950 surgiu então o modelo de \textit{Perceptron} \cite{perceptron}, que é a primeira rede neural formalmente desenvolvida composta de apenas uma única camada, descrito como um modelo matemático que recebe várias entradas e produz uma saída binária.
 
@@ -42,7 +42,7 @@ Na década de 1950 surgiu então o modelo de \textit{Perceptron} \cite{perceptro
   \label{fig:perceptron}
 \end{figure}
 
-Cada entrada ou \textit{input} representa um dado de entrada que são inseridos diretamente nos nós de entrada ou \textit{input nodes}, representados pela letra \(x\). Cada um desses nós representam separadamente uma característica do dado de entrada. Na figura \ref{fig:perceptron}, a quantidade de características é delimitada pela letra \(m\) e o intervalo de características é dado por [1, \(m\)]. A camada caracterizada pelas letras \textit{x} é chamada de camada de entrada ou \textit{input layer}. Redes Neurais só podem receber como entrada valores numéricos \cite{deep-learning-book-br}.
+Cada entrada ou \textit{input} representa um dado de entrada que é inserido diretamente nos nós de entrada ou \textit{input nodes}, representados pela letra \(x\). Cada um desses nós representam separadamente uma característica do dado de entrada. Na figura \ref{fig:perceptron}, a quantidade de características é delimitada pela letra \(m\) e o intervalo de características é dado por [1, \(m\)]. A camada caracterizada pelas letras \textit{x} é chamada de camada de entrada ou \textit{input layer}. Redes Neurais só podem receber como entrada valores numéricos \cite{deep-learning-book-br}.
 
 É importante reparar na figura \ref{fig:perceptron} que todo nó da camada de entrada está diretamente associado com uma seta caracterizada pela letra \(w\), também de intervalo [1, \(m\)]. Tais letras caracterizam o que é conhecido como os pesos ou \textit{weights}. As setas são chamadas de sinapses\footnote
 {
@@ -109,10 +109,10 @@ Mais tarde, em 1998, os pesquisadores Yann LeCun, Leon Bottou, Yosuha Bengio e P
 
 As CNNs são redes neurais especializadas em dados mais complexos, principalmente para lidar com dados de imagens \cite{goodfellow-et-al-2016}. A função da CNNs em relação a visão computacional é tentar reduzir a dimensionalidade das imagens para que o seu processamento seja mais simples, mantendo as características críticas para uma boa predição \cite{comprehensive-guide-to-cvv}.
 
-Diferentemente das redes neurais convencionais como a MLP, as CNNs utilizam da convolução como forma de cálcular os valores dos neurons em um ou mais camadas, ao invés de utilizar cálculo matricial convencional \cite{goodfellow-et-al-2016}, e por isso herdam em seu nome a palavra \textbf{convolução}. Além disso, as CNNs utilizam possuem também, além de camadas de convolução, camadas de \textit{pooling} e totalmente conextadas ou \textit{fully-connected layer}.
+Diferentemente das redes neurais convencionais como a MLP, as CNNs utilizam da convolução como forma de cálcular os valores dos neurons em um ou mais camadas, ao invés de utilizar cálculo matricial convencional \cite{goodfellow-et-al-2016}, e por isso herdam em seu nome a palavra \textbf{convolução}. Além disso, as CNNs utilizam possuem também, além de camadas de convolução (sessão \ref{ssssec:convolution}), camadas de \textit{pooling} (sessão \ref{ssssec:pooling}) e totalmente conextadas ou \textit{fully-connected layer} (sessão \ref{ssssec:fully-connected}).
 
 
-\subsubsubsection{Convolução}
+\subsubsubsection{Convolução} \label{ssssec:convolution}
 Na matemática, a convolução é uma operação sobre duas funções que operam com números reais (\(f\) e \(g\)) que gera uma terceira função (\(z\)) a qual expressa como uma função tende a afetar ou moldar o formato da outra. Ela representa a integral do produto de duas funções depois que uma delas foi alterada ou movida.
 
 \[
@@ -145,7 +145,10 @@ Na equação acima \hl{COLOCAR REF} o \(I\) representa o tensor de entrada, \(K\
   \label{fig:cnn-kernel-multiplication}
 \end{figure}
 
-Existem uma série de parâmetros que podem ser utilizados para a configuração do algoritmo de convolução de uma Rede Neural Convolucional. Tais parâmetros, geralmente citados como hiperparãmetros serão explicados na sessão \ref{sssec:hiperparameters}. O conjunto de hiperparâmetros para as CNNs, como \textit{depth}, \textit{stride}, tamanho do kernel, etc estarão melhor descritos no ANEXO \hl{CRIAR ANEXO PARA REFERENCIAR}.
+Existem uma série de parâmetros que podem ser utilizados para a configuração do algoritmo de convolução de uma Rede Neural Convolucional. Tais parâmetros, geralmente citados como hiperparãmetros, serão explicados de maneira geral na sessão \ref{sssec:hiperparameters}. O conjunto de hiperparâmetros para as CNNs, como \textit{depth}, \textit{stride}, tamanho do kernel, etc estarão melhor descritos no apêndice \hl{CRIAR APENDICE PARA REFERENCIAR}.
+
+\subsubsubsection{\textit{Pooling}} \label{ssssec:pooling}
+\subsubsubsection{\textit{Fully-connected Layer}} \label{ssssec:fully-connected}
 
 \subsubsection{\textit{Propagação de sinal}} \label{sssec:forward-pass}
 
