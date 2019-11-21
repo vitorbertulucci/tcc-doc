@@ -97,7 +97,15 @@ Em termos práticos, o peso consegue definir o quão relevante para o problema a
 
 Conhecendo melhor o \textit{Perceptron} e entendendo como ele funciona, é possível identificar da sua limitação: a linearidade. Para solucioar esse problema, adiciona-se uma função de ativação para cada valor resultante de um nó e coloca-se esses nós em contato com mais nós de uma outra camada, adicionando assim mais camadas de processamento e identificação de características dos dados. As redes de camadas multiplas de nós ou \textit{perceptrons} é chamada de \textit{Multilayer Perceptrons} ou MLP \cite{deep-learning-book-br}.
 
-O conjunto de de novas camadas, sendo essas diferentes da \textit{input} e \textit{output layers}, são chamadas de camadas ocultas ou \textit{hidden layers} \cite{goodfellow-et-al-2016}. A definiçãode \textit{Deep Learning} se dá pela quantidade de camadas ocultas na arquitetura da sua rede neural, sendo a MLP a "\textit{Hello World}" das arquiteturas de RNAs.
+O conjunto de de novas camadas, sendo essas diferentes da \textit{input} e \textit{output layers}, são chamadas de camadas ocultas ou \textit{hidden layers} \cite{goodfellow-et-al-2016}. A definiçãode \textit{Deep Learning} se dá pela quantidade de camadas ocultas na arquitetura da sua rede neural, sendo a MLP a "\textit{Hello World}" das arquiteturas de RNAs. Em tais redes, a saída de cada nó de uma camada da rede é utilizada como entrada para os \(N\) nós presentes na camada seguinte, permitindo que os sinais ou estímulos de um neurônio artificial possa ser utilizado por toda a rede e esse valor seja propagado até a camada de saída. Tal fenômeno é chamado de \textit{propagação para a frente} ou \textit{forward-pass}. As redes neurais com essa característica recebem o nome de \textit{Feed-forward networks}.
+
+% fonte: https://www.institutodeengenharia.org.br/site/2019/04/01/nobel-da-computacao%E2%80%8B-vai-para-os-pais-do-deep-learning/
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{figuras/simple-vs-deep-nn.png}
+  \caption{Rede neural simples vs rede neural profunda \hl{OBS: COLOCAR FONTE}}
+  \label{fig:simple-vs-deep-nn}
+\end{figure}
 
 Mais tarde, em 1998, os pesquisadores Yann LeCun, Leon Bottou, Yosuha Bengio e Patrick Haffner desenvolveram uma nova arquitetura de rede neural herdando as características já existentes no MLP, como propagação de sinal ou \textit{forward pass} (seção \ref{sssec:forward-pass}), \textit{backpropagation} (seção \ref{sssec:backpropagation}), taxa de aprendizagem (seção \ref{sssec:learning-rate}), entre outros. Tal arquitetura foi chamada de LeNet-5 \cite{le-net} e sua função era conseguir reconhecer dígitos manuscritos de 0 à 9. Os dados utilizados para o experimento é chamado de \href{http://yann.lecun.com/exdb/mnist/}{MNIST}. Essa nova arquitetura evoluiu para o que conhecemos hoje como Redes Neurais Convolucionais ou CNN (\textit{Convolutional Neural Networks}) \cite{goodfellow-et-al-2016}.
 
@@ -109,7 +117,7 @@ Mais tarde, em 1998, os pesquisadores Yann LeCun, Leon Bottou, Yosuha Bengio e P
 
 As CNNs são redes neurais especializadas em dados mais complexos, principalmente para lidar com dados de imagens \cite{goodfellow-et-al-2016}. A função da CNNs em relação a visão computacional é tentar reduzir a dimensionalidade das imagens para que o seu processamento seja mais simples, mantendo as características críticas para uma boa predição \cite{comprehensive-guide-to-cvv}.
 
-Diferentemente das redes neurais convencionais como a MLP, as CNNs utilizam da convolução como forma de cálcular os valores dos neurons em um ou mais camadas, ao invés de utilizar cálculo matricial convencional \cite{goodfellow-et-al-2016}, e por isso herdam em seu nome a palavra \textbf{convolução}. Além disso, as CNNs utilizam possuem também, além de camadas de convolução (sessão \ref{ssssec:convolution}), camadas de \textit{pooling} (sessão \ref{ssssec:pooling}) e totalmente conextadas ou \textit{fully-connected layer} (sessão \ref{ssssec:fully-connected}).
+Diferentemente das redes neurais convencionais como a MLP, as CNNs utilizam da convolução como forma de cálcular os valores dos neurons em um ou mais camadas, ao invés de utilizar cálculo matricial convencional \cite{goodfellow-et-al-2016}, e por isso herdam em seu nome a palavra \textbf{convolução}. Além disso, as CNNs utilizam possuem também, além de camadas de convolução (sessão \ref{ssssec:convolution}), camadas de \textit{pooling} (sessão \ref{ssssec:pooling}) e totalmente conectadas ou \textit{fully-connected layer}, a qual transforma o resultado das camadas de convolução e \textit{pooling} em um vetor unidimensional para que seja possível o processo de classificação que ocorre em arquiteturas de redes neurais convencionais.
 
 
 \subsubsubsection{Convolução} \label{ssssec:convolution}
@@ -125,7 +133,7 @@ Essa é a função matemática que define a \textbf{convolução}. Para simplifi
   z(t) = (f * g)(t)
 \]
 
-Com um olhar para as redes neurais convolucionais, o primeiro argumento da convolução (\(f\)) se refere aos dados de entrada ou \textit{inputs}. O segundo argumento (\(g\)) é denominado \textit{kernel}. O resultado (\(z\)) costuma ser referenciado como mapa de características ou \textit{feature map}. É importante ressaltar que nas CNNs, os dados presentes tanto no \textit{input} quanto os dados do \textit{kernel} devem ser números inteiros, pois trabalha-se a convolução discreta no processo matemático \cite{goodfellow-et-al-2016}.
+Com um olhar para as redes neurais convolucionais, o primeiro argumento da convolução (\(f\)) se refere aos dados de entrada ou \textit{inputs}. O segundo argumento (\(g\)) é denominado \textit{kernel} (também chamado de filtro). O resultado (\(z\)) costuma ser referenciado como mapa de características ou \textit{feature map}. É importante ressaltar que nas CNNs, os dados presentes tanto no \textit{input} quanto os dados do \textit{kernel} devem ser números inteiros, pois trabalha-se a convolução discreta no processo matemático \cite{goodfellow-et-al-2016}.
 
 Em aplicações de ML, o \textit{input} é geralmente tratado como um vetor multidimensional de dados e o \textit{kernel} é um vetor multidimensional de parâmetros, o qual é adaptado a medida que o processo de aprendizado corrige tais parâmetros para melhorar os resultados e minimizar a função de custo (\textit{cost function}). A função de correção dos parâmetros é chamada de \textit{backpropagation} e será tratada na sessão \ref{sssec:backpropagation}. A função de custo será tratada na sessão \ref{sssec:cost-function}.
 
@@ -135,7 +143,7 @@ Na prática, é possível então implementar essa integral como sendo a somatór
   z(i, j) = (I * K)(i, j) = \sum_{m} \sum_{n} I(i + m, j + n)K(m,n)
 \]
 
-Na equação acima \hl{COLOCAR REF} o \(I\) representa o tensor de entrada, \(K\) o tensor de \textit{kernel}, \(i\) e \(j\) a largura e altura do tensor de entrada, respectivamente, E \(m\) e \(n\) a largura e algura do tensor \textit{kernel}, respectivamente.
+Na equação acima \hl{COLOCAR REF} o \(I\) representa o tensor de entrada, \(K\) o tensor de \textit{kernel}, \(i\) e \(j\) a largura e altura do tensor de entrada, respectivamente, E \(m\) e \(n\) a largura e algura do tensor \textit{kernel}, respectivamente. Somam-se então os valores encontrados nas multiplicações a partir do tamanho do filtro e gera-se uma nova matriz com o resultado da operação. Tal matriz é a saída da camada de convolução.
 
 % a good one: https://mlnotebook.github.io/post/CNN1/
 % fonte: https://medium.com/machine-learning-for-li/different-convolutional-layers-43dc146f4d0e
@@ -148,9 +156,26 @@ Na equação acima \hl{COLOCAR REF} o \(I\) representa o tensor de entrada, \(K\
 Existem uma série de parâmetros que podem ser utilizados para a configuração do algoritmo de convolução de uma Rede Neural Convolucional. Tais parâmetros, geralmente citados como hiperparãmetros, serão explicados de maneira geral na sessão \ref{sssec:hiperparameters}. O conjunto de hiperparâmetros para as CNNs, como \textit{depth}, \textit{stride}, tamanho do kernel, etc estarão melhor descritos no apêndice \hl{CRIAR APENDICE PARA REFERENCIAR}.
 
 \subsubsubsection{\textit{Pooling}} \label{ssssec:pooling}
-\subsubsubsection{\textit{Fully-connected Layer}} \label{ssssec:fully-connected}
+A operação de \textit{pooling} é utilizada geralmente após as operações na camada de convolução. Com o resultado dessa camada, algumas características são mapeadas gerando assim o \textit{feature-map} do seu dado. Com isso, com o intuito de generalizar a posição das suas características em relação a sua matriz de entrada, aplica-se o \textit{pooling} que consegue diminuir a região esparsa (geralmente com valores de pixels iguais a zero ou píxels brancos) da sua imagem, dando um foco maior para as regiões com características mais influentes para o problema.
 
-\subsubsection{\textit{Propagação de sinal}} \label{sssec:forward-pass}
+Essa operação faz o uso de um filtro, que define o tamanho da matriz que irá percorrer os valores da matriz resultante da saída da convolução. Define-se também o \textit{stride}, que é o tamanho do passo dado a cada iteração. O resultado disso é a substituição dos valores de uma certa região (definida pelo tamanho do filtro) do resultado da camada de convolução por um valor sumarizado estatisticamente os valores dentro dessa região, definido pelo tipo de \textit{pooling utilizado}. O \textit{min-pooling} por exemplo, captura o menor falor dentro desse conjunto de valores encontrados pelo filtro, escolhe o menor valor dentre eles e mapeia para a saída da camada de \textit{pooling}.
+
+% fonte: http://fractalytics.io/rooftop-detection-with-keras-tensorflow
+
+\begin{figure}[H]
+  \includegraphics[width=13cm, center]{figuras/pooling.png}
+  \caption{Alguns tipos de \textit{pooling}, aplicados com um filtro 2x2 e passo de tamanho 2. \hl{OBS: COLOCAR FONTE}}
+  \label{fig:pooling}
+\end{figure}
+
+Em todos os casos, o \textit{pooling} auxilia em tornar a representatividade da característica mais invariantes em relação à pequenas alterações (como uma transformação, deslocamento, etc) do dado de entrada. Essa invariância significa que, independente da variação do dado, desde que pequena, o resultado da camada de \textit{pooling} não será suficientemente diferente sobre o resultado sem essa variação, permitindo uma identificação de características mais concisas. Isso pode ser útil em problemáticas cujo é importante saber se a característica está presente no dado e não o seu local exato que ela ocorre no dado, como em problemas de classificação por exemplo \cite{goodfellow-et-al-2016}.
+
+O tamanho da matriz resultante da operação de \textit{pooling} pode ser calculada a partir da largura e altura do filtro \(L_f\) e \(A_f\), o tamanho do passo \(S\) e os tamanhos da altura e largura \(L\) e \(A\) da matriz resultante, por meio da fórmula:
+
+\[
+  largura = \frac{L - L_f}{S}  + 1; altura =  \frac{A - A_f}{S} + 1
+\]
+
 
 \subsubsection{\textit{Backpropagation}} \label{sssec:backpropagation}
 
