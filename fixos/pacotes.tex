@@ -17,7 +17,8 @@
 \usepackage{eso-pic}
 \usepackage[export]{adjustbox}
 
-\usepackage{movie15}
+\usepackage{media9}
+\usepackage{mathtools}
 
 \usepackage{float}
 \usepackage{aliascnt}
@@ -25,13 +26,10 @@
 \newfloat{eqfloat}{h}{eqflts}
 \floatname{eqfloat}{Equation}
 
-\newcommand*{\ORGeqfloat}{}
-\let\ORGeqfloat\eqfloat
-\def\eqfloat{%
-  \let\ORIGINALcaption\caption
-  \def\caption{%
-    \addtocounter{equation}{-1}%
-    \ORIGINALcaption
+\newcommand*{\captionsource}[2]{%
+  \caption[{#1}]{%
+    #1%
+    \\\hspace{\linewidth}%
+    Fonte: #2%
   }%
-  \ORGeqfloat
 }
