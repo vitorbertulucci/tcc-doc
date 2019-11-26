@@ -123,7 +123,7 @@ Um filtro de imagem é um algoritmo ou rotina de software que consegue alterar d
     \caption{Foto com filtro aplicado}
     \label{fig:image-with-filter}
   \end{subfigure}
-  \caption{A figure with two subfigures}
+  \caption{Diferença entre uma foto original e uma com filtro. Fonte: autoral.}
   \label{fig:side-process-images}
 \end{figure}
 
@@ -209,28 +209,46 @@ Portanto, no presente projeto desenvolveu-se uma metodologia que possibilite val
 
 \subsection{Gerador de Imagens}
 
-Essa etapa consistem em desenvolver um modelo de IA que receba como entrada uma imagem ruim e gere uma nova imagem nunca vista antes. Essa imagem é gerada a partir de uma Rede Neural Convolucional, como já foi citado em capítulos anteriores \hl{REFERENCIAR GENERATIVO}.
-
-\hl{COLOCAR IMAGEM SIMULANDO O GENERATIVO}
-
-Tendo uma nova imagem gerada e todas as informações necessárias identificadas previamente, como OCR das imagens boas e ruins, adiciona-se uma camada de extração de texto das imagens geradas pelo modelo Gerador e as adiciona no CSV contendo as extrações anteriores. Com isso, tem-se agora o insumo necessário para a criação de uma métrica de validação da hipótese.
-
-\subsection{Métrica de qualidade do OCR}
-
-Basicamente, para se conseguir alcançar o objetivo proposto do presente trabalho, seria necessário ter extrações de OCR de uma imagem boa, uma imagem ruim e de uma imagem nunca antes vista, gerada pelo modelo de IA. Com todas as etapas anteriores a essa realizando as devidas ações, permite-se então que as métricas de qualidade do OCR dos modelos gerados sejam extraídas, visto que as informações estão disponíveis.
-
-Para a extração de informação de uma imagem utilizando OCR, primeiro realiza-se um processo de segmentação na imagem para a identificação de áreas onde o texto se encontra. A partir dessa segmentação, extrai-se o texto daquela região segmentada em especifico \cite{metrics-for-ocr-performance}, permitindo então que o processo de reconhecimento das informações possa ser extraído por caracter, palavra ou linha.
-
-Porém, o processo de sementação da imagem pode ser o responsável pelo impedimento ou pela má qualidade da identificação do OCR. Esse tipo de erro pode ser uma separação (do inglês \textit{split}) ou mesclagem (do inglês \textit{merge}), tanto entre palavras de uma linha (horizontal) quanto entre duas linhas (horizontal), o que caracterizam 4 tipos de erros de segmentação \cite{metrics-for-ocr-performance}, sendo eles:
-\begin{itemize}
-  \item Mesclagem horizontal (HM)
-  \item Separação horizontal (HS)
-  \item Mesclagem vertical (VM)
-  \item Separação vertical (VS)
-\end{itemize}
+Essa etapa consistem em desenvolver um modelo de IA que receba como entrada uma imagem ruim e gere uma nova imagem nunca vista antes. Essa imagem é gerada a partir de uma Rede Neural Convolucional, como já foi citado na seção \ref{ssec:generative-vs-discriminative}.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=0.55]{figuras/ocr-segmentation-error.png}
-  \caption{Tipos de erros de segmentação de imagem para apliações de OCR.}
+  \includegraphics[scale=0.6]{figuras/image-generation.png}
+  \caption{Simulação de geração de imagem a partir de modelo Gerador. Fonte: autoral.}
+  \label{fig:image-generation}
 \end{figure}
+
+Tendo uma nova imagem gerada e todas as informações necessárias identificadas previamente, como OCR das imagens boas e ruins, adiciona-se uma camada de extração de texto das imagens geradas pelo modelo Gerador e as adiciona no CSV contendo as extrações anteriores. Com isso, tem-se agora o insumo necessário para a criação de uma métrica de validação da hipótese.
+
+\subsection{Métrica de melhorias do OCR}
+
+Basicamente, para se conseguir alcançar o objetivo proposto do presente trabalho, seria necessário ter extrações de caracteres de uma imagem boa, uma imagem ruim e de uma imagem nunca antes vista, gerada pelo modelo de IA. Com todas as etapas anteriores a essa realizando as devidas ações, permite-se então que as métricas de qualidade do OCR dos modelos gerados sejam extraídas, visto que as informações estão disponíveis.
+
+A métrica a ser utilizada deve ser capaz de realizar a comparção do OCR da imagem original entre a imagem com ruído com o OCR da imagem original entre a imagem gerada. Para provar a hipótese em questão, se for validada, a métrica de comparação deve dizer que o OCR da imagem gerada está mais próximo do que o da imagem com ruídos, provando assim a geração de uma imagem melhor do que a imagem ruim. Com isso em mente, deve-se considerar métricas de análise e comparação de texto puro, ignorando as métricas de performance de OCR que visam analizar a qualidade do algoritmo de segmentação e extração de texto de imagem.
+
+Nos sistemas de sumarização de texto, processo pelo qual gera-se um texto a partir de outro utilizando \textit{Machine Learning}, tradicionalmente envolve' julgamentos humanos de diferentes métricas de qualidade para a identificação de coesão, coerência, concisão, gramática, etc \cite{automatic-summarization}, o que acaba sendo muito custoso para realizar isso manualmente. Com isso, \citeonline{rouge-metric} propôs uma nova métrica que tentasse realizar esse tipo de avaliação de maneira automatizada, chamada \textit{Recall-Oriented Understudy for Gisting Evaluation} (ROUGE). Esse método de avaliação possui quatro (4) diferentes maneiras de se avaliar a diferença de um texto original ao gerado pela sumarização, mostrados a seguir.
+
+\begin{itemize}
+  \item \textbf{ROUGE-N:}
+  \item \textbf{ROUGE-L:}
+  \item \textbf{ROUGE-W:}
+  \item \textbf{ROUGE-S:}
+\end{itemize}
+
+Por se tratarem de métricas de análise de texto, tendo como base o texto original, pode-se fazer uma analogia ao problema tratado no presente trabalho, onde realiza-se a comparação entre o texto extraído de um OCR tanto de uma imagem boa (original) quanto de imagens ruins e imagens geradas. Portanto, essa será a métrica de avaliação utilzada na etapa de validação da hipótese.
+
+% Para a extração de informação de uma imagem utilizando OCR, primeiro realiza-se um processo de segmentação na imagem para a identificação de áreas onde o texto se encontra. A partir dessa segmentação, extrai-se o texto daquela região segmentada em especifico \cite{metrics-for-ocr-performance}, permitindo então que o processo de reconhecimento das informações possa ser extraído por caracter, palavra ou linha.
+
+% Porém, o processo de sementação da imagem pode ser o responsável pelo impedimento ou pela má qualidade da identificação do OCR. Esse tipo de erro pode ser uma separação (do inglês \textit{split}) ou mesclagem (do inglês \textit{merge}), tanto entre palavras de uma linha (horizontal) quanto entre duas linhas (vertical), o que caracterizam 4 tipos de erros de segmentação \cite{metrics-for-ocr-performance}, sendo eles:
+% \begin{itemize}
+%   \item Mesclagem horizontal (HM)
+%   \item Separação horizontal (HS)
+%   \item Mesclagem vertical (VM)
+%   \item Separação vertical (VS)
+% \end{itemize}
+
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[scale=0.55]{figuras/ocr-segmentation-error.png}
+%   \caption{Tipos de erros de segmentação de imagem para apliações de OCR.}
+% \end{figure}
