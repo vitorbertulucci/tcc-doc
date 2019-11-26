@@ -2,7 +2,7 @@
 
 \hl{ADICIONAR DESC. INICIAL}
 
-\section{O dado}
+\section{O dado} \label{sec:dataset}
 
 Como dito, existem diversos tipos de áreas de desenvolvimento que caracterizam a Inteligência Artificial. A área de \textit{machine learning} é caracterizada pela capacidade da máquina aprender a partir de experiências com o dado, por isso deve-se dar uma enorme importância para a qualidade do dado para conseguir resolver problemas com ML, mais ainda para \textit{Deep Learning}. Para ser possível a construção de um modelo que visa testar a hipótese de estudo em questão, seria necessário realizar o levantamento de um conjunto de dados em formato de texto, em português, que fosse possível alimentar o modelo a ser criado.
 
@@ -79,7 +79,7 @@ Para isso, gerou-se um novo CSV apenas com os registros de páginas cujo necessi
 
 \begin{table}[H]
   \centering
-  \caption{Quantidade de cada tipo de página dos PDFs.}
+  \caption{Divisão de páginas dos PDFs.}
   \begin{tabular}{|m{10em}|c|}
     \hline
       \textbf{Tipo}  &
@@ -135,29 +135,102 @@ Abaixo, listam-se todos os filtros utilizados e estudados para o presente proces
 
 \begin{table}[H]
   \centering
-  \caption{Quantidade de cada tipo de página dos PDFs.}
-  \begin{tabular}{|m{.2\linewidth}|m{.2\linewidth}|m{.5\linewidth}|}
+  \caption{Descrição dos filtros utilizadosverbo tesselar.}
+  \begin{tabular}{|m{.25\linewidth}|m{.1\linewidth}|m{.55\linewidth}|}
     \hline
       \textbf{Nome}  &
       \textbf{Fonte}  &
       \textbf{Descrição} \\
     \hline
-      Necessita de OCR  &
-      Necessita de OCR  &
-      80.624 \\
+      EDGE\_ENHANCE  &
+      PIL  &
+      Aumenta o contraste dos píxels ao redor de bordas para que essas bordas se destaquem mais do que os demais elementos da foto  \\
     \hline
-      Não necessita de OCR  &
-      Não necessita de OCR  &
-      273.877 \\
+      CONTOUR  &
+      PIL  &
+      Similar ao EDGE\_ENHANCE mas com maior intensidade \\
     \hline
-      \textbf{TOTAL}  &
-      \textbf{TOTAL}  &
-      \textbf{354.501} \\
+      RandomOverlay  &
+      autoral  &
+      Cria formas gerométricas randômicas e transparentes e as coloca acima da imagem original, dando a impressão de manchas. A posição das formas também é randômica. \\
+    \hline
+      PerspectiveTransform  &
+      \textit{imgaug}  &
+      Aplica randomicamente transformações de 4 pontos de perspectiva, dando uma ideia de "lupa" para algus pontos da imagem \\
+    \hline
+      SaltAndPepper  &
+      \textit{imgaug}  &
+      Substitui píxels randômicos da imagem por píxel de sal (cor branca) e pimenta (cor preta) \\
+    \hline
+      GammaContrast  &
+      \textit{imgaug}  &
+      Ajusta o contraste da imagem escalando os píxels da imagem em um valor calculado por \(x = 255(\frac{v}{255})^{\gamma}\), onde $\gamma$ é um parâmetro da função entre $0$ a $1$ e $v$ é o antigo valor do píxel \\
+    \hline
+      JpegCompression  &
+      \textit{imgaug}  &
+      Degrada a imagem aplicando uma compressão de JPEG, diminuindo sua qualidade \\
+    \hline
+      Dropout  &
+      \textit{imgaug}  &
+      Randomicamente coloca uma fração de pixels da imagem para o valor 0 \\
+    \hline
+      Affine  &
+      \textit{imgaug}  &
+      Aplica transformações na imagem mas mantém relações de colinearidade e distância. Geralmente composta por rotações, translações e dilatações das formas presentes na imagem. \\
     \hline
   \end{tabular}
   \label{tab:sdas}
 \end{table}
 
+As tecnologias de OCR disponíveis, como o Tesseract, em geral são muito sensíveis e aplicar todos esses filtros em uma única imagem impede que o OCR identifique caracteres nas mesmas. Com isso, é preciso escolher randomicamente entre os filtro listados, podendo aplicar um ou mais deles, mas nunca podendo aplicar todos de uma só vez.
+
+O processo seguido para a criação de imagens ruins foi de que, para cada uma imagem boa, gera-se uma imagem ruim. Isso se dá pela alta quantidade de imagens disponíveis para treinamento, visto que se for necessário o consumo de mais imagens para treinamento na etapa de geração do modelo, é possível utilizar de \textit{data augmentation} para ampliar a base de dados.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=.6]{figuras/data-augmentation.png}
+  \caption{Geração de imagens atual vs geração com \textit{data augmentation}}
+  \label{fig:data-augmentation}
+\end{figure}
+
 \subsubsection{Extração de texto via OCR}
 
+Para a extração de caracteres utilizando o OCR, fez-se o uso da tecnologia desenvolvida Tesseract, que atualmente conegue identificar e reconhecer mais de 100 idiomas por meio da configuração \textit{unicode}\footnote{
+  Padrão que permite que os sistemas informatizados representem e manipulem textos de quaisquer idiomas de escrita que existem na atualidade. Fonte: Wikipedia.
+}. Para tal, configura-se o Tesseract com a extensão para a lingua portuguesa, já disponível pela comunidade para uso.
+
+Todo o texto extraído é armazenado em um CSV de saída que identifica qual o processo, documento e página que a extração foi feita. Isso depois servirá como base para a verificação e métrica para a comparação entre o texto extraído de uma página limpa para uma página com ruídos.
+
 \section{Método proposto}
+
+Para a criação de qualquer projeto científico deve-se seguir ou criar um método de trabalho que possibilite a construção de uma solução que consiga mostrar, de maneira clara e objetiva, o trabalho realizado para a comprovação, validação ou invalidação da hipótese apresentada.
+
+Portanto, no presente projeto desenvolveu-se uma metodologia que possibilite validar se um modelo gerador de ML consegue melhorar a qualidade do OCR de fotos ruins. Tal método é dividido em 4 (quatro) grandes frentes que vão desde trabalho e curadoria do dado até a análise de métricas de qualidade de OCR. Essas frentes são: geração de \textit{dataset}, extração de OCR de imagens ruins, gerador de imagens e métricas de qualidade de OCR. As duas primeiras delas foram anteriormente detalhadas na sessão \ref{sec:dataset}. As duas etapas finais e não menos importantes serão detalhadas na sequência.
+
+\subsection{Gerador de Imagens}
+
+Essa etapa consistem em desenvolver um modelo de IA que receba como entrada uma imagem ruim e gere uma nova imagem nunca vista antes. Essa imagem é gerada a partir de uma Rede Neural Convolucional, como já foi citado em capítulos anteriores \hl{REFERENCIAR GENERATIVO}.
+
+\hl{COLOCAR IMAGEM SIMULANDO O GENERATIVO}
+
+Tendo uma nova imagem gerada e todas as informações necessárias identificadas previamente, como OCR das imagens boas e ruins, adiciona-se uma camada de extração de texto das imagens geradas pelo modelo Gerador e as adiciona no CSV contendo as extrações anteriores. Com isso, tem-se agora o insumo necessário para a criação de uma métrica de validação da hipótese.
+
+\subsection{Métrica de qualidade do OCR}
+
+Basicamente, para se conseguir alcançar o objetivo proposto do presente trabalho, seria necessário ter extrações de OCR de uma imagem boa, uma imagem ruim e de uma imagem nunca antes vista, gerada pelo modelo de IA. Com todas as etapas anteriores a essa realizando as devidas ações, permite-se então que as métricas de qualidade do OCR dos modelos gerados sejam extraídas, visto que as informações estão disponíveis.
+
+Para a extração de informação de uma imagem utilizando OCR, primeiro realiza-se um processo de segmentação na imagem para a identificação de áreas onde o texto se encontra. A partir dessa segmentação, extrai-se o texto daquela região segmentada em especifico \cite{metrics-for-ocr-performance}, permitindo então que o processo de reconhecimento das informações possa ser extraído por caracter, palavra ou linha.
+
+Porém, o processo de sementação da imagem pode ser o responsável pelo impedimento ou pela má qualidade da identificação do OCR. Esse tipo de erro pode ser uma separação (do inglês \textit{split}) ou mesclagem (do inglês \textit{merge}), tanto entre palavras de uma linha (horizontal) quanto entre duas linhas (horizontal), o que caracterizam 4 tipos de erros de segmentação \cite{metrics-for-ocr-performance}, sendo eles:
+\begin{itemize}
+  \item Mesclagem horizontal (HM)
+  \item Separação horizontal (HS)
+  \item Mesclagem vertical (VM)
+  \item Separação vertical (VS)
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.55]{figuras/ocr-segmentation-error.png}
+  \caption{Tipos de erros de segmentação de imagem para apliações de OCR.}
+\end{figure}

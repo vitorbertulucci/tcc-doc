@@ -27,17 +27,17 @@ Esse modelo é baseado em Redes Neurais Artificiais para a criação de um model
 
 O método de trabalho a ser desenvolvido para a presente hipótese do problema consiste em desenvolver um modelo de \textit{Deep Learning}, mais especificamente uma Rede Neural Artificial - do ingês \textit{Artificial Neural Network} - que possibilite construir uma Inteligência Artificial capaz de gerar novas imagens a partir de imagens ruins ou com ruídos. Com isso, será possível generalizar o modelo que, independente da imagem de texto inserida nele, o mesmo possa criar uma nova imagem com menos ruídos e mais limpa do que a imagem de entrada.
 
-O \textit{dataset} disponível para o treinamento, teste e validação dos modelos a serem construídos são provenientes de extrações dos processos do Supremo Tribunal Federal adquiridos pelos alunos de projeto de pesquisa do laboratório LADES da Universidade de Brasília. Tal acervo conta com aproximadamente 90 mil documentos em formato PDF.
+O \textit{dataset} disponível para o treinamento, teste e validação dos modelos a serem construídos são provenientes de extrações dos processos do Supremo Tribunal Federal adquiridos pelos alunos de projeto de pesquisa do laboratório GPAM da Universidade de Brasília. Tal acervo conta com aproximadamente 90 mil documentos em formato PDF.
 
-Tendo esses documentos em formato PDF como base, os mesmos passarão por um algoritmo de transformação de PDF para Imagem em escala preto e branco e aplicando então um processamento de extração de texto de imagens por meio de OCR. Dado o resultado do OCR das imagens boas em mãos, é possível agora "estragar" programaticamente as imagens, adicionando ruídos nas mesmas para que o OCR dessas fotos ruins possa ser diferente - e pior - do que o resultado apresentado no reconhecimento de caracteres anteriores.
+Tendo esses documentos em formato PDF como base, os mesmos passarão por um algoritmo de transformação de PDF para Imagem em escala preto e branco e aplicando então um processamento de extração de texto de imagens por meio de OCR. Dado o resultado do OCR das imagens boas em mãos, é possível agora "estragar" programaticamente as imagens, adicionando ruídos nas mesmas para que o OCR dessas fotos ruins possam ser diferentes - e piores - do que o resultado apresentado no reconhecimento de caracteres anteriores.
 
 Com a diferença dos dois OCRs, em imagens boas e ruins, serão geradas então novas imagens que visam alcançar ou ficar o mais próximo possível dos resultados atingidos pelo OCR nas imagens boas. A hipótese então, de conseguir melhorar o resultado de reconhecimento de caracteres pelo processamento de imagens a partir da criação de um modelo generativo capaz de corrigir defeitos em imagens de texto ruins, poderá ser experimentada e validada.
 
 Essa experimentação, em caso de sucesso, permitirá construir um algoritmo capaz de ser acoplado aos processamentos de imagens e digitalizações para melhorar a qualidade de qualquer documento digitalizado, permitindo que a clareza e nitidez das informações neles apresentada sejam melhores do que as que são atualmente alcançadas por \textit{softwares} convecionais.
 
-% Este documento apresenta considerações gerais e preliminares relacionadas 
-% à redação de relatórios de Projeto de Graduação da Faculdade UnB Gama 
-% (FGA). São abordados os diferentes aspectos sobre a estrutura do trabalho, 
+% Este documento apresenta considerações gerais e preliminares relacionadas
+% à redação de relatórios de Projeto de Graduação da Faculdade UnB Gama
+% (FGA). São abordados os diferentes aspectos sobre a estrutura do trabalho,
 % uso de programas de auxilio a edição, tiragem de cópias, encadernação, etc.
 
 % Este template é uma adaptação do ABNTeX2\footnote{\url{https://github.com/abntex/abntex2/}}.
