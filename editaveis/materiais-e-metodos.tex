@@ -1,6 +1,6 @@
 \chapter[Materiais e métodos]{Materiais e métodos}
 
-\hl{ADICIONAR DESC. INICIAL}
+Tendo entendido os conceitos básicos para o entendimento da abordagem do trabalho e toda sua problemática, deve-se então entender melhor como será desenvolvido o trabalho e como a metodologia foi estruturada. Portanto, o presente capítulo visa mostrar os materiais e metodologia visando clarear e demonstrar, desde a identificação do dado a ser utilizado, como será o processo para a geração de modelos de IA, bem como os insumos utilizados e as métricas de validação identificadas.
 
 \section{O dado} \label{sec:dataset}
 
@@ -226,14 +226,44 @@ Basicamente, para se conseguir alcançar o objetivo proposto do presente trabalh
 
 A métrica a ser utilizada deve ser capaz de realizar a comparção do OCR da imagem original entre a imagem com ruído com o OCR da imagem original entre a imagem gerada. Para provar a hipótese em questão, se for validada, a métrica de comparação deve dizer que o OCR da imagem gerada está mais próximo do que o da imagem com ruídos, provando assim a geração de uma imagem melhor do que a imagem ruim. Com isso em mente, deve-se considerar métricas de análise e comparação de texto puro, ignorando as métricas de performance de OCR que visam analizar a qualidade do algoritmo de segmentação e extração de texto de imagem.
 
-Nos sistemas de sumarização de texto, processo pelo qual gera-se um texto a partir de outro utilizando \textit{Machine Learning}, tradicionalmente envolve' julgamentos humanos de diferentes métricas de qualidade para a identificação de coesão, coerência, concisão, gramática, etc \cite{automatic-summarization}, o que acaba sendo muito custoso para realizar isso manualmente. Com isso, \citeonline{rouge-metric} propôs uma nova métrica que tentasse realizar esse tipo de avaliação de maneira automatizada, chamada \textit{Recall-Oriented Understudy for Gisting Evaluation} (ROUGE). Esse método de avaliação possui quatro (4) diferentes maneiras de se avaliar a diferença de um texto original ao gerado pela sumarização, mostrados a seguir.
+Nos sistemas de sumarização de texto, processo pelo qual gera-se um texto a partir de outro utilizando \textit{Machine Learning}, tradicionalmente envolve' julgamentos humanos de diferentes métricas de qualidade para a identificação de coesão, coerência, concisão, gramática, etc \cite{automatic-summarization}, o que acaba sendo muito custoso para realizar isso manualmente. Com isso, \citeonline{rouge-metric} propôs uma nova métrica que tentasse realizar esse tipo de avaliação de maneira automatizada, chamada \textit{Recall-Oriented Understudy for Gisting Evaluation} (ROUGE). Esse método de avaliação possui quatro (4) diferentes maneiras de se avaliar a diferença de um texto original ao gerado pela sumarização. Porém, alguns desses são utilizados quando se tem dois textos de sumarização gerados sendo comparados com o texto original ou que permite uma "falha" entre uma sumarização sem perder a informação geral, o que foge um pouco do escopo e da ideia apresentada. Os que serão utilizados são mostrados a seguir.
 
-\begin{itemize}
-  \item \textbf{ROUGE-N:}
-  \item \textbf{ROUGE-L:}
-  \item \textbf{ROUGE-W:}
-  \item \textbf{ROUGE-S:}
-\end{itemize}
+\subsubsection{ROUGE-N: N-Grama de Co-Ocorrência}
+Essa métrica é capaz de identificar a ocorrência de n-gramas repetidos entre um texto candidato (gerado) e um texto referência. Um n-grama é um conjunto de palavras, onde 1-grama agrupa uma única palavra (unigrama), 2-grama define um grupo de duas palávras (bigrama), etc. Tal métrica é calculada da seguinte maneira:
+
+\begin{gather}
+  ROUGE{-N} = \frac{\sum_{r} . \sum_{n} match(gram_{n})}
+  {\sum_{r} . \sum_{n} count(gram_{n})}
+\end{gather}
+
+Onde $n$ é o tamanho do n-grama $gram_n$, $match(gram_{s,})$ é o número máximo de n-gramas que ocorrem tanto no texto gerado quanto no texto de referência e $r$ é o número de textos candidatos. Quando maior o número de n-gramas identificados no texto candidato, maior é o valor da métrica ROUGE-N. A métrica pode ser expandida para a comparação entre um candidato e multiplas referências. Como no caso existe apenas uma referência, essa evolução não será apresentada.
+
+Essa é a métrica mais indicada para a comparação de sobreposição de n-gramas.
+
+\subsubsection{ROUGE-L: Maior Subsequência Comum}
+
+Essa métrica, do inglês \textit{Longest Common Subsequence} ou LCS diz que, dada duas sequências $X$ e $Y$, a maior subsequência comum (LCS) de $X$ e $Y$ é uma subsequência\footnote{
+  A sequência \(Z = [z_1, z_2, ..., z_n]\) é uma
+  subsequência de \(X = [x_1, x_2, ..., x_m]\) se existir uma estrita sequência crescente \([i_1, i_2, ..., i_k]\) de indices de $X$ onde para todo \(j = 1, 2, ..., k\), se tem \(x_{i,j} =  z_j\) \cite{intro-to-algorithms}.
+} com o tamanho máximo.
+
+Para a verificação da LCS em um texto de sumarização, considera-se uma sentença do sumário como uma sequência de palvras. Com isso, a intuição é que quanto maior o LCS de duas sentenças são, maior será a similaridade dos dois textos. Propõe-se então o uso de uma LCS baseada em mensuração F para estimar a similaridade entre dois textos $X$ de tamanho $m$ e $Y$ de tamanho $n$, assumindo que $X$ é o texto original de referência e $Y$ é o texto gerado.
+
+\begin{gather}
+  R_{lcs} = \frac{LCS(X, Y)}{m}
+\end{gather}
+
+\begin{gather}
+  P_{lcs} = \frac{LCS(X, Y)}{n}
+\end{gather}
+
+\begin{gather}
+  F_{lcs} = \frac{(1 + \beta^2).R_{lcs} . P_{lcs}}{R_{lcs} + \beta^2.P_{lcs} }
+\end{gather}
+
+Onde \(LCS(X, Y)\) é o tamanho da maior subsequência comum entre $X$ e $Y$, \(\beta = \frac{P_{lcs}}{R_{lcs}}\) quando \(\frac{\partial F_{lcs}}{\partial R_{lcs}} = \frac{\partial F_{lcs}}{\partial P_{lcs}}\). Se \(X = Y\), então a ROUGE-L é 1, mostrando que os textos são praticamente os mesmos. Quanto mais próximo de 0, mais distantes os textos são.
+
+\ornament
 
 Por se tratarem de métricas de análise de texto, tendo como base o texto original, pode-se fazer uma analogia ao problema tratado no presente trabalho, onde realiza-se a comparação entre o texto extraído de um OCR tanto de uma imagem boa (original) quanto de imagens ruins e imagens geradas. Portanto, essa será a métrica de avaliação utilzada na etapa de validação da hipótese.
 
