@@ -155,12 +155,15 @@ Na equação \ref{math:convolution-complex} o \(I\) representa o tensor de entra
 % a good one: https://mlnotebook.github.io/post/CNN1/
 % fonte: https://medium.com/machine-learning-for-li/different-convolutional-layers-43dc146f4d0e
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{figuras/cnn-kernel-multiplication.png}
-  \caption{Camada de convolução. \hl{OBS: COLOCAR FONTE}}
+  \centering
+  \includegraphics[scale=0.35]{figuras/cnn-kernel-multiplication.jpeg}
+  \caption{Execução de uma convolução. Fonte: Medium.}
   \label{fig:cnn-kernel-multiplication}
 \end{figure}
 
-Existem uma série de parâmetros que podem ser utilizados para a configuração do algoritmo de convolução de uma Rede Neural Convolucional. Tais parâmetros, geralmente citados como hiperparãmetros, serão explicados de maneira geral na sessão \ref{sssec:hiperparameters}. O conjunto de hiperparâmetros para as CNNs, como \textit{depth}, \textit{stride}, tamanho do kernel, etc estarão melhor descritos no apêndice \hl{CRIAR APENDICE PARA REFERENCIAR}.
+Existem uma série de parâmetros que podem ser utilizados para a configuração do algoritmo de convolução de uma Rede Neural Convolucional. Tais parâmetros, geralmente citados como hiperparãmetros, serão explicados de maneira geral na sessão \ref{sssec:hiperparameters}.
+
+% O conjunto de hiperparâmetros para as CNNs, como \textit{depth}, \textit{stride}, tamanho do kernel, etc estarão melhor descritos no apêndice \hl{CRIAR APENDICE PARA REFERENCIAR}.
 
 \subsubsubsection{\textit{Pooling}} \label{ssssec:pooling}
 A operação de \textit{pooling} é utilizada geralmente após as operações na camada de convolução. Com o resultado dessa camada, algumas características são mapeadas gerando assim o \textit{feature-map} do seu dado. Com isso, com o intuito de generalizar a posição das suas características em relação a sua matriz de entrada, aplica-se o \textit{pooling} que consegue diminuir a região esparsa (geralmente com valores de pixels iguais a zero ou píxels brancos) da sua imagem, dando um foco maior para as regiões com características mais influentes para o problema.
@@ -171,7 +174,7 @@ Essa operação faz o uso de um filtro, que define o tamanho da matriz que irá 
 
 \begin{figure}[H]
   \includegraphics[width=13cm, center]{figuras/pooling.png}
-  \caption{Alguns tipos de \textit{pooling}, aplicados com um filtro 2x2 e passo de tamanho 2. \hl{OBS: COLOCAR FONTE}}
+  \caption{Alguns tipos de \textit{pooling}, aplicados com filtro 2x2 e passo de tamanho 2. Fonte: Fractalytics.}
   \label{fig:pooling}
 \end{figure}
 
@@ -187,17 +190,57 @@ O tamanho da matriz resultante da operação de \textit{pooling} pode ser calcul
   \label{math:size-after-pooling}
 \end{gather}
 
+\subsubsection{Função de custo ou erro} \label{sssec:cost-function}
 
 \subsubsection{\textit{Backpropagation}} \label{sssec:backpropagation}
 
-\subsubsection{\textit{Função de custo}} \label{sssec:cost-function}
+O processo o qual permite as Neural Networks aprenderem de fato é o chamado \textit{backpropagation}. Inicialmente, quando constói-se um modelo de NN para solucionar algum tipo de problemática do mundo real, inicializa-se de maneira randômica (ou seguindo algumas heurísticas) os pesos e bias da rede.
 
-\subsubsection{\textit{Taxa de aprendizagem}} \label{sssec:learning-rate}
+O que acontece é que nem sempre (basicamente nunca) os valores colocados inicialmente são os corretos então é preciso realizar uma alteração desses valores para permitir encontrar os pesos corretos para essas conexões. O processo que faz essa alteração é justamente o \textit{backpropagation}.
+
+O que ela faz é basicamente calcular a derivada parcial dos pesos e biases em relação à função de erro e ajustar esses valores para que eles possam minimizar a função de custo da rede. Com isso, a medida que a rede passa por iterações no \textit{dataset}, o modelo permite se adaptar aos \textit{inputs} e conseguir gerar outputs mais aceitáveis em relação ao problema.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.4]{figuras/backprop.png}
+  \caption{Processo de \textit{backpropagation}. Fonte: StackExchange.}
+  \label{fig:backprop}
+\end{figure}
+
+A função que permite o \textit{backpropagation} readaptar os pesos da rede é a descida de gradiente, que tende a achar a converência da função encontrando os pontos de mínima.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.2]{figuras/gradient-descent.png}
+  \caption{Descida de gradiente. Fonte: http://rasbt.github.io.}
+  \label{fig:gradient-descent}
+\end{figure}
+
+\subsubsection{Taxa de aprendizagem} \label{sssec:learning-rate}
 
 \subsubsection{Hiperparâmetros} \label{sssec:hiperparameters}
 
+Os hiperparâmetros modelam como a rede funciona e determinam sua acurácia e validade. Existem diversos métodos para otimizar os hiperparâmetros, desde modelos manuais como tentativa e erro até alguns que usam algoritmos para determinar tais alterações. Porém, não existe consenso sobre qual modelo é melhor a ser seguido na busca para achar os hiperparâmetros mais adequados.
+
+Em uma rede, existem os parâmetros do modelo ou \textit{Model Parameters} e os \textit{Hyperparameters}. Os parâmetros do modelo são parâmetros internos à rede, como os pesos. Tais parâmetros são estimados "automaticamente" a partir das iterações de treinamento e \textit{ephocs}, e são utilizados para fazer predições no modelo. Já os hiperparâmetros são externos à rede e são definidos por quem está construindo a rede. Um bom exemplo disso é definir qual é o tipo de função de ativação a ser utilizada, o tamanho do \textit{batch} de treinamento, etc.
+
+A alteração dos hiperparâmetros possui um enorme impacto na acurácia da rede, visto que permite adequar a rede a utilizar funções que melhor se adaptam ao tipo de dado, ao tamanho dos dados utilizados em cada \textit{ephoc} para melhorar performance, etc. A lista de alguns dos mais comuns hiperparâmetros utilizados nos processos de ajuste de rede são listados a seguir.
+
+\begin{itemize}
+  \item \textbf{Número de \textit{hidden layers}:} altera a quantidade de camadas ocultas da rede, aumentando seu nível de profundidade.
+  \item \textbf{\textit{Dropout}:} define a porcentagem a qual, randomicamente, diferentes neurons da sua rede devem ser desconsiderados ou "excluídos". O uso do \textit{dropout} surge para prevenir \textit{overfitting} (modelo sabe exatamente como o dado de treimamento é mas não generaliza para dados nunca antes vistos), visto que os neurons ignorados são randômicos.
+  \item \textbf{Função de ativação:} dependendo do tipo de dado a ser trabalhado, algumas funções de ativação podem não ser as mais corretas a serem utilizadas. A alteração das funções de ativação para as camadas permite que a rede possa, em certo momento, convergir para um resultado mais promissor em relação aos dados de entrada.
+  \item \textbf{Inicialização de pesos:} em uma rede inicialmente não treinada, os pesos das conexões entre os neurons é totalmente desconhecido. Com isso, existe um hiperparâmetro que permite definir um modelo ou um conjunto inicial de pesos a serem utilizados na primeira iteração da rede.
+  \item \textbf{\textit{Learning rate}:} taxa de aprendizagem. Em outras palavras, esse parâmetro define o quão rápido o \textit{backpropagation} está se comportando em relação à descida de gradiente, ou seja, o quão largo é o passo para encontrar os pontos de mínimo da função.
+  \item \textbf{\textit{Batch size}:} dado que sua rede não é capaz de executar o \textit{epoch} com o conjunto de dados disponível, é selecionado o \textit{batch size} ou o tamanho da amostra a ser utilizado em cada \textit{epoch}.
+  \item \textbf{\textit{Epochs}:} quantidade de grupo de amostras do dado que são consumidos pelo modelo por vez, excutado o \textit{backpropagation} e adaptando os pesos da rede.
+  \item \textbf{Iterações:} quantidade que um único \textit{epoch} tem que ser executado para percorrer por todo o dado de treinamento, considerando também o tamanho da amostra.
+  \item \textbf{Algoritmo de otimização:} é o algoritmo que de fato determina os melhores pesos do modelo. Stochastic Gradient Descent, Nesterov Accelerated Gradient, AdaDelta e Adam são os mais comuns. A otimização surge para minimizar as funções de custo do modelo.
+\end{itemize}
 
 \subsection{Discriminativo vs Generativo} \label{ssec:generative-vs-discriminative}
+
+Em geral, quando ouve-se falar sobre o tema \textit{Machine Learning} naturalmente pensa-se como sendo um algoritmo que irá receber uma entrada de dados, gerar uma função matemática que se adeque aquele dado para que seja possível realizar uma classificação, seja ela binária como "Sim" e "Não" \  quanto uma de múltiplas categorias. Esse tipo de modelo são os chamados modelos discriminativos, que aprendem a mapear ou discriminar o dado de entrada em suas respectivas classes, ou seja, \(p(y | x)\) \cite{discriminative-vs-generative}. Porém, existe também dentro de ML uma área que vem sendo
 
 \section{OCR}
 
