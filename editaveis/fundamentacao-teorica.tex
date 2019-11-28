@@ -64,9 +64,9 @@ onde a função de ativação consome o valor resultante da função \(f(x)\), q
 \subsubsection{Função de Ativação} \label{sssec:activation-func}
 
 Funções de ativação são funções matemáticas que determinam o resultado de uma saída \textbf{\(z\)} de um neurônio em uma rede neural, baseando-se em um \textit{threshold}\footnote{
-  o que é threshold
-} \textbf{\(t\)} \hl{COLOCAR DEFINICAO}.
-A partir do valor resultante \textbf{\(y\)} da soma dos valores de entrada \(x_i\) multiplicados pelos pesos \(w_i\) dentro do intervalo \([1, m]\) definido na fórmula \hl{COLOCAR REF}, se esse valor alcança ou ultrapassa o \textit{threshold}, o neurônio é ativado. Caso não alcante, ele não é ativado e seu sinal não é propagado \cite{python-ml}.
+  Valor numérico limitante para uma tomada de ação.
+} \textbf{\(t\)}.
+A partir do valor resultante \textbf{\(y\)} da soma dos valores de entrada \(x_i\) multiplicados pelos pesos \(w_i\) dentro do intervalo \([1, m]\) definido na fórmula \ref{math:perceptron-math}, se esse valor alcança ou ultrapassa o \textit{threshold}, o neurônio é ativado. Caso não alcante, ele não é ativado e seu sinal não é propagado \cite{python-ml}.
 
 \begin{gather}
   z =
@@ -111,7 +111,7 @@ O conjunto de de novas camadas, sendo essas diferentes da \textit{input} e \text
   \label{fig:simple-vs-deep-nn}
 \end{figure}
 
-Mais tarde, em 1998, os pesquisadores Yann LeCun, Leon Bottou, Yosuha Bengio e Patrick Haffner desenvolveram uma nova arquitetura de rede neural herdando as características já existentes no MLP, como propagação de sinal ou \textit{forward pass} (seção \ref{sssec:forward-pass}), \textit{backpropagation} (seção \ref{sssec:backpropagation}), taxa de aprendizagem (seção \ref{sssec:learning-rate}), entre outros. Tal arquitetura foi chamada de LeNet-5 \cite{le-net} e sua função era conseguir reconhecer dígitos manuscritos de 0 à 9. Os dados utilizados para o experimento é chamado de \href{http://yann.lecun.com/exdb/mnist/}{MNIST}. Essa nova arquitetura evoluiu para o que conhecemos hoje como Redes Neurais Convolucionais ou CNN (\textit{Convolutional Neural Networks}) \cite{goodfellow-et-al-2016}.
+Mais tarde, em 1998, os pesquisadores Yann LeCun, Leon Bottou, Yosuha Bengio e Patrick Haffner desenvolveram uma nova arquitetura de rede neural herdando as características já existentes no MLP, como propagação de sinal ou \textit{forward pass}, \textit{backpropagation} (seção \ref{sssec:backpropagation}), taxa de aprendizagem, entre outros. Tal arquitetura foi chamada de LeNet-5 \cite{le-net} e sua função era conseguir reconhecer dígitos manuscritos de 0 à 9. Os dados utilizados para o experimento é chamado de \href{http://yann.lecun.com/exdb/mnist/}{MNIST}. Essa nova arquitetura evoluiu para o que conhecemos hoje como Redes Neurais Convolucionais ou CNN (\textit{Convolutional Neural Networks}) \cite{goodfellow-et-al-2016}.
 
 \begin{figure}[H]
   \includegraphics[width=\linewidth]{figuras/le-net.png}
@@ -150,14 +150,16 @@ Na prática, é possível então implementar essa integral como sendo a somatór
   \label{math:convolution-complex}
 \end{gather}
 
-Na equação \ref{math:convolution-complex} o \(I\) representa o tensor de entrada, \(K\) o tensor de \textit{kernel}, \(i\) e \(j\) a largura e altura do tensor de entrada, respectivamente, E \(m\) e \(n\) a largura e algura do tensor \textit{kernel}, respectivamente. Somam-se então os valores encontrados nas multiplicações a partir do tamanho do filtro e gera-se uma nova matriz com o resultado da operação. Tal matriz é a saída da camada de convolução.
+Na equação \ref{math:convolution-complex} o $I$ representa o tensor de entrada, $K$ o tensor de \textit{kernel}, $i$ e $j$ a largura e altura do tensor de entrada, respectivamente, E $m$ e $n$ a largura e algura do tensor \textit{kernel}, respectivamente. Somam-se então os valores encontrados nas multiplicações a partir do tamanho do filtro e gera-se uma nova matriz com o resultado da operação. Tal matriz é a saída da camada de convolução.
+\\
 
 % a good one: https://mlnotebook.github.io/post/CNN1/
 % fonte: https://medium.com/machine-learning-for-li/different-convolutional-layers-43dc146f4d0e
 \begin{figure}[H]
   \centering
+  \caption{Execução de uma convolução.}
   \includegraphics[scale=0.35]{figuras/cnn-kernel-multiplication.jpeg}
-  \caption{Execução de uma convolução. Fonte: Medium.}
+  \legend{Fonte: \citeonline{convolutional-medium-image}}
   \label{fig:cnn-kernel-multiplication}
 \end{figure}
 
@@ -173,8 +175,10 @@ Essa operação faz o uso de um filtro, que define o tamanho da matriz que irá 
 % fonte: http://fractalytics.io/rooftop-detection-with-keras-tensorflow
 
 \begin{figure}[H]
+  \centering
+  \caption{Alguns tipos de \textit{pooling}, aplicados com filtro 2x2 e passo de tamanho 2.}
   \includegraphics[width=13cm, center]{figuras/pooling.png}
-  \caption{Alguns tipos de \textit{pooling}, aplicados com filtro 2x2 e passo de tamanho 2. Fonte: Fractalytics.}
+  \legend{Fonte: \citeonline{pooling-types}}
   \label{fig:pooling}
 \end{figure}
 
@@ -190,7 +194,6 @@ O tamanho da matriz resultante da operação de \textit{pooling} pode ser calcul
   \label{math:size-after-pooling}
 \end{gather}
 
-\subsubsection{Função de custo ou erro} \label{sssec:cost-function}
 
 \subsubsection{\textit{Backpropagation}} \label{sssec:backpropagation}
 
@@ -202,8 +205,9 @@ O que ela faz é basicamente calcular a derivada parcial dos pesos e biases em r
 
 \begin{figure}[H]
   \centering
+  \caption{Processo de \textit{backpropagation}.}
   \includegraphics[scale=0.4]{figuras/backprop.png}
-  \caption{Processo de \textit{backpropagation}. Fonte: StackExchange.}
+  \legend{Fonte: \citeonline{backprop}.}
   \label{fig:backprop}
 \end{figure}
 
@@ -211,12 +215,28 @@ A função que permite o \textit{backpropagation} readaptar os pesos da rede é 
 
 \begin{figure}[H]
   \centering
+  \caption{Descida de gradiente.}
   \includegraphics[scale=0.2]{figuras/gradient-descent.png}
-  \caption{Descida de gradiente. Fonte: http://rasbt.github.io.}
+  \legend{Fonte: \citeonline{deep-learning-book-br}}
   \label{fig:gradient-descent}
 \end{figure}
 
-\subsubsection{Taxa de aprendizagem} \label{sssec:learning-rate}
+
+\subsubsection{Função de custo ou erro} \label{sssec:cost-function}
+
+Sabendo que é possível adequar os pesos e biases da rede neural a favor de uma progressão no problema, é preciso entender como os algoritmos conseguem identificar que estão mais próximos ou mais distantes de encontrar os valores corretos para solucionar o problema. Essa identificação é feita através da função de custo ou função de erro (do inglês \textit{cost function} e \textit{loss function}, respectivamente), a qual recebe o valor $Y_{pred}$ como resultado da rede neural sobre uma entrada de dados e o valor $Y$ esperado ou que deveria idealmente ter sido encontrado.
+
+% https://medium.com/deep-learning-demystified/loss-functions-explained-3098e8ff2b27
+
+\begin{figure}[H]
+  \centering
+  \caption{Definição de função de custo.}
+  \includegraphics[scale=0.6]{figuras/cost-function.png}
+  \legend{Fonte: \citeonline{cost-function}}
+  \label{fig:cost-function}
+\end{figure}
+
+Essa função permite identificar o quão ruim o seu modelo está predizendo um resultado quando se comparado com o resultado correto ou o \textit{true output} na figura \ref{fig:cost-function}. Quanto mais distante o $Y_{pred}$ está do $Y$ original, mais pobre o seu resultado está sendo, então a função de custo permite penalizar o algoritmo para que ajuste os pesos necessários para tentar aproximar ambos os resultados, mostrando que o modelo está gerando saídas mais corretas e próximos ao esperado \cite{cost-function}.
 
 \subsubsection{Hiperparâmetros} \label{sssec:hiperparameters}
 
@@ -240,8 +260,6 @@ A alteração dos hiperparâmetros possui um enorme impacto na acurácia da rede
 
 \subsection{Discriminativo vs Generativo} \label{ssec:generative-vs-discriminative}
 
-Em geral, quando ouve-se falar sobre o tema \textit{Machine Learning} naturalmente pensa-se como sendo um algoritmo que irá receber uma entrada de dados, gerar uma função matemática que se adeque aquele dado para que seja possível realizar uma classificação, seja ela binária como "Sim" e "Não" \  quanto uma de múltiplas categorias. Esse tipo de modelo são os chamados modelos discriminativos, que aprendem a mapear ou discriminar o dado de entrada em suas respectivas classes, ou seja, \(p(y | x)\) \cite{discriminative-vs-generative}. Porém, existe também dentro de ML uma área que vem sendo
+Em geral, quando ouve-se falar sobre o tema \textit{Machine Learning} naturalmente pensa-se como sendo um algoritmo que irá receber uma entrada de dados, gerar uma função matemática que se adeque aquele dado para que seja possível realizar uma classificação, seja ela binária como "Sim" \  e "Não" \  quanto uma de múltiplas categorias. Esse tipo de modelo são os chamados modelos discriminativos, que aprendem a mapear ou discriminar o dado de entrada em suas respectivas classes, ou seja, \(p(y | x)\) \cite{discriminative-vs-generative}. Porém, existe também dentro de ML uma área que vem sendo bastante estudada atualmente
 
 \section{OCR}
-
-\section{Problemática}
