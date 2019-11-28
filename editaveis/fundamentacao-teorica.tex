@@ -1,6 +1,6 @@
 \chapter[Fundamentação Teórica]{Fundamentação Teórica}
 
-O estudo de Inteligência Artificial vem sendo cada vez mais comum na comunidade de tecnologia da informação para a criação de sistemas que buscam automatizar e auxiliar de maneira mais eficiente o trabalho humano. O presente capítulo traz a explicação de um conjunto de tecnologias da área de IA para que seja possível contextualizar o leitor sobre o tema abordado no presente trabalho \hl{MELHORAR DESCR}.
+O estudo de Inteligência Artificial vem sendo cada vez mais comum na comunidade de tecnologia da informação para a criação de sistemas que buscam automatizar e auxiliar de maneira mais eficiente o trabalho humano. O presente capítulo traz a explicação de um conjunto de tecnologias da área de IA, permitindo entender os conceitos básicos necessários para o completo entendimento da hipótese proposta.
 
 \section{Aprendizagem de Máquina}
 
@@ -14,11 +14,15 @@ O processo de aprendizagem se da início a partir de observações ou dados, com
   % fonte: https://blogs.nvidia.com/blog/2018/08/02/supervised-unsupervised-learning/
 
   \begin{figure}
-    \includegraphics[width=\linewidth]{figuras/nvidia-supervised-learning.png}
-    \caption{Aprendizado supervisionado \hl{OBS: COLOCAR FONTE}}
+    \centering
+    \caption{Aprendizado supervisionado}
+    \includegraphics[scale=0.5]{figuras/nvidia-supervised-learning.png}
+    \legend{Fonte: \citeonline{learning-types}}
     \label{fig:nvidia-supervised-learning}
   \end{figure}
+
   \newpage
+  
   \item \textbf{Aprendizado não supervisionado:} diz respeito aos métodos de aprendizagem de máquina os quais utiliza-se como dado de entrada um dado que não possui nenhum tipo de anotação e que, muitas vezes, sua estrutura é desconhecida.
 
   Tal processo de aprendizagem permite extrair características relevantes sobre o dado que possam servir de insumo para uma futura categorização e classificação do mesmo. Dependendo do problema em questão, a aprendizagem supervisionada pode organizar o dado em diferentes categorias \cite{learning-types} como clusterização, associação, \textit{autoencoders}, \textit{anomaly detection}, etc.
@@ -28,7 +32,7 @@ O processo de aprendizagem se da início a partir de observações ou dados, com
 
 Dentro dos tipos de algoritmos que podem ser utilizados para construir ML, geralmente em aprendizagem supervisoonada e semi-supervisionada, um que é bastante notado se não o mais conhecido são as chamadas Redes Neurais Artificiais ou \textit{Neural Networks} (NN). Diferentemente de \textit{Machine Learning} convencional, as NN é um campo dentro de ML que possiblita o aprendizado de máquina tentando imitar o comportamento dos neurônios humanos \cite{neural-net-history} e está associado diretamente ao \textit{Deep Learning}.
 
-\subsection{\textit{Neural Networks}}
+\subsection{Redes Neurais}
 
 Em 1943, Warren McCullock e Walter Pitts em seu artigo \textit{A Logical Calculus of the Ideas Immanent in Nervous Activity} desenvolveram um estudo para tentar explicar como o cérebro consegue reconhecer um nível complexo de padrões por meio dos neurônios \cite{first-neuron-study}, desenvolvendo um modelo chamado MCP (McCullock-Pitts) que atualmente é conhecido como o ancestral das redes neurais artificiais \cite{dl-brief-review}. Tal estudo possibilitou dar-se o pontapé para a evolução das redes neurais que conhecemos hoje.
 
@@ -37,8 +41,10 @@ Na década de 1950 surgiu então o modelo de \textit{Perceptron} \cite{perceptro
 % fonte da imagem: https://towardsdatascience.com/the-perceptron-3af34c84838c
 
 \begin{figure}[h]
-  \includegraphics[width=13cm, center]{figuras/perceptron}
-  \caption{O \textit{Perceptron} \hl{OBS: COLOCAR FONTE}}
+  \centering
+  \caption{O \textit{Perceptron}.}
+  \includegraphics[scale=0.2]{figuras/perceptron}
+  \legend{Fonte: \citeonline{perceptron-image}.}
   \label{fig:perceptron}
 \end{figure}
 
@@ -84,14 +90,16 @@ Existem diversos tipos de funções de ativação com aplicabilidade em diversos
 % fonte: https://medium.com/@shrutijadon10104776/survey-on-activation-functions-for-deep-learning-9689331ba092
 
 \begin{figure}[H]
-  \includegraphics[width=12cm, center]{figuras/activation-functions}
-  \caption{Principais funções de atiação \hl{OBS: COLOCAR FONTE}}
+  \centering
+  \caption{Principais funções de ativação.}
+  \includegraphics[scale=0.3]{figuras/activation-functions}
+  \legend{Fonte: \citeonline{intro-to-act-func}.}
   \label{fig:activation-functions}
 \end{figure}
 
 É importante ressaltar que um único \textit{Perceptron} não é capaz de solucionar problemas não-lineares. Algoritmos que possibilitam solucionar problemas não-lineares serão descritos na seção \ref{sssec:cnn}, detalhando um pouco da evolução dos algoritmos para algo mais conhecido atualmente.
 
-\subsubsection{\textit{Weights}}
+\subsubsection{Pesos}
 
 Os pesos representam o grau de conexão entre dois neurônios distintos. Por exemplo: se o peso de um neurônio 1 para o neurônio 2 tem uma maior magnitude, significa que o neurônio 1 tem maior importância sobre o neurônio 2.
 
@@ -101,21 +109,25 @@ Em termos práticos, o peso consegue definir o quão relevante para o problema a
 
 Conhecendo melhor o \textit{Perceptron} e entendendo como ele funciona, é possível identificar da sua limitação: a linearidade. Para solucioar esse problema, adiciona-se uma função de ativação para cada valor resultante de um nó e coloca-se esses nós em contato com mais nós de uma outra camada, adicionando assim mais camadas de processamento e identificação de características dos dados. As redes de camadas multiplas de nós ou \textit{perceptrons} é chamada de \textit{Multilayer Perceptrons} ou MLP \cite{deep-learning-book-br}.
 
-O conjunto de de novas camadas, sendo essas diferentes da \textit{input} e \textit{output layers}, são chamadas de camadas ocultas ou \textit{hidden layers} \cite{goodfellow-et-al-2016}. A definiçãode \textit{Deep Learning} se dá pela quantidade de camadas ocultas na arquitetura da sua rede neural, sendo a MLP a "\textit{Hello World}" das arquiteturas de RNAs. Em tais redes, a saída de cada nó de uma camada da rede é utilizada como entrada para os \(N\) nós presentes na camada seguinte, permitindo que os sinais ou estímulos de um neurônio artificial possa ser utilizado por toda a rede e esse valor seja propagado até a camada de saída. Tal fenômeno é chamado de \textit{propagação para a frente} ou \textit{forward-pass}. As redes neurais com essa característica recebem o nome de \textit{Feed-forward networks}.
-
+O conjunto de de novas camadas, sendo essas diferentes da \textit{input} e \textit{output layers}, são chamadas de camadas ocultas ou \textit{hidden layers} \cite{goodfellow-et-al-2016}. A definiçãode \textit{Deep Learning} se dá pela quantidade de camadas ocultas na arquitetura da sua rede neural, sendo a MLP a "\textit{Hello World}" das arquiteturas de RNAs. Em tais redes, a saída de cada nó de uma camada da rede é utilizada como entrada para os $N$ nós presentes na camada seguinte, permitindo que os sinais ou estímulos de um neurônio artificial possa ser utilizado por toda a rede e esse valor seja propagado até a camada de saída. Tal fenômeno é chamado de \textit{propagação para a frente} ou \textit{forward-pass}. As redes neurais com essa característica recebem o nome de \textit{Feed-forward networks}.
+\\
 % fonte: https://www.institutodeengenharia.org.br/site/2019/04/01/nobel-da-computacao%E2%80%8B-vai-para-os-pais-do-deep-learning/
 
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{figuras/simple-vs-deep-nn.png}
-  \caption{Rede neural simples vs rede neural profunda \hl{OBS: COLOCAR FONTE}}
+  \centering
+  \caption{Rede neural simples vs rede neural profunda}
+  \includegraphics[scale=0.6]{figuras/simple-vs-deep-nn.png}
+  \legend{Fonte: \citeonline{deep-vs-normal-net}}
   \label{fig:simple-vs-deep-nn}
 \end{figure}
 
 Mais tarde, em 1998, os pesquisadores Yann LeCun, Leon Bottou, Yosuha Bengio e Patrick Haffner desenvolveram uma nova arquitetura de rede neural herdando as características já existentes no MLP, como propagação de sinal ou \textit{forward pass}, \textit{backpropagation} (seção \ref{sssec:backpropagation}), taxa de aprendizagem, entre outros. Tal arquitetura foi chamada de LeNet-5 \cite{le-net} e sua função era conseguir reconhecer dígitos manuscritos de 0 à 9. Os dados utilizados para o experimento é chamado de \href{http://yann.lecun.com/exdb/mnist/}{MNIST}. Essa nova arquitetura evoluiu para o que conhecemos hoje como Redes Neurais Convolucionais ou CNN (\textit{Convolutional Neural Networks}) \cite{goodfellow-et-al-2016}.
 
 \begin{figure}[H]
+  \centering
+  \caption{Arquitetura da LeNet-5}
   \includegraphics[width=\linewidth]{figuras/le-net.png}
-  \caption{Arquitetura da LeNet-5 \hl{OBS: COLOCAR FONTE}}
+  \legend{Fonte: \citeonline{le-net}}
   \label{fig:le-net}
 \end{figure}
 
@@ -216,7 +228,7 @@ A função que permite o \textit{backpropagation} readaptar os pesos da rede é 
 \begin{figure}[H]
   \centering
   \caption{Descida de gradiente.}
-  \includegraphics[scale=0.2]{figuras/gradient-descent.png}
+  \includegraphics[scale=0.15]{figuras/gradient-descent.png}
   \legend{Fonte: \citeonline{deep-learning-book-br}}
   \label{fig:gradient-descent}
 \end{figure}
@@ -260,6 +272,14 @@ A alteração dos hiperparâmetros possui um enorme impacto na acurácia da rede
 
 \subsection{Discriminativo vs Generativo} \label{ssec:generative-vs-discriminative}
 
-Em geral, quando ouve-se falar sobre o tema \textit{Machine Learning} naturalmente pensa-se como sendo um algoritmo que irá receber uma entrada de dados, gerar uma função matemática que se adeque aquele dado para que seja possível realizar uma classificação, seja ela binária como "Sim" \  e "Não" \  quanto uma de múltiplas categorias. Esse tipo de modelo são os chamados modelos discriminativos, que aprendem a mapear ou discriminar o dado de entrada em suas respectivas classes, ou seja, \(p(y | x)\) \cite{discriminative-vs-generative}. Porém, existe também dentro de ML uma área que vem sendo bastante estudada atualmente
+Em geral, quando ouve-se falar sobre o tema \textit{Machine Learning} naturalmente pensa-se como sendo um algoritmo que irá receber uma entrada de dados, gerar uma função matemática que se adeque aquele dado para que seja possível realizar uma classificação, seja ela binária como "Sim" \  e "Não" \  quanto uma de múltiplas categorias. Esse tipo de modelo são os chamados modelos discriminativos, que aprendem a mapear ou discriminar o dado de entrada em suas respectivas classes, ou seja, \(p(y | x)\) \cite{discriminative-vs-generative}.
 
-\section{OCR}
+\hl{CONTINUA...}
+
+\section{\textit{Optical Character Recognition}}
+
+Desde muitos anos, esforços e pesquisas substanciais voltadas para o reconhecimento de caracteres vêm sendo desenvolvidos, utilizados para traduzir caractéres reconhecidos por humanos para códigos interpretados pelas máquinas \cite{ocr-survey}. Mesmo para humanos, algumas vezes esse reconhecimento de caracteres não é apresentado com 100\% de acurácia, possuindo um erro de 4\% para reconhecimento de caracteres escritos à mão \cite{ocr-on-handprinted}. Mesmo parecendo algo novo, a ideia de OCR surgiu ainda na década de 20 com a ideia de máquina de leitura, proposta e patenteada por \citeonline{first-ocr-reading-machine}. O estudo de tal máquina de leitura evoluiu até e se propagou pelas décadas até atingir os algoritmos que são conhecidos atualmente.
+
+A expressão \textit{Optical Character Recognition} definem uma tecnologia capaz de receber como entrada uma imagem - necessariamente com textos - e realizar a correta identificação ou reconhecimento (\textit{recognition}) dos textos presentes na imagem \cite{ocr-survey}.
+
+\hl{CONTINUA...}

@@ -21,10 +21,13 @@ Foram fornecidos 89.578 processos do Supremo Tribunal Federal em formato PDF, co
 
 
 No projeto desenvolvido, o GPAM realizou um conjunto de extrações e formatações dos documentos para facilitar o trabalho a partir de uma etapa de processamento.
+\\
 
 \begin{figure}[H]
-  \includegraphics[width=13cm, center]{figuras/gpan-pipeline.png}
+  \centering
   \caption{Fluxo de processamento de processos do STF pelo GPAM.}
+  \includegraphics[width=13cm, center]{figuras/gpan-pipeline.png}
+  \legend{Fonte: \citeonline{cnn-for-STF}}
   \label{fig:gpan-pipeline}
 \end{figure}
 
@@ -56,6 +59,7 @@ Nesse processamento, uma das etapas consistiu em verificar se a página do docum
       Número da página do PDF a qual aquela extração pertence \\
     \hline
  \end{tabular}
+ \legend{Fonte: autoral}
  \label{tab:csv-details}
 \end{table}
 
@@ -66,10 +70,13 @@ Nesse processamento, uma das etapas consistiu em verificar se a página do docum
 Por se tratar de uma problemática diferente do GPAM, foi preciso consumir o que foi fornecido e gerar novos dados que se encaixem melhor para a solução. Para tal, criou-se um conjunto de algoritmos para pegar os dados e realizar essa adequação no formato de uma \textit{pipeline}\footnote{
   Na computação, o termo \textit{pipeline} define um conjunto de processamentos de dados conectados em série, onde a saída de um desses elementos de processamento é a entrada do próximo, sendo elas dependentes para o processamento ser executado adequadamente.
 }, com etapas de separação de documentos que possuem páginas que necessitam de OCR, extração de imagem a partir de PDF, criação de filtros de imagem e extração de informação de imagem utilizando o OCR.
+\\
 
 \begin{figure}[H]
-  \includegraphics[width=\linewidth, rotate=0, center]{figuras/crappy-flow-diagram.png}
+  \centering
   \caption{Processo para a criação de \textit{dataset}.}
+  \includegraphics[width=\linewidth, rotate=0]{figuras/crappy-flow-diagram.png}
+  \legend{Fonte: autoral}
 \end{figure}
 
 \subsubsection{Separação de documentos}
@@ -95,6 +102,7 @@ Para isso, gerou-se um novo CSV apenas com os registros de páginas cujo necessi
       \textbf{354.501} \\
     \hline
   \end{tabular}
+  \legend{Fonte: autoral}
   \label{tab:csv-diff}
 \end{table}
 
@@ -111,19 +119,20 @@ Um filtro de imagem é um algoritmo ou rotina de software que consegue alterar d
 
 \begin{figure}[H]
   \centering
+  \caption{Diferença entre uma foto original e uma com filtro}
   \begin{subfigure}{.5\textwidth}
     \centering
-    \includegraphics[width=0.8\linewidth]{figuras/good-text-image.jpg}
     \caption{Foto sem filtro}
+    \includegraphics[width=0.8\linewidth]{figuras/good-text-image.jpg}
     \label{fig:image-without-filter}
   \end{subfigure}%
   \begin{subfigure}{.5\textwidth}
     \centering
-    \includegraphics[width=0.8\linewidth]{figuras/image-with-overlay.jpg}
     \caption{Foto com filtro aplicado}
+    \includegraphics[width=0.8\linewidth]{figuras/image-with-overlay.jpg}
     \label{fig:image-with-filter}
   \end{subfigure}
-  \caption{Diferença entre uma foto original e uma com filtro. Fonte: autoral.}
+  \legend{Fonte: autoral}
   \label{fig:side-process-images}
 \end{figure}
 
@@ -179,6 +188,7 @@ Abaixo, listam-se todos os filtros utilizados e estudados para o presente proces
       Aplica transformações na imagem mas mantém relações de colinearidade e distância. Geralmente composta por rotações, translações e dilatações das formas presentes na imagem. \\
     \hline
   \end{tabular}
+  \legend{Fonte: autoral}
   \label{tab:sdas}
 \end{table}
 
@@ -188,8 +198,9 @@ O processo seguido para a criação de imagens ruins foi de que, para cada uma i
 
 \begin{figure}[H]
   \centering
-  \includegraphics[scale=.6]{figuras/data-augmentation.png}
   \caption{Geração de imagens atual vs geração com \textit{data augmentation}}
+  \includegraphics[scale=.6]{figuras/data-augmentation.png}
+  \legend{Fonte: autoral}
   \label{fig:data-augmentation}
 \end{figure}
 
@@ -213,8 +224,9 @@ Essa etapa consistem em desenvolver um modelo de IA que receba como entrada uma 
 
 \begin{figure}[H]
   \centering
+  \caption{Simulação de geração de imagem a partir de modelo Gerador}
   \includegraphics[scale=0.6]{figuras/image-generation.png}
-  \caption{Simulação de geração de imagem a partir de modelo Gerador. Fonte: autoral.}
+  \legend{Fonte: autoral}
   \label{fig:image-generation}
 \end{figure}
 
