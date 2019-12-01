@@ -22,7 +22,7 @@ O processo de aprendizagem se da início a partir de observações ou dados, com
   \end{figure}
 
   \newpage
-  
+
   \item \textbf{Aprendizado não supervisionado:} diz respeito aos métodos de aprendizagem de máquina os quais utiliza-se como dado de entrada um dado que não possui nenhum tipo de anotação e que, muitas vezes, sua estrutura é desconhecida.
 
   Tal processo de aprendizagem permite extrair características relevantes sobre o dado que possam servir de insumo para uma futura categorização e classificação do mesmo. Dependendo do problema em questão, a aprendizagem supervisionada pode organizar o dado em diferentes categorias \cite{learning-types} como clusterização, associação, \textit{autoencoders}, \textit{anomaly detection}, etc.
@@ -270,7 +270,7 @@ A alteração dos hiperparâmetros possui um enorme impacto na acurácia da rede
   \item \textbf{Algoritmo de otimização:} é o algoritmo que de fato determina os melhores pesos do modelo. Stochastic Gradient Descent, Nesterov Accelerated Gradient, AdaDelta e Adam são os mais comuns. A otimização surge para minimizar as funções de custo do modelo.
 \end{itemize}
 
-\subsection{Discriminativo vs Generativo} \label{ssec:generative-vs-discriminative}
+\section{Discriminativo vs Generativo} \label{ssec:generative-vs-discriminative}
 
 Em geral, quando ouve-se falar sobre o tema \textit{Machine Learning} naturalmente pensa-se como sendo um algoritmo que irá receber uma entrada de dados, gerar uma função matemática que se adeque aquele dado para que seja possível realizar uma classificação, seja ela binária como "Sim" \  e "Não" \  quanto uma de múltiplas categorias. Esse tipo de modelo são os chamados modelos discriminativos, que aprendem a mapear ou discriminar o dado de entrada em suas respectivas classes, ou seja, \(p(y | x)\) \cite{discriminative-vs-generative}.
 
@@ -278,8 +278,12 @@ Em geral, quando ouve-se falar sobre o tema \textit{Machine Learning} naturalmen
 
 \section{\textit{Optical Character Recognition}}
 
-Desde muitos anos, esforços e pesquisas substanciais voltadas para o reconhecimento de caracteres vêm sendo desenvolvidos, utilizados para traduzir caractéres reconhecidos por humanos para códigos interpretados pelas máquinas \cite{ocr-survey}. Mesmo para humanos, algumas vezes esse reconhecimento de caracteres não é apresentado com 100\% de acurácia, possuindo um erro de 4\% para reconhecimento de caracteres escritos à mão \cite{ocr-on-handprinted}. Mesmo parecendo algo novo, a ideia de OCR surgiu ainda na década de 20 com a ideia de máquina de leitura, proposta e patenteada por \citeonline{first-ocr-reading-machine}. O estudo de tal máquina de leitura evoluiu até e se propagou pelas décadas até atingir os algoritmos que são conhecidos atualmente.
+Desde muitos anos, esforços e pesquisas substanciais voltadas para o reconhecimento de caracteres vêm sendo desenvolvidos, utilizados para traduzir caractéres reconhecidos por humanos para códigos interpretados pelas máquinas \cite{ocr-survey}. Mesmo para humanos, algumas vezes esse reconhecimento de caracteres não é apresentado com 100\% de acurácia, possuindo um erro de 4\% para reconhecimento de caracteres escritos à mão \cite{ocr-on-handprinted}.
 
-A expressão \textit{Optical Character Recognition} definem uma tecnologia capaz de receber como entrada uma imagem - necessariamente com textos - e realizar a correta identificação ou reconhecimento (\textit{recognition}) dos textos presentes na imagem \cite{ocr-survey}.
+O que aparenta ser uma ideia recente e inovadora, na realidade o OCR surgiu ainda na década de 20 com a ideia de máquina de leitura, proposta e patenteada por \citeonline{first-ocr-reading-machine}. O estudo de tal máquina de leitura evoluiu e se propagou pelas décadas até atingir os algoritmos que são conhecidos atualmente.
 
+A expressão \textit{Optical Character Recognition} define uma tecnologia do ramo da computação visual capaz de receber como entrada uma imagem - necessariamente com textos - e realizar a correta identificação ou reconhecimento (\textit{recognition}) dos textos presentes na imagem \cite{ocr-survey}. Tal tecnologia deriva da capacidade humana de reconhecer e interpretar padrões presentes em um ou mais conjuntos de caracteres dos diversos alfabetos na humanidade e seus diversos formatos \cite{optical-char-recognition}. A partir dos caracteres identificados em uma image, os mesmos passam agora a ser uma mídia digital e são armazenados de uma maneira que possam ser utilizados em dispositivos informatizados.
+
+
+Esse reconhecimento dos caracteres presentes na imagem é feito por diversos cálculos matemáticos para a identificação de características pertencentes a cada caracter dentro de um alfabeto. Por se tratar de um problema muito complexo e não ser o
 \hl{CONTINUA...}
