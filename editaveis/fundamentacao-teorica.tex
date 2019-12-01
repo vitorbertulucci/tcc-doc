@@ -282,8 +282,33 @@ Desde muitos anos, esforços e pesquisas substanciais voltadas para o reconhecim
 
 O que aparenta ser uma ideia recente e inovadora, na realidade o OCR surgiu ainda na década de 20 com a ideia de máquina de leitura, proposta e patenteada por \citeonline{first-ocr-reading-machine}. O estudo de tal máquina de leitura evoluiu e se propagou pelas décadas até atingir os algoritmos que são conhecidos atualmente.
 
-A expressão \textit{Optical Character Recognition} define uma tecnologia do ramo da computação visual capaz de receber como entrada uma imagem - necessariamente com textos - e realizar a correta identificação ou reconhecimento (\textit{recognition}) dos textos presentes na imagem \cite{ocr-survey}. Tal tecnologia deriva da capacidade humana de reconhecer e interpretar padrões presentes em um ou mais conjuntos de caracteres dos diversos alfabetos na humanidade e seus diversos formatos \cite{optical-char-recognition}. A partir dos caracteres identificados em uma image, os mesmos passam agora a ser uma mídia digital e são armazenados de uma maneira que possam ser utilizados em dispositivos informatizados.
+A expressão \textit{Optical Character Recognition} define uma tecnologia do ramo da computação visual capaz de receber como entrada uma imagem - necessariamente com textos - e realizar a correta identificação ou reconhecimento (\textit{recognition}) dos textos presentes na imagem \cite{ocr-survey}. Tal tecnologia deriva da capacidade humana de reconhecer e interpretar padrões presentes em um ou mais conjuntos de caracteres dos diversos alfabetos na humanidade e seus diversos formatos \cite{optical-char-recognition}. A partir dos caracteres identificados em uma image, os mesmos passam agora a ser uma mídia digital e são armazenados de uma maneira que possam ser utilizados em dispositivos informatizados \cite{optical-char-recognition}. Um exemplo bastante comum da aplicação do OCR é a utilização dos mesmos para sistemas de multas para reconhecimento de placas carros.
 
+\begin{figure}[H]
+  \centering
+  \caption{Reconhecimento de caracteres em placas de carros em trânsito.}
+  \includegraphics[scale=0.4]{figuras/ocr-placa-carro.png}
+  \legend{Fonte: \citeonline{ocr-placa-carro}}
+  \label{fig:ocr-placa-carro}
+\end{figure}
 
-Esse reconhecimento dos caracteres presentes na imagem é feito por diversos cálculos matemáticos para a identificação de características pertencentes a cada caracter dentro de um alfabeto. Por se tratar de um problema muito complexo e não ser o
-\hl{CONTINUA...}
+\subsection{\textit{Tesseract}}
+
+Uma das tecnologias desenvolvidas com foco em reconhecimento de caracteres mais destacadas atualmente na comunidade de desenvolvimento de \textit{software} é o \textit{Tesseract}. Inicialmente desenvlovida pela empresa HP entre 1984 e 1994 e motivada pela qualidade ruim dos mecanismos de identificação de caracteres disponíveis no mercado na época \cite{tesseract-overview}, foi posta como código aberto para o uso por desenvolvedores em 2005 e atualmente encontra-se hospedada no Github\footnote{Plataforma de hospedagem e controle de versão de códigos de \textit{softwares}.}
+
+A arquitetura do \textit{Tesseract} segue uma tradicional \textit{pipeline}\footnote{
+  Na computação, o termo \textit{pipeline} define um conjunto de processamentos de dados conectados em série, onde a saída de um desses elementos de processamento é a entrada do próximo, sendo elas geralmente dependentes para o processamento ser executado adequadamente.
+}, explicada por \citeonline{tesseract-overview}. O primeiro passo consistem em identificar, em uma foto de entrada, aonde o texto passível de ser identificado está. Inicialmente custoso, essa etapa é uma vantagem para a identificação de texto preto em páginas brancas e separa essas áreas de texto em regiões menores, chamadas de \textit{blobs}, que são organizados entre linhas de texto. O segundo passo é separar as palávras de uma linha, a partir do tamanho do espaçamento dos caracteres.
+
+Com isso, inicia-se o terceiro passo, o de reconhecimento dos caracteres. Tal passo é dividido em duas etapas:
+
+\begin{itemize}
+  \item \textbf{Reconhecer cada palavra de uma vez:} cada palavra reconhecida satisfatoriamente passa para um classificador adaptativo como dado de treinamento. Com isso, o classificador recebe a chance de aumentar o reconhecimento de caracteres na medida que o reconhecimento percorre a imagem.
+  \item \textbf{Varredura da imagem:} baseando-se no classificador adaptativo, o segundo passo é garantir que, caso uma palavra tenha sido reconhecida satisfatoriamente muito tarde na imagem, esssa palavra possa ser melhor identificada nas linhas anteriores. Então, com o classificador adaptativo melhorado, percorre-se novamente a imagem desde o início na tentativa de melhorar a identificação das palavras. 
+\end{itemize}
+
+A biblioteca \textit{Tesseract} possui mais de 110 contribuidores da comunidade de \textit{software} livre e é evoluida diariamente por esses contribuidores. O \textit{Tesseract} também foi a tecnologia utilizada no projeto \citeonline{cnn-for-STF} e será utilizado como métrica para o presente trabalho.
+
+\ornament
+
+O completo entendimento de como o OCR funciona e quais seus principais mecanismos deriva de uma explicação bastante complexa e que facilmente poderia ser dividida em um outro projeto de conclusão de curso. Com isso, o entendimento simples de como ele funciona e uma simplificação de sua arquitetura são suficientes para o desenvolver do trabalho.
