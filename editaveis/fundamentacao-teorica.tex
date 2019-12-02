@@ -270,11 +270,56 @@ A alteração dos hiperparâmetros possui um enorme impacto na acurácia da rede
   \item \textbf{Algoritmo de otimização:} é o algoritmo que de fato determina os melhores pesos do modelo. Stochastic Gradient Descent, Nesterov Accelerated Gradient, AdaDelta e Adam são os mais comuns. A otimização surge para minimizar as funções de custo do modelo.
 \end{itemize}
 
-\section{Discriminativo vs Generativo} \label{ssec:generative-vs-discriminative}
+\section{Modelos Geradores} \label{ssec:generative-vs-discriminative}
 
-Em geral, quando ouve-se falar sobre o tema \textit{Machine Learning} naturalmente pensa-se como sendo um algoritmo que irá receber uma entrada de dados, gerar uma função matemática que se adeque aquele dado para que seja possível realizar uma classificação, seja ela binária como "Sim" \  e "Não" \  quanto uma de múltiplas categorias. Esse tipo de modelo são os chamados modelos discriminativos, que aprendem a mapear ou discriminar o dado de entrada em suas respectivas classes, ou seja, \(p(y | x)\) \cite{discriminative-vs-generative}.
+Em geral, quando ouve-se falar sobre o tema \textit{Machine Learning} naturalmente pensa-se como sendo um algoritmo que irá receber uma entrada de dados, gerar uma função matemática que se adeque aquele dado para que seja possível realizar uma classificação, seja ela binária como "Sim" \  e "Não" \  quanto uma de múltiplas categorias. Esse tipo de modelo são os chamados modelos discriminativos, que aprendem a mapear ou discriminar o dado de entrada em suas respectivas classes, ou seja, \(p(y | x)\) (probabilidade de $y$ dado $x$?) \cite{discriminative-vs-generative}.
 
-\hl{CONTINUA...}
+Porém, uma outra alternativa para o uso de ML e voltados para o aprendizado não-supervisionado são os chamados modelos geradores que basicamente fazem o oposto dos modelos discriminativos, ou seja, \(p(x | y)\) (como se consegue $x$?) \cite{deep-learning-book-br}. Com isso, é possível utilizar modelos geradores para gerar novas instâncias de dados e não simplesmente classifica-los em $a$ ou $b$. De maneira geral, todos os modelos geradores objetivam alcançar o dado real a partir de dados de treinamento para assim gerar novos dados com algumas variações. Porém, nem sempre essa distribuição é possível de ser alcançada e por isso, os modelos gerativos tentam, através de uma função matemática, gerar uma distribuição criada que seja o mais similar possível da distribuição real \cite{deep-generative-models}. Em uma imagem, por exemplo pode possuir milhares de pixels e o trabalho do modelo gerador é, de alguma maneira, capturar e identificar a dependência entre esses pixels \cite{variational-autoencoders}.
+
+Dos modelos gerativos mais conhecidos estão o \textit{Variational Autoencoders} (VAE) \cite{variational-autoencoders} e \textit{Generative Adversarial Networks} (GAN) \cite{generative-adversarial-networks}. Porém, em 2019 foi apresentada da conferência internacional F8 do Facebook projetos com modelos geradores como \textit{Decrappification}, \textit{DeOldification} e \textit{Super Resolution} \cite{f8-decrappification}.
+
+\subsection{\textit{Variational Autoenconders}}
+
+De acordo com o artigo por \citeonline{intro-to-autoencoders}, \textit{autoencoder} é uma Rede Neural Artificial para treinamento não-supervisionado que aprende como eficientemente comprimir e codificar (\textit{encode}) um dado para então aprender como reconstruir esse dado de volta a partir do dado codificado, para que esse se aproxime ao máximo do dado original. Eles, em sua concepção, reduzem a dimensão do dado aprendendo a ignorar o ruído pertencente ao dado \cite{intro-to-autoencoders}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Arquitetura simplificada do autoencoder utilizado no \textit{MNIST}.}
+  \includegraphics[scale=0.6]{figuras/mnist-autoencoder.png}
+  \legend{Fonte: MNIST.}
+  \label{fig:mnist-autoencoder}
+\end{figure}
+
+As principais características de um \textit{autoencoder} são:
+
+\begin{itemize}
+  \item \textbf{\textit{Encoder:}} reduz a dimensão do dado de entrada e o comprime para uma versão codificada;
+  \item \textbf{\textit{Bottleneck:}} camada que contém o dado com o menor número de dimensões possíveis depois de sua codificação representado por um vetor de dimensão $n$; 
+  \item \textbf{\textit{Decoder:}} reconstrói o dado a partir do dado codificado do \textit{bottleneck} para uma representação mais próxima do dado de entrada possível;
+  \item \textbf{Custo da reconstrução:} mede o quão bem o \textit{decoder} está realizando a atividade de decodificação do dado da camada de \textit{bottleneck} verificando o quão longe o dado gerado está quando comparado com o original.
+\end{itemize}
+
+Uma das aplicações comuns dos \textit{autoencoders} é a redução de ruídos na imagem \cite{intro-to-autoencoders}, algo bastante presente no trabalho a ser desenvolvido no presente documento.
+
+Diferentemente dos \textit{autoencoders} convencionais, os VAEs possuem, em sua etapa de \textit{bottleneck} não somente um vetor de tamanho $n$ mas dois vetores de tamanho $n$, um sendo o vetor de pontos de centro $\mu$ (\textit{mean}) e o vetor de derivações $\partial$ desses pontos \cite{variational-autoencoders}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Exemplo de uma distribuição de um dado em um VAE.}
+  \includegraphics[scale=0.4]{figuras/variational-autoencoders.png}
+  \legend{Fonte: \citeonline{understanding-VAEs}}
+  \label{fig:variational-autoencoders}
+\end{figure}
+
+Intuitivamente, o vetor $\mu$ controla onde no espaço um ponto codificado se encontra e o vetor $\partial$ controla a área em que esse ponto pode variar em sua distribuição, como mostra na figura \ref{fig:variational-autoencoders}. Isso permite que o decodificador não só consiga mapear valores fixos para um certo dado codificado mas também uma pequena variação, dando uma maior generalização do \textit{decoder} e consequentemente do resultado do \textit{autoencoder} como um todo \cite{variational-autoencoders}.
+
+\subsection{GAN}
+
+O conceito de GAN surgiu com \citeonline{generative-adversarial-networks} com o intuito de melhorar a qualidade dos modelos geradores adicionando duas redes neurais adversárias (daí surge-se o \textit{Adversarial}) em uma constante disputa. De um lado se tem uma rede neural que recebe como entrada um dado com ruído e sua saída é um dado que tenta imitar o dado real. Por outro lado, tem-se outra rede neural que recebe esse dado gerado e tenta classificá-lo entre "É real" e "Não é real", baseando-se no conjunto de dados para treinamento. Com isso, a rede geradora tenta "enganar" a rede discriminativa e a rede discriminativa tenta ficar mais complexa ainda de ser enganada \cite{generative-adversarial-networks}. O resultado da predição do discriminativo é utilizado para ajustar os pesos de ambas as redes neurais e assim, conseguir gerar uma imagem que engane suficientemente a rede discriminativa.
+
+
+
+\subsection{\textit{Decrappification}, \textit{DeOldification} e \textit{Super Resolution}}
 
 \section{\textit{Optical Character Recognition}}
 
