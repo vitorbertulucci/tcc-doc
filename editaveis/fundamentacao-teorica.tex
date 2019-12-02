@@ -276,7 +276,7 @@ Em geral, quando ouve-se falar sobre o tema \textit{Machine Learning} naturalmen
 
 Porém, uma outra alternativa para o uso de ML e voltados para o aprendizado não-supervisionado são os chamados modelos geradores que basicamente fazem o oposto dos modelos discriminativos, ou seja, \(p(x | y)\) (como se consegue $x$?) \cite{deep-learning-book-br}. Com isso, é possível utilizar modelos geradores para gerar novas instâncias de dados e não simplesmente classifica-los em $a$ ou $b$. De maneira geral, todos os modelos geradores objetivam alcançar o dado real a partir de dados de treinamento para assim gerar novos dados com algumas variações. Porém, nem sempre essa distribuição é possível de ser alcançada e por isso, os modelos gerativos tentam, através de uma função matemática, gerar uma distribuição criada que seja o mais similar possível da distribuição real \cite{deep-generative-models}. Em uma imagem, por exemplo pode possuir milhares de pixels e o trabalho do modelo gerador é, de alguma maneira, capturar e identificar a dependência entre esses pixels \cite{variational-autoencoders}.
 
-Dos modelos gerativos mais conhecidos estão o \textit{Variational Autoencoders} (VAE) \cite{variational-autoencoders} e \textit{Generative Adversarial Networks} (GAN) \cite{generative-adversarial-networks}. Porém, em 2019 foi apresentada da conferência internacional F8 do Facebook projetos com modelos geradores como \textit{Decrappification}, \textit{DeOldification} e \textit{Super Resolution} \cite{f8-decrappification}.
+Dos modelos gerativos mais conhecidos estão o \textit{Variational Autoencoders} (VAE) \cite{variational-autoencoders} e \textit{Generative Adversarial Networks} (GAN) \cite{generative-adversarial-networks}. Porém, em 2019 foi apresentada da conferência internacional F8 do Facebook projetos com modelos geradores como \textit{Decrappification} \cite{f8-decrappification}.
 
 \subsection{\textit{Variational Autoenconders}}
 
@@ -317,9 +317,38 @@ Intuitivamente, o vetor $\mu$ controla onde no espaço um ponto codificado se en
 
 O conceito de GAN surgiu com \citeonline{generative-adversarial-networks} com o intuito de melhorar a qualidade dos modelos geradores adicionando duas redes neurais adversárias (daí surge-se o \textit{Adversarial}) em uma constante disputa. De um lado se tem uma rede neural que recebe como entrada um dado com ruído e sua saída é um dado que tenta imitar o dado real. Por outro lado, tem-se outra rede neural que recebe esse dado gerado e tenta classificá-lo entre "É real" e "Não é real", baseando-se no conjunto de dados para treinamento. Com isso, a rede geradora tenta "enganar" a rede discriminativa e a rede discriminativa tenta ficar mais complexa ainda de ser enganada \cite{generative-adversarial-networks}. O resultado da predição do discriminativo é utilizado para ajustar os pesos de ambas as redes neurais e assim, conseguir gerar uma imagem que engane suficientemente a rede discriminativa.
 
+\begin{figure}[H]
+  \centering
+  \caption{Simplificação da arquitetura de uma rede GAN.}
+  \includegraphics[scale=0.5]{figuras/gans.png}
+  \legend{Fonte: Desconhecida.}
+  \label{fig:gans}
+\end{figure}
+
+Os avanços nos modelos de redes GAN vem se mostrando bastante promissores, principalmente pelos estudos desenvolvidos pelos engenheiros da NVIDIA. Em alguns de seus experimentos, construiu-se redes GAN para, a partir de uma imagens de animais, é possível criar animais nunca vistos antes e que se assemelham muito fielmente à animais existentes \cite{gans-on-animals}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Criação de imagens de animais utilizando GAN.}
+  \includegraphics[scale=0.8]{figuras/gans-on-animals.jpg}
+  \legend{Fonte: \citeonline{gans-on-animals}}
+  \label{fig:gans-on-animals}
+\end{figure}
 
 
-\subsection{\textit{Decrappification}, \textit{DeOldification} e \textit{Super Resolution}}
+\subsection{\textit{Decrappification}}
+
+Mesmo atingindo marcos históricos na evolução dos modelos geradores, as redes GAN sofrem de um problema bastante inerente em suas arquiteturas: o custo de treinamento e a sensibilidade na alteração dos hiperparâmetros \cite{f8-decrappification}. Com isso, a equipe do \href{fast.ai}{fast.ai} iniciou um projeto de utilizar o \textit{transfer learning}\footnote{Capacidade de transferir os pesos ajustados de uma rede neural para outra, independente de suas diferentes aplicabilidades.} em modelos geradores para minimizar a correção dos pesos e calculos de funções de custo \cite{f8-decrappification}.
+
+Com isso, a partir de um \textit{dataset} de fotos de animais e piorando-as (o que foi chamado de "\textit{crappify}" ou "piorar" as imagens), reduzindo dimensionalidade, adicionando artefatos na imagem como textos randômicos, etc, treinou-se então um modelo de "\textit{decrappify}" que conseguisse retornar as imagens ruims geradas pelo "\textit{crappify}" para o seu estado original \cite{f8-decrappification}. Utilizando o \textit{transfer learning} em uma rede de arquitetura U-net \cite{u-net}, percebeu-se que mesmo sem o uso de uma rede GAN e com um tempo consideravelmente mais baixo do que um treinamento de uma \textit{Adversarial Network}, foi possível encontrar resultados bastante animadores no que diz respeito a modelos geradores.
+
+\begin{figure}[H]
+  \centering
+  \caption{Imagem de baixa resolução (esquerda) imagem gerada a partir do \textit{decrrappification} (direita).}
+  \includegraphics[scale=0.3]{figuras/cats-decrappify.png}
+  \legend{Fonte: \citeonline{f8-decrappification}}
+  \label{fig:cats-decrappify}
+\end{figure}
 
 \section{\textit{Optical Character Recognition}}
 
@@ -329,7 +358,7 @@ O que aparenta ser uma ideia recente e inovadora, na realidade o OCR surgiu aind
 
 A expressão \textit{Optical Character Recognition} define uma tecnologia do ramo da computação visual capaz de receber como entrada uma imagem - necessariamente com textos - e realizar a correta identificação ou reconhecimento (\textit{recognition}) dos textos presentes na imagem \cite{ocr-survey}. Tal tecnologia deriva da capacidade humana de reconhecer e interpretar padrões presentes em um ou mais conjuntos de caracteres dos diversos alfabetos na humanidade e seus diversos formatos \cite{optical-char-recognition}. A partir dos caracteres identificados em uma image, os mesmos passam agora a ser uma mídia digital e são armazenados de uma maneira que possam ser utilizados em dispositivos informatizados \cite{optical-char-recognition}. Um exemplo bastante comum da aplicação do OCR é a utilização dos mesmos para sistemas de multas para reconhecimento de placas carros.
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \caption{Reconhecimento de caracteres em placas de carros em trânsito.}
   \includegraphics[scale=0.4]{figuras/ocr-placa-carro.png}
