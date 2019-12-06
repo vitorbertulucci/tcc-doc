@@ -37,7 +37,7 @@ Com os dados separados em um diretório específico, iniciou-se a etapa de extra
 A extração de imagem a partir do PDF é feita utilizando um algoritmo de software livre desenvolvido em Python, chamado de \textit{pdf2image}. Ele recebe como entrada um PDF e é possível definir qual ou quais páginas do PDF deseja-se extrair, permitindo assim a geração do \textit{dataset} de imagens de processos.
 
 \subsection{Aplicação de filtros}
-Para a criação de um modelo generativo que consiga diminuir os ruídos de imagens, é preciso utilizar como dado de entrada imagens que possuam tais características - ruídos. Das 354 mil páginas dos PDFs disponíveis, fazer a separação de todas elas para a identificação de imagens ruins deria um trabalho bem complexo e que diminuiria o tempo disponível para o desenvolvimento do presente trabalho. Com isso, adotou-se a heurística de que todas as fotos que tiveram texto extraído via OCR (tabela \ref{tab:csv-diff}) seriam "pioradas" aplicando um conjunto de filtro de imagens de diferentes tipos.
+Para a criação de um modelo generativo que consiga diminuir os ruídos de imagens, é preciso utilizar como dado de entrada imagens que possuam tais características - ruídos. Das 354 mil páginas dos PDFs disponíveis, fazer a separação de todas elas para a identificação de imagens ruins deria um trabalho bem complexo e que diminuiria o tempo disponível para o desenvolvimento do presente trabalho. Com isso, adotou-se a heurística de que todas as fotos que tiveram texto extraído via OCR (tabela \ref{tab:csv-diff}) seriam "pioradas" \  aplicando um conjunto de filtro de imagens de diferentes tipos.
 
 Um filtro de imagem é um algoritmo ou rotina de software que consegue alterar de forma fixa ou aleatória os valores dos pixels contidos em uma imagem. Com isso, é possível criar uma lógica que tente simular imagens escaneadas de maneira automatizada, aplicando sombreamento, borrões, manchas, distorções, etc.
 
@@ -62,7 +62,7 @@ Um filtro de imagem é um algoritmo ou rotina de software que consegue alterar d
 \end{figure}
 
 Existem diversas bibliotecas já implementadas em Python que possibilitam a aplicação de filtros em imagens. As utilizadas foram: \textit{ImageFilter} da biblioteca \textit{Python Imaging Library} e \textit{imgaug}, biblioteca de \textit{data augmentation}\footnote{
-  Processo de transformação do dado que permite que seu tamanho cresca, fornecendo assim mais insumos ou entradas de dados disponíveis em um processo de treinamento.
+  Processo de transformação do dado que permite que seu volume ou amostra cresça, fornecendo assim mais insumos ou entradas de dados disponíveis em um processo de treinamento de algoritmo.
 }. Alguns filtros foram de origem autoral.
 
 Abaixo, listam-se todos os filtros utilizados e estudados para o presente processamento de imagem.
