@@ -1,10 +1,10 @@
-\chapter[Materiais e métodos]{Materiais e métodos}
+\chapter[Materiais e métodos]{Materiais e métodos} \label{chap:materials-and-methods}
 
 Tendo entendido os conceitos básicos para o entendimento da abordagem do trabalho e toda sua problemática, deve-se então entender melhor como será desenvolvido o trabalho e como a metodologia foi estruturada. Portanto, o presente capítulo visa mostrar os materiais e metodologia visando clarear e demonstrar, desde a identificação do dado a ser utilizado, como será o processo para a geração de modelos de IA, bem como os insumos utilizados e as métricas de validação identificadas.
 
 \section{O dado} \label{sec:dataset}
 
-Como dito, existem diversos tipos de áreas de desenvolvimento que caracterizam a Inteligência Artificial. A área de \textit{machine learning} é caracterizada pela capacidade da máquina aprender a partir de experiências com o dado, por isso deve-se dar uma enorme importância para a qualidade do dado para conseguir resolver problemas com ML, mais ainda para \textit{Deep Learning}. Para ser possível a construção de um modelo que visa testar a hipótese de estudo em questão, seria necessário realizar o levantamento de um conjunto de dados em formato de texto, em português, que fosse possível alimentar o modelo a ser criado.
+Como dito, existem diversos tipos de áreas de desenvolvimento inseridos no termo Inteligência Artificial. A área de \textit{machine learning} é caracterizada pela capacidade da máquina aprender a partir de experiências com o dado, por isso deve-se dar uma enorme importância para a qualidade do dado para conseguir resolver problemas com ML, mais ainda para \textit{Deep Learning}. Para ser possível a construção de um modelo que visa testar a hipótese de estudo em questão, seria necessário realizar o levantamento de um conjunto de dados em formato de texto, em português, que fosse possível alimentar o modelo a ser criado.
 
 O Grupo de Pesquisa em Aprendizado de Máquina (GPAM) da Universidade de Brasília desenvolveu em 2018 um projeto de pesquisa que visa realizar a classificação das repercussões gerais do Supremo Tribunal Federal (STF) \cite{cnn-for-STF}. Para essa classificação, o projeto precisava realizar a extração de informações dos textos das decisões judiciais do STF, sendo essas possuindo documentos digitais tanto formulados digitalmente, manuscritos e/ou escaneados. Tal conjunto de dados foi fornecido para o presente trabalho de conclusão a fim de facilitar o processo de aquisição dos mesmos por meio de \textit{crawlers}\footnote{
   \textit{Crawlers} ou \textit{web crawlers} são tecnologias que possibilitam a extração de informações disponíveis em sites da Internet de maneira organizada para possibilitar o consumo desses dados para desenvolvimento de algoritmos. Bastante comum para criação de base de dados de ML.
@@ -21,7 +21,6 @@ Foram fornecidos 89.578 processos do Supremo Tribunal Federal em formato PDF, co
 
 
 No projeto desenvolvido, o GPAM realizou um conjunto de extrações e formatações dos documentos para facilitar o trabalho a partir de uma etapa de processamento.
-\\
 
 \begin{figure}[H]
   \centering
@@ -65,180 +64,13 @@ Nesse processamento, uma das etapas consistiu em verificar se a página do docum
 
 É importante notar que os campos \textit{process\_id} e \textit{document\_id} se repetem no CSV mas a junção de ambos juntamente com a \textit{page\_number} identificam unicamente a página dentro do PDF.
 
-\subsection{Tratamento e formação do \textit{dataset}}
-
-Por se tratar de uma problemática diferente do GPAM, foi preciso consumir o que foi fornecido e gerar novos dados que se encaixem melhor para a solução. Para tal, criou-se um conjunto de algoritmos para pegar os dados e realizar essa adequação no formato de uma \textit{pipeline}, com etapas de separação de documentos que possuem páginas que necessitam de OCR, extração de imagem a partir de PDF, criação de filtros de imagem e extração de informação de imagem utilizando o OCR.
-\\
-
-\begin{figure}[H]
-  \centering
-  \caption{Processo para a criação de \textit{dataset}.}
-  \includegraphics[width=\linewidth, rotate=0]{figuras/crappy-flow-diagram.png}
-  \legend{Fonte: autoral}
-\end{figure}
-
-\subsubsection{Separação de documentos}
-O conjunto de PDFs fornecidos como dados estavam todos juntos em um único diretório no disco, sem a correta divisão de qual era o dado contido no PDF. O CSV fornecido pelo GPAN e os itens descritos na tabela \ref{tab:csv-details} fazem referência a todas as páginas desses PDFs e possui também o seu conteúdo, sendo eles extraídos por meio de OCR ou não, como mostra a figura \ref{fig:gpan-pipeline}. Porém como o foco do trabalho é realizar estudos sobre a qualidade do OCR, decidiu-se por separar o dado entre os que foram extraídos utilizando OCR dos que não foram.
-
-Para isso, gerou-se um novo CSV apenas com os registros de páginas cujo necessitou-se do OCR em sua extração e criou-se também um diretório para armazenar apenas os PDFs que possuíam páginas não-selecionáveis. Dos 89.578 arquivos, existem cerca de 354.501 páginas somadas, sendo essas:
-
-\begin{table}[H]
-  \centering
-  \caption{Divisão de páginas dos PDFs.}
-  \begin{tabular}{|m{10em}|c|}
-    \hline
-      \textbf{Tipo}  &
-      \textbf{Quantidade} \\
-    \hline
-      Necessita de OCR  &
-      80.624 \\
-    \hline
-      Não necessita de OCR  &
-      273.877 \\
-    \hline
-      \textbf{TOTAL}  &
-      \textbf{354.501} \\
-    \hline
-  \end{tabular}
-  \legend{Fonte: autoral}
-  \label{tab:csv-diff}
-\end{table}
-
-\subsubsection{Extração de imagem do PDF}
-Com os dados separados em um diretório específico, iniciou-se a etapa de extração de imagem a partir dos documentos em formato PDF dos processos. Utilizou-se também informações do CSV (tabela \ref{tab:csv-details}) para selecionar a página específica do documento a qual o OCR foi utilizado, diminuindo assim o tempo de processamento por documento.
-
-A extração de imagem a partir do PDF é feita utilizando um algoritmo de software livre desenvolvido em Python, chamado de \textit{pdf2image}. Ele recebe como entrada um PDF e é possível definir qual ou quais páginas do PDF deseja-se extrair, permitindo assim a geração do \textit{dataset} de imagens de processos.
-
-\subsubsection{Aplicação de filtros}
-Para a criação de um modelo generativo que consiga diminuir os ruídos de imagens, é preciso utilizar como dado de entrada imagens que possuam tais características - ruídos. Das 354 mil páginas dos PDFs disponíveis, fazer a separação de todas elas para a identificação de imagens ruins deria um trabalho bem complexo e que diminuiria o tempo disponível para o desenvolvimento do presente trabalho. Com isso, adotou-se a heurística de que todas as fotos que tiveram texto extraído via OCR (tabela \ref{tab:csv-diff}) seriam "pioradas" aplicando um conjunto de filtro de imagens de diferentes tipos.
-
-Um filtro de imagem é um algoritmo ou rotina de software que consegue alterar de forma fixa ou aleatória os valores dos pixels contidos em uma imagem. Com isso, é possível criar uma lógica que tente simular imagens escaneadas de maneira automatizada, aplicando sombreamento, borrões, manchas, distorções, etc.
-
-
-\begin{figure}[H]
-  \centering
-  \caption{Diferença entre uma foto original e uma com filtro}
-  \begin{subfigure}{.5\textwidth}
-    \centering
-    \caption{Foto sem filtro}
-    \includegraphics[width=0.8\linewidth]{figuras/good-text-image.jpg}
-    \label{fig:image-without-filter}
-  \end{subfigure}%
-  \begin{subfigure}{.5\textwidth}
-    \centering
-    \caption{Foto com filtro aplicado}
-    \includegraphics[width=0.8\linewidth]{figuras/image-with-overlay.jpg}
-    \label{fig:image-with-filter}
-  \end{subfigure}
-  \legend{Fonte: autoral}
-  \label{fig:side-process-images}
-\end{figure}
-
-Existem diversas bibliotecas já implementadas em Python que possibilitam a aplicação de filtros em imagens. As utilizadas foram: \textit{ImageFilter} da biblioteca \textit{Python Imaging Library} e \textit{imgaug}, biblioteca de \textit{data augmentation}\footnote{
-  Processo de transformação do dado que permite que seu tamanho cresca, fornecendo assim mais insumos ou entradas de dados disponíveis em um processo de treinamento.
-}. Alguns filtros foram de origem autoral.
-
-Abaixo, listam-se todos os filtros utilizados e estudados para o presente processamento de imagem.
-
-\begin{table}[H]
-  \centering
-  \caption{Descrição dos filtros utilizadosverbo tesselar.}
-  \begin{tabular}{|m{.25\linewidth}|m{.1\linewidth}|m{.55\linewidth}|}
-    \hline
-      \textbf{Nome}  &
-      \textbf{Fonte}  &
-      \textbf{Descrição} \\
-    \hline
-      EDGE\_ENHANCE  &
-      PIL  &
-      Aumenta o contraste dos píxels ao redor de bordas para que essas bordas se destaquem mais do que os demais elementos da foto  \\
-    \hline
-      CONTOUR  &
-      PIL  &
-      Similar ao EDGE\_ENHANCE mas com maior intensidade \\
-    \hline
-      RandomOverlay  &
-      autoral  &
-      Cria formas gerométricas randômicas e transparentes e as coloca acima da imagem original, dando a impressão de manchas. A posição das formas também é randômica. \\
-    \hline
-      PerspectiveTransform  &
-      \textit{imgaug}  &
-      Aplica randomicamente transformações de 4 pontos de perspectiva, dando uma ideia de "lupa" para algus pontos da imagem \\
-    \hline
-      SaltAndPepper  &
-      \textit{imgaug}  &
-      Substitui píxels randômicos da imagem por píxel de sal (cor branca) e pimenta (cor preta) \\
-    \hline
-      GammaContrast  &
-      \textit{imgaug}  &
-      Ajusta o contraste da imagem escalando os píxels da imagem em um valor calculado por \(x = 255(\frac{v}{255})^{\gamma}\), onde $\gamma$ é um parâmetro da função entre $0$ a $1$ e $v$ é o antigo valor do píxel \\
-    \hline
-      JpegCompression  &
-      \textit{imgaug}  &
-      Degrada a imagem aplicando uma compressão de JPEG, diminuindo sua qualidade \\
-    \hline
-      Dropout  &
-      \textit{imgaug}  &
-      Randomicamente coloca uma fração de pixels da imagem para o valor 0 \\
-    \hline
-      Affine  &
-      \textit{imgaug}  &
-      Aplica transformações na imagem mas mantém relações de colinearidade e distância. Geralmente composta por rotações, translações e dilatações das formas presentes na imagem. \\
-    \hline
-  \end{tabular}
-  \legend{Fonte: autoral}
-  \label{tab:sdas}
-\end{table}
-
-As tecnologias de OCR disponíveis, como o Tesseract, em geral são muito sensíveis e aplicar todos esses filtros em uma única imagem impede que o OCR identifique caracteres nas mesmas. Com isso, é preciso escolher randomicamente entre os filtro listados, podendo aplicar um ou mais deles, mas nunca podendo aplicar todos de uma só vez.
-
-O processo seguido para a criação de imagens ruins foi de que, para cada uma imagem boa, gera-se uma imagem ruim. Isso se dá pela alta quantidade de imagens disponíveis para treinamento, visto que se for necessário o consumo de mais imagens para treinamento na etapa de geração do modelo, é possível utilizar de \textit{data augmentation} para ampliar a base de dados.
-
-\begin{figure}[H]
-  \centering
-  \caption{Geração de imagens atual vs geração com \textit{data augmentation}}
-  \includegraphics[scale=.6]{figuras/data-augmentation.png}
-  \legend{Fonte: autoral}
-  \label{fig:data-augmentation}
-\end{figure}
-
-\subsubsection{Extração de texto via OCR}
-
-Para a extração de caracteres utilizando o OCR, fez-se o uso da tecnologia desenvolvida Tesseract, que atualmente conegue identificar e reconhecer mais de 100 idiomas por meio da configuração \textit{unicode}\footnote{
-  Padrão que permite que os sistemas informatizados representem e manipulem textos de quaisquer idiomas de escrita que existem na atualidade. Fonte: Wikipedia.
-}. Para tal, configura-se o Tesseract com a extensão para a lingua portuguesa, já disponível pela comunidade para uso.
-
-Todo o texto extraído é armazenado em um CSV de saída que identifica qual o processo, documento e página que a extração foi feita. Isso depois servirá como base para a verificação e métrica para a comparação entre o texto extraído de uma página limpa para uma página com ruídos.
-
-\section{Método proposto}
-
-Para a criação de qualquer projeto científico deve-se seguir ou criar um método de trabalho que possibilite a construção de uma solução que consiga mostrar, de maneira clara e objetiva, o trabalho realizado para a comprovação, validação ou invalidação da hipótese apresentada.
-
-Portanto, no presente projeto desenvolveu-se uma metodologia que possibilite validar se um modelo gerador de ML consegue melhorar a qualidade do OCR de fotos ruins. Tal método é dividido em 4 (quatro) grandes frentes que vão desde trabalho e curadoria do dado até a análise de métricas de qualidade de OCR. Essas frentes são: geração de \textit{dataset}, extração de OCR de imagens ruins, gerador de imagens e métricas de qualidade de OCR. As duas primeiras delas foram anteriormente detalhadas na sessão \ref{sec:dataset}. As duas etapas finais e não menos importantes serão detalhadas na sequência.
-
-\subsection{Gerador de Imagens}
-
-Essa etapa consistem em desenvolver um modelo de IA que receba como entrada uma imagem ruim e gere uma nova imagem nunca vista antes. Essa imagem é gerada a partir de uma Rede Neural Convolucional, como já foi citado na seção \ref{ssec:generative-vs-discriminative}.
-
-\begin{figure}[H]
-  \centering
-  \caption{Simulação de geração de imagem a partir de modelo Gerador}
-  \includegraphics[scale=0.6]{figuras/image-generation.png}
-  \legend{Fonte: autoral}
-  \label{fig:image-generation}
-\end{figure}
-
-Tendo uma nova imagem gerada e todas as informações necessárias identificadas previamente, como OCR das imagens boas e ruins, adiciona-se uma camada de extração de texto das imagens geradas pelo modelo Gerador e as adiciona no CSV contendo as extrações anteriores. Com isso, tem-se agora o insumo necessário para a criação de uma métrica de validação da hipótese.
-
-\subsection{Métrica de melhorias do OCR}
-
-Basicamente, para se conseguir alcançar o objetivo proposto do presente trabalho, seria necessário ter extrações de caracteres de uma imagem boa, uma imagem ruim e de uma imagem nunca antes vista, gerada pelo modelo de IA. Com todas as etapas anteriores a essa realizando as devidas ações, permite-se então que as métricas de qualidade do OCR dos modelos gerados sejam extraídas, visto que as informações estão disponíveis.
+\section{A métrica}
 
 A métrica a ser utilizada deve ser capaz de realizar a comparção do OCR da imagem original entre a imagem com ruído com o OCR da imagem original entre a imagem gerada. Para provar a hipótese em questão, se for validada, a métrica de comparação deve dizer que o OCR da imagem gerada está mais próximo do que o da imagem com ruídos, provando assim a geração de uma imagem melhor do que a imagem ruim. Com isso em mente, deve-se considerar métricas de análise e comparação de texto puro, ignorando as métricas de performance de OCR que visam analizar a qualidade do algoritmo de segmentação e extração de texto de imagem.
 
-Nos sistemas de sumarização de texto, processo pelo qual gera-se um texto a partir de outro utilizando \textit{Machine Learning}, tradicionalmente envolve' julgamentos humanos de diferentes métricas de qualidade para a identificação de coesão, coerência, concisão, gramática, etc \cite{automatic-summarization}, o que acaba sendo muito custoso para realizar isso manualmente. Com isso, \citeonline{rouge-metric} propôs uma nova métrica que tentasse realizar esse tipo de avaliação de maneira automatizada, chamada \textit{Recall-Oriented Understudy for Gisting Evaluation} (ROUGE). Esse método de avaliação possui quatro (4) diferentes maneiras de se avaliar a diferença de um texto original ao gerado pela sumarização. Porém, alguns desses são utilizados quando se tem dois textos de sumarização gerados sendo comparados com o texto original ou que permite uma "falha" entre uma sumarização sem perder a informação geral, o que foge um pouco do escopo e da ideia apresentada. Os que serão utilizados são mostrados a seguir.
+Nos sistemas de sumarização de texto, processo pelo qual gera-se um texto a partir de outro utilizando \textit{Machine Learning}, tradicionalmente envolve julgamentos humanos de diferentes métricas de qualidade para a identificação de coesão, coerência, concisão, gramática, etc \cite{automatic-summarization}, o que acaba sendo muito custoso para realizar isso manualmente. Com isso, \citeonline{rouge-metric} propôs uma nova métrica que tentasse realizar esse tipo de avaliação de maneira automatizada, chamada \textit{Recall-Oriented Understudy for Gisting Evaluation} (ROUGE). Esse método de avaliação possui quatro (4) diferentes maneiras de se avaliar a diferença de um texto original ao gerado pela sumarização. Porém, alguns desses são utilizados quando se tem dois textos de sumarização gerados sendo comparados com o texto original ou que permite uma "falha" entre uma sumarização sem perder a informação geral, o que foge um pouco do escopo e da ideia apresentada. Os que serão utilizados são mostrados a seguir.
 
-\subsubsection{ROUGE-N: N-Grama de Co-Ocorrência}
+\subsection{ROUGE-N: N-Grama de Co-Ocorrência}
 Essa métrica é capaz de identificar a ocorrência de n-gramas repetidos entre um texto candidato (gerado) e um texto referência. Um n-grama é um conjunto de palavras, onde 1-grama agrupa uma única palavra (unigrama), 2-grama define um grupo de duas palávras (bigrama), etc. Tal métrica é calculada da seguinte maneira:
 
 \begin{gather}
@@ -250,7 +82,7 @@ Onde $n$ é o tamanho do n-grama $gram_n$, $match(gram_{s,})$ é o número máxi
 
 Essa é a métrica mais indicada para a comparação de sobreposição de n-gramas.
 
-\subsubsection{ROUGE-L: Maior Subsequência Comum}
+\subsection{ROUGE-L: Maior Subsequência Comum}
 
 Essa métrica, do inglês \textit{Longest Common Subsequence} ou LCS diz que, dada duas sequências $X$ e $Y$, a maior subsequência comum (LCS) de $X$ e $Y$ é uma subsequência\footnote{
   A sequência \(Z = [z_1, z_2, ..., z_n]\) é uma
@@ -277,18 +109,130 @@ Onde \(LCS(X, Y)\) é o tamanho da maior subsequência comum entre $X$ e $Y$, \(
 
 Por se tratarem de métricas de análise de texto, tendo como base o texto original, pode-se fazer uma analogia ao problema tratado no presente trabalho, onde realiza-se a comparação entre o texto extraído de um OCR tanto de uma imagem boa (original) quanto de imagens ruins e imagens geradas. Portanto, essa será a métrica de avaliação utilzada na etapa de validação da hipótese.
 
-% Para a extração de informação de uma imagem utilizando OCR, primeiro realiza-se um processo de segmentação na imagem para a identificação de áreas onde o texto se encontra. A partir dessa segmentação, extrai-se o texto daquela região segmentada em especifico \cite{metrics-for-ocr-performance}, permitindo então que o processo de reconhecimento das informações possa ser extraído por caracter, palavra ou linha.
+\section{Método proposto}
 
-% Porém, o processo de sementação da imagem pode ser o responsável pelo impedimento ou pela má qualidade da identificação do OCR. Esse tipo de erro pode ser uma separação (do inglês \textit{split}) ou mesclagem (do inglês \textit{merge}), tanto entre palavras de uma linha (horizontal) quanto entre duas linhas (vertical), o que caracterizam 4 tipos de erros de segmentação \cite{metrics-for-ocr-performance}, sendo eles:
-% \begin{itemize}
-%   \item Mesclagem horizontal (HM)
-%   \item Separação horizontal (HS)
-%   \item Mesclagem vertical (VM)
-%   \item Separação vertical (VS)
-% \end{itemize}
+Para a criação de qualquer projeto científico deve-se seguir ou criar um método de trabalho que possibilite a construção de uma solução que consiga mostrar, de maneira clara e objetiva, o trabalho realizado para a comprovação, validação ou invalidação da hipótese apresentada.
 
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[scale=0.55]{figuras/ocr-segmentation-error.png}
-%   \caption{Tipos de erros de segmentação de imagem para apliações de OCR.}
-% \end{figure}
+Portanto, no presente projeto desenvolveu-se uma metodologia que possibilite validar se um modelo gerador de ML consegue melhorar a qualidade do OCR de fotos ruins. Tal método é dividido diferentes frentes que vão desde trabalho e curadoria do dado até a análise de métricas de qualidade de OCR, permitindo assim a comparação dos diferentes resultados encontrados pelos modelos de IA criados.
+
+\subsection{Geração de \textit{dataset}}
+
+Essa etapa consiste em relizar uma análise sobre os dados fornecidos pelo GPAM para que seja possível, considerando a diferente problemática pelo qual o dado já foi utilizado, construir uma base de dados sólida e que seja adequada ao problema em questão. Tal etapa será dividida em 4 (quatro) vertentes, sendo essas mais detalhadas em sequência, melhor identificados na figura \ref{fig:crappy-flow-diagram}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Processo para a criação de \textit{dataset}.}
+  \includegraphics[width=\linewidth, rotate=0]{figuras/crappy-flow-diagram.png}
+  \legend{Fonte: autoral}
+  \label{fig:crappy-flow-diagram}
+\end{figure}
+
+O principal objetivo da presente fase da metodologia é conseguir criar imagens \textit{crappy}, ou seja, fotos que sofreram um processamento de imagem para piorar sua qualidade com diferentes tipos de aplicação de filtros e que consequentemente dificultam - não impossibilitando - o trabalho do algoritmo de reconhecimento de caracteres.
+
+
+\subsubsection{Separação de documentos} \label{sssec:documents-split}
+
+Nessa etapa, recebe-se como entrada a pasta com todos os PDFs fornecidos pelo GPAM e o principal objetivo dela é conseguir extrair e identificar algumas características sobre o dado a ser trabalhado.
+
+Aqui, será possível identificar, dentro da amostra de dados, quais serão os PDFs que possuem páginas que necessitam de extração via OCR para assim separar os mesmos entre "necessitam de OCR" \  e "não necessitam de OCR". Aqueles processos que não necessitarem de OCR para a extração de conteúdo serão inicialmente ignorados no presente trabalho, sendo utilizados apenas na possível identificação de necessidade de mais dados para treinamento.
+
+
+\subsubsection{Extração de imagem do PDF}
+
+Obtendo os PDFs que necessitam de OCR a partir do processamento na etapa \ref{sssec:documents-split}, será possível realizar a extração das páginas específicas dentro do PDF que necessitam da extração com o reconhecimento de caracteres. Com isso, propõe-se o uso da tecnologia \textit{pdf2image}, biblioteca implementada em Python que possibilita tal atividade.
+
+Essa ferramenta possibilita criar uma imagem a partir de uma página de PDF, funcionando como um \textit{scanner}, mantendo a qualidade da página do PDF, incluindo suas cores e tamanho.
+
+A saída dessa etapa consistirá em todas as fotos necessárias para a criação de imagens \textit{crappy}, descritas na sequência.
+
+
+\subsubsection{Aplicação de filtros}
+
+Obtendo todas as imagens de páginas que precisam de OCR para a extração de conteúdo, será então iniciada a etapa de "\textit{crappify}" \  de imagens, ou seja, transformar imagens de boa qualidade em imagens ruins.
+
+Para a realização dessa transformação e geração de imagens \textit{crappy}, serão estudados métodos que possibilitem, a partir de processamento de imagem, aplicar ruídos, reduzir qualidade, sombreados, etc, para que seja possível simular imagens escaneadas de pior qualidade que são vistas diariamente pelos trabalhadores da área jurídica.
+
+Tendo identificado e levantado as bibliotecas que possibilitem a geração de imagens ruins, bem como a criação de algoritmos autorais para tal, será proposta uma \textit{pipeline} "\textit{crappier}" \  de imagens, para que seja possível a criação das imagens \textit{crappy}.
+
+
+\subsubsection{Extração via OCR de imagens \textit{crappy}}
+
+Para que seja possível criar uma métrica que sirva para a verificação da qualidade do OCR, deve-se ter tando extrações de textos de imagens boas e ruins que possibilite comparar ambas as extrações. Com isso, a partir das imagens a serem criadas na etapa anterior, será possível realizar a extração de texto das imagens ruins.
+
+Nessa etapa, idealiza-se extrair o texto de todas as imagens \textit{crappy} e armazena-las de maneira organizada para que essas possam ser utilizadas futuramente nas métricas.
+
+Para tal extração, a ferramenta que será utilizada é o Tesseract com configuração em português, já disponibilizada pela comunidade.
+
+
+\subsection{Gerador de Imagens}
+
+Essa etapa consistem em desenvolver um modelo de IA que receba como entrada uma imagem ruim e gere uma nova imagem nunca vista antes. Essa imagem será gerada a partir de uma Rede Neural Convolucional, como já foi citado na seção \ref{ssec:generative-vs-discriminative}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Simulação de geração de imagem a partir de modelo Gerador}
+  \includegraphics[scale=0.6]{figuras/image-generation.png}
+  \legend{Fonte: autoral}
+  \label{fig:image-generation}
+\end{figure}
+
+Idealiza-se então realizar os testes com os modelos citados na sessão \ref{ssec:generative-vs-discriminative}. Por se tratar de abordagens diferentes de modelos geradores utilizando \textit{Deep Learning}, será realizado uma comparação dos diferentes resultados que provavelmente serão encontrados a partir dos modelos geradores.
+
+Possivelmente, será proposto também uma nova arquitetura que possibilite que os modelos de IA, que geralmente são mais tarbalhados com imagens quadradas cujo a largura e altura são iguais (256x256, por exemplo), possam trabalhar com imagens retangulares, as quais serão utilizadas no presente trabalho.
+
+% Tendo uma nova imagem gerada e todas as informações necessárias identificadas previamente, como OCR das imagens boas e ruins, adiciona-se uma camada de extração de texto das imagens geradas pelo modelo Gerador e as adiciona no CSV contendo as extrações anteriores. Com isso, tem-se agora o insumo necessário para a criação de uma métrica de validação da hipótese.
+
+
+\section{Cronograma de desenvolvimento}
+
+Para a simplificação do entendimento da metodologia proposta, bem como para melhorar a organização e divisão do trabalho, foi desenvolvido um cronograma simples que visa mostrar de forma tabelar as atividades a serem desenvolvidas. Tais atividades foram divididas em dois momentos, correspondendo às duas entregas necessárias para a finalização do trabalho.
+
+Identificar todas as micro-atividades desenvolvidas e descrever todas elas seria massivo e dificultaria o entendimento. Por isso, ao invés de propor datas e detalhar cada uma das micro-atividades, o cronograma é baseado em macro-atividades, divididas em \textit{sprints} simplificadas, ou seja, sem atividades de revisão e planejamento documentadas. Uma \textit{sprint} é uma atividade proposta pela metodologia Scrum que possibilita o desenvolvimento interativo e incremental por meio de atividades com definição de tempo e entregas específicas \cite{scrum}.
+
+\subsection{Momento 1}
+
+O momento 1 representa todas as atividades que fazem parte do escopo da entrega 1, referente às etapas que vão desde o recebimento dos dados até a criação do \textit{dataset} que servirá de insumo para as fases do momento 2. As atividades e suas respectivas \textit{sprints} estão identificadas na tabela \ref{tab:step-1}
+
+\begin{table}[H]
+  \centering
+  \caption{Cronograma de atividades do momento 1.}
+  \begin{tabular}{|l|l|l|l|l|l|l|l|}
+  \hline
+  \textbf{Atividade/Sprint}                                                  & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} \\ \hline
+  Estudo do dado                                                             & X &   &   &   &   &   &   \\ \hline
+  Filtragem do dado                                                          & X &   &   &   &   &   &   \\ \hline
+  Separação de PDFs                                                          &   & X &   &   &   &   &   \\ \hline
+  \begin{tabular}[c]{@{}l@{}}Extração de OCR de imagens\\ boas\end{tabular} &   & X & X &   &   &   &   \\ \hline
+  Criação de pipeline de filtros                                             &   &   & X & X & X &   &   \\ \hline
+  \begin{tabular}[c]{@{}l@{}}Extração de OCR de imagens\\ ruins\end{tabular} &   &   &   &   & X &   &   \\ \hline
+  Identifiação e proposta de métrica                                         &   &   &   &   & X & X &   \\ \hline
+  Organização do dataset                                                     &   &   &   &   &   & X & X \\ \hline
+  \end{tabular}
+  \legend{Fonte: autoral.}
+  \label{tab:step-1}
+\end{table}
+
+
+\subsection{Momento 2}
+
+O segundo momento do projeto consiste em consumir os dados criados e organizados no momento 1 para a criação e construção dos modelos de IA propostos para verificar a vericidade da hipótese proposta no início do trabalho. As atividades que caracterizam o momento final do projeto bem como suas \textit{sprints} estão descritos na tabela \ref{tab:step-2}.
+
+\begin{table}[H]
+  \centering
+  \caption{Cronograma de atividades do momento 1.}
+  \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+  \hline
+  \textbf{Atividade/Sprint}     & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} & \textbf{11} & \textbf{12} \\ \hline
+  Programar as métricas         & X          &            &            &            &            &            &            &            &            &             &             &             \\ \hline
+  Estudar nova arquitetura      & X          & X          &            &            &            &            &            &            &            &             &             &             \\ \hline
+  Configuração de ambiente      &            &            & X          &            &            &            &            &            &            &             &             &             \\ \hline
+  Teste com Variational Encoder &            &            &            & X          & X          &            &            &            &            &             &             &             \\ \hline
+  Teste com GAN                 &            &            &            &            &            & X          & X          &            &            &             &             &             \\ \hline
+  Teste com Decrappification    &            &            &            &            &            &            &            & X          & X          &             &             &             \\ \hline
+  Validação dos resultados      &            &            &            &            &            &            &            &            &            & X           &             &             \\ \hline
+  Comparação dos métodos        &            &            &            &            &            &            &            &            &            &             & X           &             \\ \hline
+  Conclusão                     &            &            &            &            &            &            &            &            &            &             &             & X           \\ \hline
+  \end{tabular}
+  \legend{Fonte: autoral.}
+  \label{tab:step-2}
+\end{table}
