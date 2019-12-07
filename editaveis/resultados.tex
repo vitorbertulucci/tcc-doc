@@ -131,8 +131,61 @@ O processo seguido para a criação de imagens ruins foi de que, para cada uma i
 
 \subsection{Extração de texto via OCR}
 
-Para a extração de caracteres utilizando o OCR, fez-se o uso da tecnologia desenvolvida Tesseract, que atualmente conegue identificar e reconhecer mais de 100 idiomas por meio da configuração \textit{unicode}\footnote{
+Para a extração de caracteres utilizando o OCR, fez-se o uso da tecnologia Tesseract, que atualmente consegue identificar e reconhecer mais de 100 idiomas por meio da configuração \textit{unicode}\footnote{
   Padrão que permite que os sistemas informatizados representem e manipulem textos de quaisquer idiomas de escrita que existem na atualidade. Fonte: Wikipedia.
 }. Para tal, configura-se o Tesseract com a extensão para a lingua portuguesa, já disponível pela comunidade para uso.
 
 Todo o texto extraído é armazenado em um CSV de saída que identifica qual o processo, documento e página que a extração foi feita. Isso depois servirá como base para a verificação e métrica para a comparação entre o texto extraído de uma página limpa para uma página com ruídos.
+
+O texto extraído das imagens ruins foram comparados previamente para verificar se o OCR estava realmente pior do que o texto original, a partir da métrica ROUGE-1. A seguir, mostra-se um exemplo de imagens e suaas respectivas extrações de texto utilizando OCR, sendo a primeira da imagem original e a segunda da imagem \textit{crappy}, respectivamente.
+
+\begin{figure}[H]
+  \centering
+  \caption{Imagem de boa qualidade}
+  \includegraphics[scale=.6]{figuras/good-image-extracted.jpg}
+  \legend{Fonte: STF.}
+  \label{fig:good-image-extracted}
+\end{figure}
+
+\begin{alltt}
+          CERTIDÃO
+
+          Certifico que me dirigi nesta Capital ao Setor de
+          Autarquias Sul, Quadra 3, Lotes 5/6, Edificio Multi
+          Brasil Corporate, 7º andar, nesta data e, às
+          11h00min, procedi à INTIMAÇÃO da PROCURADORIA-GERAL
+          FEDERAL, na pessos da Procuradora Federal TICIANA L. PONTES
+          BOURSCHEIT, que recebeu a contrafé e após seu
+          ciente no anverso deste mandado.
+
+          Brasília, 02 de dezembro de 2016,
+
+          WESSEL TELES DE OLIVEIRA
+          Oficial de Justiça Federal
+\end{alltt}
+
+\begin{figure}[H]
+  \centering
+  \caption{Imagem gerada pelo \textit{crappier} \textit{pipeline}}
+  \includegraphics[scale=.6]{figuras/bad-image-extracted.jpg}
+  \legend{Fonte: autoral.}
+  \label{fig:bad-image-extracted}
+\end{figure}
+
+\begin{alltt}
+          CERTIDÃO
+
+          Certífico que me dirigi nesta Capital ao Setor de
+          Autarquias Sul, Quadra. 4 , Lotes 5/6, Edifício Muki
+          Brasil Corpórate, 7º andar, nesta
+          11h00Min, procedi à INTIMAÇÃO da
+          FEDERAL, na pesson da Procuradora Federal TICIANA
+          BOURSCHEIT, que recebeu a contrafé e apõs sem
+          deste mandado.
+
+          Brasília, 02 de desembro de 2016.
+\end{alltt}
+
+Foi possível então verificar, assim como no exemplo acima, que a qualidade de extração do OCR piorou em comparação com o texto original. Neste exemplo, ao ser aplicada a métrica ROUGE-1, obteve-se como \textit{score} o valor de $0.65$, mostrando que existem diferenças significativas dentro do texto.
+
+Permite-se então validar que o \textit{dataset} gerado poderá servir de insumo para as etapas futuras do desenvolvimento do projeto, caracterizadas pelo momento 2.
