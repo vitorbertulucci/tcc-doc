@@ -296,7 +296,7 @@ As principais características de um \textit{autoencoder} são:
 
 \begin{itemize}
   \item \textbf{\textit{Encoder:}} reduz a dimensão do dado de entrada e o comprime para uma versão codificada;
-  \item \textbf{\textit{Bottleneck:}} camada que contém o dado com o menor número de dimensões possíveis depois de sua codificação representado por um vetor de dimensão $n$; 
+  \item \textbf{\textit{Bottleneck:}} camada que contém o dado com o menor número de dimensões possíveis depois de sua codificação representado por um vetor de dimensão $n$;
   \item \textbf{\textit{Decoder:}} reconstrói o dado a partir do dado codificado do \textit{bottleneck} para uma representação mais próxima do dado de entrada possível;
   \item \textbf{Custo da reconstrução:} mede o quão bem o \textit{decoder} está realizando a atividade de decodificação do dado da camada de \textit{bottleneck} verificando o quão longe o dado gerado está quando comparado com o original.
 \end{itemize}
@@ -368,7 +368,7 @@ A expressão \textit{Optical Character Recognition} define uma tecnologia do ram
   \label{fig:ocr-placa-carro}
 \end{figure}
 
-\subsection{\textit{Tesseract}}
+\subsection{\textit{Tesseract}} \label{ssec:tesseract}
 
 Uma das tecnologias desenvolvidas com foco em reconhecimento de caracteres mais destacadas atualmente na comunidade de desenvolvimento de \textit{software} é o \textit{Tesseract}. Inicialmente desenvlovida pela empresa HP entre 1984 e 1994 e motivada pela qualidade ruim dos mecanismos de identificação de caracteres disponíveis no mercado na época \cite{tesseract-overview}, foi posta como código aberto para o uso por desenvolvedores em 2005 e atualmente encontra-se hospedada no Github\footnote{Plataforma de hospedagem e controle de versão de códigos de \textit{softwares}.}
 
@@ -380,7 +380,7 @@ Com isso, inicia-se o terceiro passo, o de reconhecimento dos caracteres. Tal pa
 
 \begin{itemize}
   \item \textbf{Reconhecer cada palavra de uma vez:} cada palavra reconhecida satisfatoriamente passa para um classificador adaptativo como dado de treinamento. Com isso, o classificador recebe a chance de aumentar o reconhecimento de caracteres na medida que o reconhecimento percorre a imagem.
-  \item \textbf{Varredura da imagem:} baseando-se no classificador adaptativo, o segundo passo é garantir que, caso uma palavra tenha sido reconhecida satisfatoriamente muito tarde na imagem, esssa palavra possa ser melhor identificada nas linhas anteriores. Então, com o classificador adaptativo melhorado, percorre-se novamente a imagem desde o início na tentativa de melhorar a identificação das palavras. 
+  \item \textbf{Varredura da imagem:} baseando-se no classificador adaptativo, o segundo passo é garantir que, caso uma palavra tenha sido reconhecida satisfatoriamente muito tarde na imagem, esssa palavra possa ser melhor identificada nas linhas anteriores. Então, com o classificador adaptativo melhorado, percorre-se novamente a imagem desde o início na tentativa de melhorar a identificação das palavras.
 \end{itemize}
 
 A biblioteca \textit{Tesseract} possui mais de 110 contribuidores da comunidade de \textit{software} livre e é evoluida diariamente por esses contribuidores. O \textit{Tesseract} também foi a tecnologia utilizada no projeto \citeonline{cnn-for-STF} e será utilizado como ferramenta para o presente trabalho.
@@ -391,7 +391,9 @@ O completo entendimento de como o OCR funciona e quais seus principais mecanismo
 
 
 \section{Filtros de Imagem}
+No ramo de visão computacional, vários estudos são realizados anualmente para construir algoritmos que tentem melhorar os ruídos de imagens e consequentemente melhorar o resultado do OCR. Regularmente, empresas e grandes pesquisadores se reúnem para testar novos algoritmos para testarem novas tecnologias para o reconhecimento de caracteres (CITAR O ENCONTRO ANUAL DE OCR).
 
+Como comentado anteriormente em \ref{ssec:tesseract}, o Tesseract realiza um conjunto de atividades na imagem de entrada para então realizar o reconhecimento de caracteres.
 
 \section{Trabalhos Relacionados}
 
