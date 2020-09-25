@@ -13,21 +13,21 @@ O processo de aprendizagem se da início a partir de observações ou dados, com
 \begin{itemize}
   \item \textbf{Aprendizado supervisionado:} o objetivo principal de algoritmos supervisionados é conseguir desenvolver um modelo matemático a partir de um conjunto de dados anotados, no caso, dados de treinamento. O \textit{supervisionado} diz respeito ao conjunto de dados os quais já se sabe a saída esperada, ou seja, o dado já é anotado previamente. Em geral, esses algoritmos são utilizados para problemas de classificação e regressão.
 
-  % fonte: https://blogs.nvidia.com/blog/2018/08/02/supervised-unsupervised-learning/
+        % fonte: https://blogs.nvidia.com/blog/2018/08/02/supervised-unsupervised-learning/
 
-  \begin{figure}
-    \centering
-    \caption{Aprendizado supervisionado}
-    \includegraphics[scale=0.5]{figuras/nvidia-supervised-learning.png}
-    \legend{Fonte: \citeonline{learning-types}}
-    \label{fig:nvidia-supervised-learning}
-  \end{figure}
+        \begin{figure}
+          \centering
+          \caption{Aprendizado supervisionado}
+          \includegraphics[scale=0.5]{figuras/nvidia-supervised-learning.png}
+          \legend{Fonte: \citeonline{learning-types}}
+          \label{fig:nvidia-supervised-learning}
+        \end{figure}
 
-  \newpage
+        \newpage
 
   \item \textbf{Aprendizado não supervisionado:} diz respeito aos métodos de aprendizagem de máquina os quais utiliza-se como dado de entrada um dado que não possui nenhum tipo de anotação e que, muitas vezes, sua estrutura é desconhecida.
 
-  Tal processo de aprendizagem permite extrair características relevantes sobre o dado que possam servir de insumo para uma futura categorização e classificação do mesmo. Dependendo do problema em questão, a aprendizagem supervisionada pode organizar o dado em diferentes categorias \cite{learning-types} como clusterização, associação, \textit{autoencoders}, \textit{anomaly detection}, etc.
+        Tal processo de aprendizagem permite extrair características relevantes sobre o dado que possam servir de insumo para uma futura categorização e classificação do mesmo. Dependendo do problema em questão, a aprendizagem supervisionada pode organizar o dado em diferentes categorias \cite{learning-types} como clusterização, associação, \textit{autoencoders}, \textit{anomaly detection}, etc.
 
   \item \textbf{Aprendizado semi-supervisionado:} já o aprendizado semi-supervisionado junta um pouco dos dois mundos: dados com registros anotados e também dados com registros não anotados. A aplicabilidade para esse tipo de aprendizagem é quando se possui um dado onde não é trivial extrair informações relevantes sobre ele e tampouco é realizar toda a anotação da amostra em questão \cite{learning-types}.
 \end{itemize}
@@ -393,7 +393,36 @@ O completo entendimento de como o OCR funciona e quais seus principais mecanismo
 \section{Filtros de Imagem}
 No ramo de visão computacional, vários estudos são realizados anualmente para construir algoritmos que tentem melhorar os ruídos de imagens e consequentemente melhorar o resultado do OCR. Regularmente, empresas e grandes pesquisadores se reúnem para testar novos algoritmos para testarem novas tecnologias para o reconhecimento de caracteres (CITAR O ENCONTRO ANUAL DE OCR).
 
-Como comentado anteriormente em \ref{ssec:tesseract}, o Tesseract realiza um conjunto de atividades na imagem de entrada para então realizar o reconhecimento de caracteres.
+Como comentado anteriormente em \ref{ssec:tesseract}, o Tesseract, bem como outras ferramentas comuns de OCR, realizam um conjunto de atividades na imagem de entrada para então realizar o reconhecimento de caracteres \cite{image-preprocessing-for-improving-ocr}. Em geral, as principais atividades pré-reconhecimento consistem em:
+
+\begin{itemize}
+  \item Correção de ruídos (\textit{noise reduction/attenuation});
+  \item Correção de orientação;
+  \item Binarização;
+\end{itemize}
+
+Nota-se também, que boa parte dessas ferramentas são otimizadas para captura em \textit{scanners} e não englobam a correção de ruídos comuns de fotos feitas por câmeras normais \cite{image-preprocessing-for-improving-ocr}, como distorções geométricas, perda de foco e iluminação não homogênea, problemas bastante comuns na problemática apresentada no trabalho.
+
+Propõe-se então desenvolver um algoritmo que combine diferentes tipos de filtros de imagens simples para construir um corretor de imagens escaneadas utilizando a linguagem Python. Tal algoritmo será dividido em 4 (quatro) etapas, sendo elas: binarização, \textit{skew correction}, remoção de ruídos e \textit{thinning e skeletonization}.
+
+\subsection{Binarização}
+O processo de binarização consiste em transformar todos os píxels presentes na imagem com valores ou 0 ou 255 (preto ou branco). Com isso, o destaque das letras presentes na imagem são mais evidentes e o processo de identificação do caracter tende a ser mais assertivo. Esse processo envolve definir, a partir de algum valor de parada, chamado de \textit{threshold}. Algumas bibliotecas implementam os chamados de \textit{adaptatvive thresholds}, que consideram um valor resultante de uma análise sobre os pixels vizinhos ao que está sendo analisado.
+
+\begin{gather}
+  p_{ij} =
+  \begin{cases}
+    255, & \text{se } p_{ij}\geq T_{ij} \\
+    0, & \text{se } p_{ij} < T_{ij}
+  \end{cases}
+  \label{math:adaptative-threshold}
+\end{gather}
+
+onde \textit{i} e \textit{j} representam a posição do pixel na matriz da imagem e T representa a função que calcula o determinado \textit{threshold}.
+
+\subsection{\textit{Skew Correction}}
+\subsection{Remoção de Ruídos}
+\subsection{\textit{Thinning e Skeletonization}}
+
 
 \section{Trabalhos Relacionados}
 
