@@ -417,10 +417,51 @@ O processo de binarização consiste em transformar todos os píxels presentes n
   \label{math:adaptative-threshold}
 \end{gather}
 
-onde \textit{i} e \textit{j} representam a posição do pixel na matriz da imagem e T representa a função que calcula o determinado \textit{threshold}.
+onde \textit{i} e \textit{j} representam a posição do pixel na matriz da imagem e T representa a função que calcula o determinado \textit{threshold}, na respectiva posição do pixel.
 
-\subsection{\textit{Skew Correction}}
+\begin{figure}[h]
+  \centering
+  \caption{Imagem em tom de cinza}
+  \includegraphics[scale=0.25]{figuras/binarization-original.jpg}
+  \legend{Fonte: Autoral}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \caption{Imagem com binarização simples com \textit{threshold} = 127}
+  \includegraphics[scale=0.25]{figuras/binarization-threshold.jpg}
+  \legend{Fonte: Autoral}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \caption{Imagem com binarização adaptativa sobre a imagem anteriormente binarizada}
+  \includegraphics[scale=0.25]{figuras/binarization-adaptative-threshold.jpg}
+  \legend{Fonte: Autoral}
+\end{figure}
+
+É possível observar que a binarização com o \textit{adaptative threshold} consegue manter a imagem com a dispersão de pretos e prancos mais homogênea.
+
+
 \subsection{Remoção de Ruídos}
+
+
+\subsection{Correção de inclinação (\textit{Skew Correction})}
+
+É comum ver em documentos digitalizados uma certa angulação na página que contém a informação, causada por um ajuste errado no momento de colocar o documento em \textit{scanners} ou até mesmo em fotos digitalizadas feitas por aplicativos de dispositivos móveis. Uma das etapas das ferramentas de reconhecimento de caracteres consiste em segmentar a imagem em linhas para então realizar o conhecimento de caractéres \cite{ocr-survey}. Portanto, se a orientação do texto não estiver homogênea em relação as bordas do documento, a precisão do algoritmo de identificação consequentemente diminui \cite{metrics-for-ocr-performance}.
+
+Portanto, além das diversas melhorias na minimização de ruídos que devem compor um pré-processamento de imagem para tentar garantir a qualidade do OCR, existe também a etapa de correção da orientação ou inclinação da imagem. Com isso, o algoritmo de segmentação irá realizar a identificação das linhas corretamente, aumentando as chances de identificação de caracteres.
+
+Por meio da projeção horizontal das palavras ou linhas do texto da palavra, é possível traçar histogramas que represente cada tipo de leitura e tentar identificar um com a representação mais homogênea \cite{skew-correction-and-slant-removal}.
+
+\begin{figure}[h]
+  \centering
+  \caption{Histogramas representando a projeção horizontal das palavras}
+  \includegraphics[scale=0.45]{figuras/skew-correction.png}
+  \legend{Fonte: \cite{skew-correction-and-slant-removal}}
+\end{figure}
+
+
 \subsection{\textit{Thinning e Skeletonization}}
 
 
