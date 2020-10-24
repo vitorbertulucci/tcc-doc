@@ -1,6 +1,11 @@
 \chapter[Resultados]{Resultados}
 
-Baseando-se nos métodos e materiais descritos no capítulo \ref{chap:materials-and-methods}, iniciou-se a etapa de desenvolvimento e organização dos dados a partir da \textit{pipeline} de \textit{crappier} para a imagens. O presente capítulo tenta mostrar, de maneira detalhada, o que foi feito para realizar o levantamento e criação dos dados de imagens necessários para serem consumidos no segundo momento do projeto.
+Baseando-se nos métodos e materiais descritos no capítulo \ref{chap:materials-and-methods}, iniciou-se a etapa de desenvolvimento e organização dos dados a partir da \textit{pipeline} de \textit{crappier} para a imagens, para então testar a hipótese do projeto. O presente capítulo mostra, de maneira detalhada, o que foi feito para realizar o levantamento e criação dos dados de imagens necessárias para serem consumidas pelos pré-processadores de imagem que visam melhorar a qualidade do OCR extraído dos textos, bem como a comparação dos mesmos por meio das métricas propostas.
+
+\section{Infraestrutura}
+
+Para o desenvolvimento do projeto foi utilizado um Sistema Operacional  Pop!\_OS 20.04 LTS baseado em GNU/Linux, com 16GB de memória RAM, disco com capacidade de 1.2 Terabytes de armazenamento, processador AMD® Ryzen 5 3600 com 6 (seis) \textit{cores} e 12 (doze) \textit{threads} e uma placa de vídeo dedicada NVIDIA GeForce RTX 2060 com 6GB de capacidade. Para os processamentos em placa gráfica foram utilizados o CUDA na versão 11.1 e o CuDNN na versão 7.
+
 
 \section{Tratamento e formação do \textit{dataset}}
 
@@ -188,4 +193,30 @@ O texto extraído das imagens ruins foram comparados previamente para verificar 
 
 Foi possível então verificar, assim como no exemplo acima, que a qualidade de extração do OCR piorou em comparação com o texto original. Neste exemplo, ao ser aplicada a métrica ROUGE-1, obteve-se como \textit{score} o valor de $0.65$, mostrando que existem diferenças significativas dentro do texto.
 
-Permite-se então validar que o \textit{dataset} gerado poderá servir de insumo para as etapas futuras do desenvolvimento do projeto, caracterizadas pelo momento 2.
+Permite-se então validar que o \textit{dataset} gerado poderá servir de insumo para as etapas futuras do desenvolvimento do projeto.
+
+\section{Pré-processadores de Imagem}
+
+Com todo o \textit{dataset} devidamente construído, é possível prosseguir com a construção dos pré-processadores de imagens. Para validar os estudos propostos, criou-se 3 (três) tipos diferentes de processadores:
+
+\begin{itemize}
+  \item Processador de Imagem simples;
+  \item Processador GAN;
+  \item Processador \textit{Decrappification};
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \caption{Processo de correção de imagem, extração de texto e criação de métricas}
+  \includegraphics[scale=.5, angle=270]{figuras/text-extraction-and-comparison-flow.png}
+  \legend{Fonte: autoral.}
+  \label{fig:text-extraction-and-comparison-flow}
+\end{figure}
+
+O processo de construção dos mesmos, bem como exemplos de seus resultados serão apresentados a seguir.
+
+\subsection{Pocessador de Imagem simples}
+\subsection{Pocessador GAN}
+\subsection{Pocessador \textit{Decrappification}}
+\subsection{Extração de Métricas}
+\subsection{Comparação de resultados}
