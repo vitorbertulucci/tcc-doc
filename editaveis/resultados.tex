@@ -216,6 +216,20 @@ Com todo o \textit{dataset} devidamente construído, é possível prosseguir com
 O processo de construção dos mesmos, bem como exemplos de seus resultados serão apresentados a seguir.
 
 \subsection{Pocessador de Imagem simples}
+
+Com os dados já estruturados e o processo de validação da hipótese desenhado, iniciou-se a construção do primeiro pré-processador de imagem, que consiste em utilizar mecanismos de processamento de imagem convencionais com o propósito de tratar a imagem de entrada do OCR a fim de atingir melhores resultados.
+
+Tal pré-processador possui 4 (quatro) etapas em sua construção, assim como foi listado na seção \ref{sec:filtro-de-imagem}, mas com a adição de correção de expessura das linhas da imagem \cite{K3M-image-skeletonization}. Cada uma delas será discutida a seguir.
+
+
+\subsubsection{Binarização}
+
+Como citado na seção \ref{sec:filtro-de-imagem}, a binarização consiste em converter os pixels da imagem entre 0 ou 255 - uma analogia entre o 0 e 1 da nomenclatura binária - a partir de um valor de referência, ou \textit{threshold}. Porém, quando lida-se com imagens e ruídos não conhecidos, é importante considerar que nem todo pixel corrigido no processo de binarização será alterado para o valor correto.
+
+
+
+O pré-processador foi construído baseado na biblioteca OpenCV para Python em sua versão 4.4.
+
 \subsection{Pocessador GAN}
 \subsection{Pocessador \textit{Decrappification}}
 \subsection{Extração de Métricas}
