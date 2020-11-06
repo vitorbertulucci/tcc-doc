@@ -221,16 +221,66 @@ Com os dados já estruturados e o processo de validação da hipótese desenhado
 
 Tal pré-processador possui 4 (quatro) etapas em sua construção, assim como foi listado na seção \ref{sec:filtro-de-imagem}, mas com a adição de correção de expessura das linhas da imagem \cite{K3M-image-skeletonization}. Cada uma delas será discutida a seguir.
 
+O pré-processador foi construído baseado na biblioteca OpenCV para Python em sua versão 4.4.
 
 \subsubsection{Binarização}
 
 Como citado na seção \ref{sec:filtro-de-imagem}, a binarização consiste em converter os pixels da imagem entre 0 ou 255 - uma analogia entre o 0 e 1 da nomenclatura binária - a partir de um valor de referência, ou \textit{threshold}. Porém, quando lida-se com imagens e ruídos não conhecidos, é importante considerar que nem todo pixel corrigido no processo de binarização será alterado para o valor correto.
 
+\begin{figure}[H]
+  \centering
+  \caption{Binarização simples considerando \textit{threshold} = 127}
+  \includegraphics[scale=.7]{figuras/binarizacao-simples.png}
+  \legend{Fonte: autoral.}
+  \label{fig:binarizacao-simples}
+\end{figure}
 
+A biblioteca do OpenCV implementa, até o desenvolvimento do presente trabalho, 5 (cinco) funções de binarização diferentes no mesmo algoritmo, definido por parametrização da função de \textit{threshold}. Para verificar qual desses parâmetros apresentariam melhores resultados, utilizou-se a métrica de \textit{Mean Square Error} \cite{mse-metric}, métrica utilizada para medir a qualidade da imagem baseada na imagem referência que será explicada em mais detalhes na seção \ref{ssec:processor-gan}. Utilizando um  \textit{sample} dos dados originais junto aos dados \textit{crappy}, foi possível verificar quais desses valores melhor se adequam ao dado. Na métrica MSE, quanto menor o valor resultante, melhor é a qualidade da imagem \cite{mse-metric} resultante.
 
-O pré-processador foi construído baseado na biblioteca OpenCV para Python em sua versão 4.4.
+\begin{figure}[H]
+  \centering
+  \caption{métrica MSE para a comparação dos diferentes valores de binarização simples}
+  \includegraphics[scale=.63]{figuras/smoothed-binarization-test.png}
+  \legend{Fonte: autoral.}
+  \label{fig:smoothed-binarization-test}
+\end{figure}
 
-\subsection{Pocessador GAN}
+Apenas observando a métrica, é possível verificar que os valores de \textit{BINARY} e \textit{BINARY INV} são os que apresentaram os menores valores. Porém, como mostrado na figura \ref{fig:binarizacao-simples}, os algoritmos de binarização simples não são adequados para o dado em questão, visto que uma binarização absoluta com valores entre 0 e 255 resulta na perda de informação considerável na imagem. Portanto, o algoritmo que obteve o melhor resultado após o descarte dos citados anteriormente foi o \textit{TRUNC}, representado pela seguinte função matemática:
+
+\begin{gather}
+  d(x,y) =
+  \begin{cases}
+    \text{\textit{threshold}}, & \text{se } s(x,y) > \text{\textit{threshold}} \\
+    s(x,y), & \text{se não}
+  \end{cases}
+  \label{math:threshold-trunc}
+\end{gather}
+
+Considerando a mesma imagem utilizada para criar a figura \ref{fig:binarizacao-simples} e aplicando-se o filtro com o parâmetro \textit{TRUNC}, tem-se:
+
+\begin{figure}[H]
+  \centering
+  \caption{Binarização com parâmetro \textit{TRUNC} considerando \textit{threshold} = 127}
+  \includegraphics[scale=.7]{figuras/binarizacao-simples-trunc.png}
+  \legend{Fonte: autoral.}
+  \label{fig:binarizacao-simples-trunc}
+\end{figure}
+
+O resultado é uma imagem consideravelmente mais legível e limpa.
+
+Porém, a binarização simples de valores fixos não consegue atingir resultados satisfatórios vindos de superfície de iluminação ou fundo não uniforme \cite{adaptative-threshold-surfaces}. A solução para esse tipo de caso é fazer o uso da binarização adaptativa, que consiste em considerar, além do pixel que está sendo analisado, outros \textit{n} (\textit{kernel} de tamanho \textit{n}) pixels vizinhos do mesmo, calculando o seu valor baseado nos valores ao seu redor \cite{adaptative-threshold-surfaces}. O resultado final da combinação da binarização simples e da binarização adaptativa é mostrado na imagem a seguir.
+
+\begin{figure}[H]
+  \centering
+  \caption{Binarização adaptativa  em conjunto com binarização simples considerando \textit{threshold} = 127}
+  \includegraphics[scale=.7]{figuras/binarizacao-adaptativa.png}
+  \legend{Fonte: autoral.}
+  \label{fig:binarizacao-adaptativa}
+\end{figure}
+
+\subsubsection{Remoção de Ruídos}
+
+\subsection{Pocessador GAN} \label{ssec:processor-gan}
 \subsection{Pocessador \textit{Decrappification}}
 \subsection{Extração de Métricas}
 \subsection{Comparação de resultados}
