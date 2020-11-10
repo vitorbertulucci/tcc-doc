@@ -223,7 +223,7 @@ Tal pré-processador possui 4 (quatro) etapas em sua construção, assim como fo
 
 O pré-processador foi construído baseado na biblioteca OpenCV para Python em sua versão 4.4.
 
-\subsubsection{Binarização}
+\subsubsection{Binarização} \label{sssec:binarization}
 
 Como citado na seção \ref{sec:filtro-de-imagem}, a binarização consiste em converter os pixels da imagem entre 0 ou 255 - uma analogia entre o 0 e 1 da nomenclatura binária - a partir de um valor de referência, ou \textit{threshold}. Porém, quando lida-se com imagens e ruídos não conhecidos, é importante considerar que nem todo pixel corrigido no processo de binarização será alterado para o valor correto.
 
@@ -268,7 +268,7 @@ Considerando a mesma imagem utilizada para criar a figura \ref{fig:binarizacao-s
 
 O resultado é uma imagem consideravelmente mais legível e limpa.
 
-Porém, a binarização simples de valores fixos não consegue atingir resultados satisfatórios vindos de superfície de iluminação ou fundo não uniforme \cite{adaptative-threshold-surfaces}. A solução para esse tipo de caso é fazer o uso da binarização adaptativa, que consiste em considerar, além do pixel que está sendo analisado, outros \textit{n} (\textit{kernel} de tamanho \textit{n}) pixels vizinhos do mesmo, calculando o seu valor baseado nos valores ao seu redor \cite{adaptative-threshold-surfaces}. O resultado final da combinação da binarização simples e da binarização adaptativa é mostrado na imagem a seguir.
+Porém, a binarização simples de valores fixos não consegue atingir resultados satisfatórios vindos de superfície de iluminação ou fundo não uniforme \cite{adaptative-threshold-surfaces}. A solução para esse tipo de caso é fazer o uso da binarização adaptativa, que consiste em considerar, além do pixel que está sendo analisado, outros \textit{n} (\textit{kernel} de tamanho \textit{n}) pixels vizinhos do mesmo, calculando o seu valor baseado nos valores ao seu redor \cite{adaptative-threshold-surfaces}. O valor do \textit{threshold} nesse algoritmo pode variar a cada região considerada para a análise. O resultado final da combinação da binarização simples e da binarização adaptativa é mostrado na imagem a seguir.
 
 \begin{figure}[H]
   \centering
@@ -280,7 +280,111 @@ Porém, a binarização simples de valores fixos não consegue atingir resultado
 
 \subsubsection{Remoção de Ruídos}
 
+O passo seguinte para o pré-processamento de imagem é o de remoção de ruídos. Como citado na seção \ref{ssec:image-denoising}, a remoção de ruídos consiste em conseguir tornar a imagem mais limpa mas mantendo suas principais características. Similar a binarização adaptativa citada em \ref{sssec:binarization}, é possível realizar a redução de ruídos da imagem utilizando o \textit{Non-Local Means Denoising} (NLMD) \cite{non-local-means-denoising}, que também considera uma certa quantidade de pixels ao redor do pixels que está sendo analisado, mas não necessariamente estejam perto do mesmo \cite{non-local-means-denoising}.
+
+A imagem resultante a binarização é a entrada para o algoritmo de remoção de ruídos NLMD, e como resultado tem-se:
+
+\begin{figure}[H]
+  \centering
+  \caption{Resultado da binarização com redução de ruídos.}
+  \includegraphics[scale=.7]{figuras/denoising-after-binarization.png}
+  \legend{Fonte: autoral.}
+  \label{fig:denoising-after-binarization}
+\end{figure}
+
+O principal ruído reduzido nesse processo são os resquícios dos ruídos de \textit{Salt And Pepper} vistos na tabela \ref{tab:sdas}. A implementação desse filtro foi possível utilizando a função \href{https://docs.opencv.org/master/d1/d79/group__photo__denoise.html#ga76abf348c234cecd0faf3c42ef3dc715}{\textit{fastNlMeansDenoising}} e os parâmetros foram os valores padrão já configurados da mesma.
+
+\subsubsection{Correção de inclinação}
+
+Além dos ruídos de iluminação não homogênea e manchas na imagem que foram minimizados pelos filtros citados anteriormente, um ponto crucial para a qualidade dos algoritmos de OCR são as questões de alinhamento de texto \cite{ocr-survey} presente na imagem, mostrado na seção \ref{ssec:skew-correction}. De maneira geral, a angulação para a correção do texto é mais evidente quando o mesmo apresenta bastante conteúdo textual na imagem, pois a função que calcula o ângulo possui mais parâmetros para definir o mesmo.
+
+\begin{figure}[H]
+  \centering
+  \caption{Correção de inclinação da imagem.}
+  \includegraphics[scale=.7]{figuras/skew-corrected-image.png}
+  \legend{Fonte: autoral.}
+  \label{fig:skew-corrected-image}
+\end{figure}
+
+
+\subsubsection{Thinning e Skeletonization}
+
+Por último, foi testado também no \textit{dataset} os algoritmos que deixam as linhas presentes na imagem mais espessas ou mais finas, algo similar a "afinar" as curvas, a depender de como os parâmetros são configurados. Porém, o sinal - conteúdo - das imagens de texto do dado estudado em questão representa uma pequena parcela da imagem e transformar linhas das letras não teve efeito positivo, visto que já são pequenas em relação ao restante da imagem.
+
+\subsubsection{Resultados}
+
+Para a validação dos resultados do pré-processador de imagem utilizando filtros de imagem simples separou-se uma amostra aleatória de 1000 (mil) imagens do \textit{dataset} para a comparação entre o OCR resultante das imagens original, \textit{crappy} e corrigida. Durante esse processo, calculou-se também o tempo necessário para limpar a imagem com o pré-processador com a finalidade de comparar, além da qualidade do texto extraído, o tempo médio de limpeza da imagem. A seguir é possível ver a imagem resultante do pré-processador simples implementado.
+
+\begin{figure}[H]
+  \centering
+  \caption{Exemplo de correção de ruído de imagem.}
+
+  \begin{subfigure}[t]{.3\linewidth}
+    \includegraphics[width=\textwidth]{figuras/991665_310196612_46.jpg}
+    \caption{Original}
+  \end{subfigure}
+  \begin{subfigure}[t]{.3\linewidth}
+    \includegraphics[width=\textwidth]{figuras/991665_310196612_46_crappy.jpg}
+    \caption{\textit{Crappy}}
+  \end{subfigure}
+  \begin{subfigure}[t]{.3\linewidth}
+    \includegraphics[width=\textwidth]{figuras/991665_310196612_46_corrected.jpg}
+    \caption{Corrigida}
+  \end{subfigure}
+  \legend{Fonte: autoral.}
+  \label{fig:skew-corrected-image}
+\end{figure}
+
+O resultado final da métrica Rouge-N e Rouge-L, bem como o tempo médio necessário para realizar a "limpeza" da imagem \textit{crappy} pelo pré-processador são vistos nas tabelas a seguir.
+
+\begin{table}[H]
+  \centering
+  \caption{Tempo médio de processamento da imagem pelo pré-processador simples.}
+  \begin{tabular}{|c|}
+    \hline
+      \textbf{Tempo médio} \\
+    \hline
+      0.279 segundos \\
+    \hline
+  \end{tabular}
+  \legend{Fonte: autoral}
+  \label{tab:pre-processor-average-time}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Resumo dos resultados do pré-processador simples.}
+  \begin{tabular}{|c|c|c|}
+    \hline
+      \textbf{Métrica}  &
+      \textbf{Crappy}  &
+      \textbf{Imagem corrigida} \\
+    \hline
+      Rouge-1  &
+      0.34ms &
+      273.877 \\
+    \hline
+      Rouge-2  &
+      0.34ms &
+      273.877 \\
+    \hline
+      Rouge-3  &
+      0.34ms &
+      273.877 \\
+    \hline
+      Rouge-4  &
+      0.34ms &
+      273.877 \\
+    \hline
+      Rouge-L &
+      0.34ms &
+      273.877 \\
+    \hline
+  \end{tabular}
+  \legend{Fonte: autoral}
+  \label{tab:pre-processor-result}
+\end{table}
+
 \subsection{Pocessador GAN} \label{ssec:processor-gan}
 \subsection{Pocessador \textit{Decrappification}}
-\subsection{Extração de Métricas}
 \subsection{Comparação de resultados}

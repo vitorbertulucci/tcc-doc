@@ -443,18 +443,18 @@ onde \textit{i} e \textit{j} representam a posição do pixel na matriz da image
 É possível observar que a binarização com o \textit{adaptative threshold} consegue manter a imagem com a dispersão de pretos e prancos mais homogênea.
 
 
-\subsection{Remoção de Ruídos}
+\subsection{Remoção de Ruídos} \label{ssec:image-denoising}
 
 % https://www.iosrjournals.org/iosr-jece/papers/Vol.%2011%20Issue%201/Version-1/L011117884.pdf
 % https://sci-hub.st/https://ieeexplore.ieee.org/abstract/document/6493228/
 
-Uma outra etapa importante também para o pré-processamento de imagens para o OCR consiste em tentar remover os ruídos que são encontrados nas imagens escaneadas, como já comentado anteriormente. O foco das técnicas remoção de ruído é conseguir manter as principais características do documento, permitindo que as informações presentes nele sejam vistas de forma mais clara e limpa \cite{image-denoising-techniques}.
+Uma outra etapa importante para o pré-processamento de imagens para o OCR consiste em tentar remover os ruídos que são encontrados nas imagens escaneadas, como já comentado anteriormente. O foco das técnicas remoção de ruído é conseguir manter as principais características do documento, permitindo que as informações presentes nele sejam vistas de forma mais clara e limpa \cite{image-denoising-techniques}.
 
 As técnicas de filtro espacial, como filtro da média ou filtro da mediana, focam em suavizar a imagem (deixá-la mais homogênea) para a redução de ruído e em seguida borrar algumas formas importantes na imagem, como bordas ou figuras \cite{document-image-denoising}. Porém, para imagens contendo texto, o processo de borrar curvas pode comprometer o reconhecimento de caracteres do documento \cite{image-denoising-techniques}. Com isso, técnicas como a Transformação de Wavelet são utilizadas para preservar as curvas presentes na imagem \cite{image-denoising-techniques} mas são facilmente afetadas com rotações dos dados na imagem, principalmente em imagens que possuem textos. Outras abordagens, como \textit{Curvelet Transform} \cite{fast-discrete-curvelet-transforms} são algoritmos que concentram as correções em torno das curvas e são mais suscetíveis a propriedades directionais (linhas contendo textos) \cite{image-denoising-techniques}.
 
 As explicações e demonstrações matemáticas sobre os algoritmos de remoção de ruídos em geral são bem complexas e não condiz com o foco do presente trabalho. Por isso, tais demonstrações não serão apresentadas.
 
-\subsection{Correção de inclinação (\textit{Skew Correction})}
+\subsection{Correção de inclinação (\textit{Skew Correction})} \label{ssec:skew-correction}
 
 É comum ver em documentos digitalizados uma certa angulação na página que contém a informação, causada por um ajuste errado no momento de colocar o documento em \textit{scanners} ou até mesmo em fotos digitalizadas feitas por aplicativos de dispositivos móveis. Uma das etapas das ferramentas de reconhecimento de caracteres consiste em segmentar a imagem em linhas para então realizar o conhecimento de caractéres \cite{ocr-survey}. Portanto, se a orientação do texto não estiver homogênea em relação as bordas do documento, a precisão do algoritmo de identificação consequentemente diminui \cite{metrics-for-ocr-performance}.
 
