@@ -386,5 +386,40 @@ O resultado final da métrica Rouge-N e Rouge-L, bem como o tempo médio necess�
 \end{table}
 
 \subsection{Pocessador GAN} \label{ssec:processor-gan}
+
+Como já citado em momentos anteriores, uma das tecnologias a serem consumidas para o presente trabalho é utilizar um Modelo de DL com foco em minimizar os ruídos das imagens. O primeiro modelo a ser utilizado envolve as GANs \cite{generative-adversarial-networks} para a configuração de um modelo Generativo que receba uma imagem ruim de entrada e gere uma nova, preferencialmente removendo os ruídos da mesma. Com essa proposta, o modelo Generativo tem que necessariamente mapear as principais características de uma imagem para a outra, o que é comumente visto em uma das classes da visão computacional, chamado de \textit{image-to-image translation} \cite{image-to-image-can} ou tradução imagem-para-imagem.
+
+Essa abordagem consiste em aprender as principais características entre as imagens e, dado uma foto de entrada, o modelo consegue adaptar as características da imagem para o formato da sua correspondência. Isso vai desde mapear imagens bidimensionais para imagens de satélite até transformar imagens de uma estação do ano para outra, a partir de uma base de dados suficiente \cite{image-to-image-can}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Conversão de um mapa 2D para visão aérea ou de satélite.}
+  \includegraphics[scale=.5]{figuras/image-to-image-map-to-aerial.png}
+  \legend{Fonte: \cite{image-to-image-can}}
+  \label{fig:image-to-image-map-to-aerial}
+\end{figure}
+
+\subsubsection{CycleGAN} \label{ssec:cycle-gan}
+
+A criação de modelos de DL para o \textit{image-to-image translation} evoluiu para o uso de GANs e a construção de uma nova arquitetura chamada CycleGAN \cite{cycle-gan}. Diferentemente de uma GAN convencional que no processo de treinamento os dados tem que ser pareados, o que no presente trabalho é representado pela imagem \textit{crappy} e a imagem original referente, no CycleGAN tal pareamento não é necessário e a quantidade de dados de treino e de teste também podem ser diferentes \cite{cycle-gan}.
+
+Para que isso seja possível, o modelo de CycleGAN faz o uso de duas GANs simultaneamente, uma que se especializa em converter uma entrada de A para B (\textit{crappy} para \textit{denoised}), gerando a imagem C, e outra de B para A (\textit{denoised} para \textit{crappy}), gerando a imagem D. Após isso, calcula-se então a \textit{loss} MSE entre a imagem A com a imagem D a fim de verificar a diferença entre a imagem de entrada e a imagem reconstruída, e o mesmo processo é feito com a GAN especializada para a conversão de B para A \cite{cycle-gan}. Como a função de \textit{loss} não necessita da mesma imagem com o domínio contrário como referência, não existe a necessidade de existir os dados pareados para treinamentos \cite{cycle-gan}.
+
+\begin{figure}[H]
+  \centering
+  \caption{Arquitetura de treinamento da CycleGAN.}
+  \includegraphics[scale=.57]{figuras/cycleconsistencyandlosses.png}
+  \legend{Fonte: \cite{cycle-gan}}
+  \label{fig:cycleconsistencyandlosses}
+\end{figure}
+
+A partir dos resultados analisados dos experimentos realizados com o CycleGAN bem como a quantidade de dados disponíveis para realizar alcançar tais resultados, optou-se por utilizar essa arquitetura e modelo como base para os testes do presente trabalho.
+
+\subsubsection{Configuração do Algoritmo e Testes}
+
+Como já é conhecido, um dos pontos principais que os modelos de GAN são negativamente conhecidos é por conta do custo computacional e quantidade de dados exigidos para atingir resultados satisfatórios \cite{f8-decrappification}.
+
+\subsubsection{Resultados}
+
 \subsection{Pocessador \textit{Decrappification}}
 \subsection{Comparação de resultados}
