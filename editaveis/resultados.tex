@@ -413,13 +413,142 @@ Para que isso seja possível, o modelo de CycleGAN faz o uso de duas GANs simult
   \label{fig:cycleconsistencyandlosses}
 \end{figure}
 
-A partir dos resultados analisados dos experimentos realizados com o CycleGAN bem como a quantidade de dados disponíveis para realizar alcançar tais resultados, optou-se por utilizar essa arquitetura e modelo como base para os testes do presente trabalho.
+A partir dos resultados dos experimentos realizados com o CycleGAN bem como a quantidade de dados disponíveis para alcançar tais resultados, optou-se por utilizar essa arquitetura e modelo como base para os testes do escopo em questão.
 
-\subsubsection{Configuração do Algoritmo e Testes}
+\subsubsection{Configuração do Modelo}
 
-Como já é conhecido, um dos pontos principais que os modelos de GAN são negativamente conhecidos é por conta do custo computacional e quantidade de dados exigidos para atingir resultados satisfatórios \cite{f8-decrappification}.
+Como já é conhecido, um dos pontos principais que os modelos de GAN são negativamente conhecidos é por conta do custo computacional e quantidade de dados exigidos para atingir resultados satisfatórios \cite{f8-decrappification}. Porém, a arquitetura do CycleGAN permite atingir resultados significativos com uma amostra de dados pequena \cite{cycle-gan}. No trabalho, os cientistas conseguiram fazer a transformação de imagens de cavalos (939 imagens) em zebras (1177 imagens) com pouco mais de 2000 (dois mil) imagens para treinamento e testes. Por isso, o processo de \textit{augmentation} visto na figura \ref{fig:data-augmentation} não será aplicado para o estudo do CycleGAN do presente trabalho.
+
+A implementação do CycleGAN foi baseada em uma postagem publicada no Medium por Kayo Yin, com o título \href{https://medium.com/illuin/cleaning-up-dirty-scanned-documents-with-deep-learning-2e8e6de6cfa6}{\textit{Cleaning Up Dirty Scanned Documents with Deep Learning}}, construído a partir da biblioteca do Keras, em sua versão 2.0.8. O tamanho utilizado da imagem utilizado foi de 768x512x1.
+
+Para a configuração dos modelos Gerador e Discriminador, utilizou-se os seguintes hiperparâmetros:
+
+\begin{itemize}
+  \item \textit{\textbf{batch\_size:}} o principal limitante para a definição desse hiperparâmetro foi a capacidade computacional disponível durante o desenvolvimento do trabalho. Para imagens do tamanho proposto, o único valor possível foi \textbf{1}, ou seja, o algoritmo consome uma imagem a cada iteração com a rede;
+  \item \textbf{\textit{optimizer:}} utilizou-se o algoritmo de otimização Adam com \textit{learning rate} de 0.002;
+  \item \textit{\textbf{loss\_function:}} para a função de erro, utilizou-se a MSE ou \textit{Mean Squared Error};
+\end{itemize}
+
+O sumário dos modelos Geradores são:
+
+\begin{figure}[H]
+  \centering
+  \caption{Arquitetura das camadas dos modelos Geradores d CycleGAN.}
+  \includegraphics[scale=.55]{figuras/generator-architecture.png}
+  \legend{Fonte: Autoral.}
+  \label{fig:generator-architecture}
+\end{figure}
 
 \subsubsection{Resultados}
 
+Inicialmente, utilizou-se o \textit{dataset} para treinamento, teste e validação em 70\%, 20\% e 10\%, respectivamente. Para tanto, como a quantidade de imagens é muito vasta, inicialmente testou-se o treinamento por cerca de 2 épocas. O tempo total para o treinamento foi de aproximadamente 19 horas, cerca de 9,5 horas por época. Pelo gráfico de evolução da \textit{loss} durante o processo de treinamento, tem-se:
+
+\begin{figure}[H]
+  \centering
+  \caption{Gráfico de \textit{loss} do modelo Gerador da CycleGAN.}
+  \includegraphics[scale=.55]{figuras/g_losses.png}
+  \legend{Fonte: Autoral.}
+  \label{fig:g_losses}
+\end{figure}
+
+Utilizando a MSE como métrica de \textit{loss}, é possível observar apenas pelo gráfico que a qualidade da imagem resultante do modelo Gerador é melhor do que a imagem \textit{crappy} de entrada, visto que é possível verificar que a perda tende a convergir \cite{everything-about-nn}.
+
+Independente do modelo convergir, a métrica de \textit{loss} em questão não diz necessariamente que o modelo manteve as principais características da imagem, permitindo assim que o Tesseract desempenhe melhor a partir da métrica Rouge-N.
+
+\begin{figure}[H]
+  \centering
+  \caption{CycleGAN com 2 épocas.}
+  \begin{subfigure}[t]{.3\linewidth}
+    \includegraphics[width=\textwidth]{figuras/1004871_310554941_13.jpg}
+    \caption{Original}
+  \end{subfigure}
+  \begin{subfigure}[t]{.3\linewidth}
+    \includegraphics[width=\textwidth]{figuras/1004871_310554941_13_crappy.jpg}
+    \caption{\textit{Crappy}}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.3\linewidth}
+    \includegraphics[width=\textwidth]{figuras/1004871_310554941_13_corrected.jpg}
+    \caption{Corrigida}
+  \end{subfigure}
+  \legend{Fonte: autoral.}
+  \label{fig:cycle-gan-first-test}
+\end{figure}
+
+% USAR O ARQUIVO ../crappy_images/1004871_310554941_13.jpg PARA TESTES
+Nitidamente é possível observar que o conteúdo da imagem foi ofuscado pelo pré-processador. Extraindo a métrica Rouge das imagens acima, tem-se:
+
+\begin{table}[H]
+  \centering
+  \caption{Resumo dos resultados iniciais do pré-processador CycleGAN em imagem de teste.}
+  \begin{tabular}{|c|c|c|}
+    \hline
+      \textbf{Métrica}  &
+      \textbf{Crappy}  &
+      \textbf{Imagem corrigida} \\
+    \hline
+      Rouge-1  &
+      0.734 &
+      0.181 \\
+    \hline
+      Rouge-2  &
+      0.544 &
+      0.009 \\
+    \hline
+      Rouge-3  &
+      0.432 &
+      0.0 \\
+    \hline
+      Rouge-4  &
+      0.318 &
+      0.0 \\
+    \hline
+      Rouge-L &
+      0.773 &
+      0.231 \\
+    \hline
+  \end{tabular}
+  \legend{Fonte: autoral}
+  \label{tab:first-cycle-gan-rouge-n}
+\end{table}
+
+A partir da publicação do Medium que foi utilizada como base para a construção do algoritmo, bem como o desenvolvimento do mesmo processo por outra pessoa em \href{https://medium.com/towards-artificial-intelligence/cyclegan-as-a-denoising-engine-for-ocr-images-8d2a4988f769}{outra publicação}, observou-se que durante as épocas iniciais o modelo não foi capaz de manter o texto presente na imagem. Porém, com o avanço das épocas, a imagem resultante passou a conservar mais o sinal presente nela. Contudo, aumentar o número de épocas dentro do \textit{dataset} do projeto seria inviável, de acordo com o tempo médio de cada época sobre o dado completo. Com isso, iniciou-se os testes com um \textit{sample} de dados menor e mais controlado, permitindo assim que seja possível realizar o treinamento com mais épocas e verificar os resultados.
+
+Para o resultado final do treinamento do algoritmo, separou-se randomicamente 5 mil imagens do \textit{dataset} completo e aumentou-se o número de épocas para X.
+
+\textcolor{red}{VOLTAR AQUI E COLOCAR A TABELA RESULTANTE BEM COMO O NÚMERO FINAL DE ÉPOCAS}
+
+\begin{table}[H]
+  \centering
+  \caption{Resumo dos resultados finais do pré-processador CycleGAN sobre o \textit{dataset} de testes.}
+  \begin{tabular}{|c|c|c|}
+    \hline
+      \textbf{Métrica}  &
+      \textbf{Crappy}  &
+      \textbf{Imagem corrigida} \\
+    \hline
+      Rouge-1  &
+      0.734 &
+      0.181 \\
+    \hline
+      Rouge-2  &
+      0.544 &
+      0.009 \\
+    \hline
+      Rouge-3  &
+      0.432 &
+      0.0 \\
+    \hline
+      Rouge-4  &
+      0.318 &
+      0.0 \\
+    \hline
+      Rouge-L &
+      0.773 &
+      0.231 \\
+    \hline
+  \end{tabular}
+  \legend{Fonte: autoral}
+  \label{tab:cycle-gan-rouge-n-result}
+\end{table}
+
 \subsection{Pocessador \textit{Decrappification}}
-\subsection{Comparação de resultados}
