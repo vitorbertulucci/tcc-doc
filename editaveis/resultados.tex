@@ -417,7 +417,7 @@ A partir dos resultados dos experimentos realizados com o CycleGAN bem como a qu
 
 \subsubsection{Configuração do Modelo}
 
-Como já é conhecido, um dos pontos principais que os modelos de GAN são negativamente conhecidos é por conta do custo computacional e quantidade de dados exigidos para atingir resultados satisfatórios \cite{f8-decrappification}. Porém, a arquitetura do CycleGAN permite atingir resultados significativos com uma amostra de dados pequena \cite{cycle-gan}. No trabalho, os cientistas conseguiram fazer a transformação de imagens de cavalos (939 imagens) em zebras (1177 imagens) com pouco mais de 2000 (dois mil) imagens para treinamento e testes. Por isso, o processo de \textit{augmentation} visto na figura \ref{fig:data-augmentation} não será aplicado para o estudo do CycleGAN do presente trabalho.
+Como já é conhecido, um dos pontos principais que os modelos de GAN são negativamente referenciados é por conta do custo computacional e quantidade de dados exigidos para atingir resultados satisfatórios \cite{f8-decrappification}. Porém, a arquitetura do CycleGAN permite atingir resultados significativos com uma amostra de dados pequena \cite{cycle-gan}. No trabalho, os cientistas conseguiram fazer a transformação de imagens de cavalos (939 imagens) em zebras (1177 imagens) com pouco mais de 2000 (dois mil) imagens para treinamento e testes. Por isso, o processo de \textit{augmentation} visto na figura \ref{fig:data-augmentation} não será aplicado para o estudo do CycleGAN do presente trabalho.
 
 A implementação do CycleGAN foi baseada em uma postagem publicada no Medium por Kayo Yin, com o título \href{https://medium.com/illuin/cleaning-up-dirty-scanned-documents-with-deep-learning-2e8e6de6cfa6}{\textit{Cleaning Up Dirty Scanned Documents with Deep Learning}}, construído a partir da biblioteca do Keras, em sua versão 2.0.8. O tamanho utilizado da imagem utilizado foi de 768x512x1.
 
@@ -552,3 +552,36 @@ Para o resultado final do treinamento do algoritmo, separou-se randomicamente 5 
 \end{table}
 
 \subsection{Pocessador \textit{Decrappification}}
+
+O último passo para a o processo de desenvolvimento proposto foi a construção do pré-processador de imagem utilizando o método \textit{decrappification}. A principal motivação para a sua construção foi devido aos seus incríveis resultados como correção de imagens médicas bem como a utilização do mesmo para melhorar a qualidade de imagens de diferentes tipos \cite{f8-decrappification}.
+
+Para a construção do algoritmo e testes com o modelo, utilizou-se a biblioteca do fast.ai em sua versão 1.1.6.
+
+\subsubsection{Configuração do modelo}
+
+Como comentado anteriormente na seção \ref{ssec:decrappification}, o modelo de \textit{decrappification} utiliza o \textit{transfer learning} sobre uma rede U-net \cite{u-net}. Tal rede pode ser criada a partir de algumas arquiteturas já existentes e a arquitetura utilizada para a construção do pré-processador foi a arquitetura Resnet34. Basicamente, quanto maior o número de camadas ou o quão mais profunda a rede é, mais difícil fica o seu treinamento \cite{deep-resnet-for-image-recognition}, por isso optou-se por utilizar uma rede sofisticada mas com um menor grau de camadas, para um treinamento mais rápido.
+
+A implementação do \textit{deccrappification} foi baseada no curso do fast.ai \href{https://course.fast.ai/}\textit{Practical Deep Learning for Coders} na versão 1.
+
+Para a configuração desse modelo durante o treinamento utilizou-se os seguintes parâmetros:
+
+\begin{itemize}
+  \item \textit{\textbf{batch\_size:}} novamente, o principal limitante para a definição desse hiperparâmetro foi a capacidade computacional. Aqui, utilizou-se imagens um pouco maiores, a ser explicado posteriormente e \textit{batch\_size} se manteve igual a \textbf{2};
+  \item \textbf{\textit{optimizer:}} utilizou-se o algoritmo de otimização Adam com \textit{learning rate} padrão da biblioteca de 0.001;
+  \item \textit{\textbf{loss\_function:}} MSE ou \textit{Mean Squared Error};
+\end{itemize}
+
+A arquitetura Resnet bem como a U-net foram construíadas com foco em imagens quadradas, como 256x256 para a U-net \cite{u-net}, mas como comentado anteriormente, o \textit{dataset} contém imagens retangulares. O próprio fast.ai implementa alguns transformadores do dado de treinamento e teste mas ele realiza um corte na imagem a partir do tamanho configurado e não adapta de fato a imagem original. Portanto, foi necessário realizar a adaptação das imagens retangulares dos documentos para um tamanho quadrado. O tamanho a ser testado foi de 768x768, com a mesma altura utilizada nos modelos anteriores de CycleGAN.
+
+Em média, as imagens presentes no \textit{dataset} são imagens com o tamanho próximo a 800x512. Em testes de alteração da imagem frente ao impacto do mesmo no resultado do Tesseract, observou-se que ao realizar a adaptação de acordo com a altura (\textit{height}) da imagem, a métrica Rouge-L obteve média de 0.621 frente a 0.277 quando adaptado-se em relação a largura (\textit{width}) da mesma. O teste foi realizado em uma amostra de 100 imagens do \textit{dataset} original.
+
+Tal modelo acaba trazendo uma complexidade maior para o pré-processador a ser construído, visto que após o \textit{predict} do modelo sobre uma imagem \textit{crappy} para a possível correção, será necessário realizar a adaptação da imagem para o seu tamanho original para então utiliza-la como entrada para o algoritmo do Tesseract.
+
+
+\subsubsection{Resultados}
+
+Para o processo de construção do pré-processador em questão, utilizou-se para treinamento, teste e validação em 70\%, 20\% e 10\%, respectivamente. Mesmo para imagens maiores utilizadas no \textit{decrappification}, o algoritmo obteve médias próximas a 6 horas e 40 minutos por época. Utilizou-se 2 épocas para o treinamento.
+
+Por se tratar de um modelo que utiliza \textit{transfer learning}, espera-se que o processo de aprendizagem seja mais eficiente do que treinando-se uma rede inteiramente do início, sem inicialização de pesos adequada, como vista no CycleGAN, e que com isso a \textit{loss function} tenda a convergir mais rapidamente. Isso é possível verificar no gráfico de \textit{loss} do modelo \textit{decrappification}.
+
+\textcolor{red}{VOLTAR AQUI E COLOCAR A LOSS DO DECRAP}
