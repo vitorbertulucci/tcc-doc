@@ -113,7 +113,7 @@ Por se tratarem de métricas de análise de texto, tendo como base o texto origi
 
 Para a criação de qualquer projeto científico deve-se seguir ou criar um método de trabalho que possibilite a construção de uma solução que consiga mostrar, de maneira clara e objetiva, o trabalho realizado para a comprovação, validação ou invalidação da hipótese apresentada.
 
-Portanto, no presente projeto desenvolveu-se uma metodologia que possibilite validar se um modelo gerador de ML consegue melhorar a qualidade do OCR de fotos ruins. Tal método é dividido diferentes frentes que vão desde trabalho e curadoria do dado até a análise de métricas de qualidade de OCR, permitindo assim a comparação dos diferentes resultados encontrados pelos modelos de IA criados.
+Portanto, no presente projeto desenvolveu-se uma metodologia que possibilite validar se um modelo gerador de ML consegue melhorar a qualidade do OCR de fotos ruins. Tal método é dividido diferentes frentes que vão desde trabalho e curadoria do dado até a análise de métricas de qualidade de OCR, permitindo assim a comparação dos diferentes resultados encontrados pelos modelos de IA criados, bem como compará-los com o processamento de imagem simples para possíveis correções em etapas de pré-processamento pelas ferramentas de OCR.
 
 \subsection{Geração de \textit{dataset}}
 
@@ -166,7 +166,7 @@ Para tal extração, a ferramenta que será utilizada é o Tesseract com configu
 
 \subsection{Gerador de Imagens}
 
-Essa etapa consistem em desenvolver um modelo de IA que receba como entrada uma imagem ruim e gere uma nova imagem nunca vista antes. Essa imagem será gerada a partir de uma Rede Neural Convolucional, como já foi citado na seção \ref{ssec:generative-vs-discriminative}.
+Essa etapa consiste em desenvolver um modelo de IA que receba como entrada uma imagem ruim e gere uma nova imagem nunca vista antes. Essa imagem será gerada a partir de uma Rede Neural Convolucional, como já foi citado na seção \ref{ssec:generative-vs-discriminative}.
 
 \begin{figure}[H]
   \centering
@@ -178,61 +178,60 @@ Essa etapa consistem em desenvolver um modelo de IA que receba como entrada uma 
 
 Idealiza-se então realizar os testes com os modelos citados na sessão \ref{ssec:generative-vs-discriminative}. Por se tratar de abordagens diferentes de modelos geradores utilizando \textit{Deep Learning}, será realizado uma comparação dos diferentes resultados que provavelmente serão encontrados a partir dos modelos geradores.
 
-Possivelmente, será proposto também uma nova arquitetura que possibilite que os modelos de IA, que geralmente são mais tarbalhados com imagens quadradas cujo a largura e altura são iguais (256x256, por exemplo), possam trabalhar com imagens retangulares, as quais serão utilizadas no presente trabalho.
 
 % Tendo uma nova imagem gerada e todas as informações necessárias identificadas previamente, como OCR das imagens boas e ruins, adiciona-se uma camada de extração de texto das imagens geradas pelo modelo Gerador e as adiciona no CSV contendo as extrações anteriores. Com isso, tem-se agora o insumo necessário para a criação de uma métrica de validação da hipótese.
 
 
-\section{Cronograma de desenvolvimento}
+% \section{Cronograma de desenvolvimento}
 
-Para a simplificação do entendimento da metodologia proposta, bem como para melhorar a organização e divisão do trabalho, foi desenvolvido um cronograma simples que visa mostrar de forma tabelar as atividades a serem desenvolvidas. Tais atividades foram divididas em dois momentos, correspondendo às duas entregas necessárias para a finalização do trabalho.
+% Para a simplificação do entendimento da metodologia proposta, bem como para melhorar a organização e divisão do trabalho, foi desenvolvido um cronograma simples que visa mostrar de forma tabelar as atividades a serem desenvolvidas. Tais atividades foram divididas em dois momentos, correspondendo às duas entregas necessárias para a finalização do trabalho.
 
-Identificar todas as micro-atividades desenvolvidas e descrever todas elas seria massivo e dificultaria o entendimento. Por isso, ao invés de propor datas e detalhar cada uma das micro-atividades, o cronograma é baseado em macro-atividades, divididas em \textit{sprints} simplificadas, ou seja, sem atividades de revisão e planejamento documentadas. Uma \textit{sprint} é uma atividade proposta pela metodologia Scrum que possibilita o desenvolvimento interativo e incremental por meio de atividades com definição de tempo e entregas específicas \cite{scrum}.
+% Identificar todas as micro-atividades desenvolvidas e descrever todas elas seria massivo e dificultaria o entendimento. Por isso, ao invés de propor datas e detalhar cada uma das micro-atividades, o cronograma é baseado em macro-atividades, divididas em \textit{sprints} simplificadas, ou seja, sem atividades de revisão e planejamento documentadas. Uma \textit{sprint} é uma atividade proposta pela metodologia Scrum que possibilita o desenvolvimento interativo e incremental por meio de atividades com definição de tempo e entregas específicas \cite{scrum}.
 
-\subsection{Momento 1}
+% \subsection{Momento 1}
 
-O momento 1 representa todas as atividades que fazem parte do escopo da entrega 1, referente às etapas que vão desde o recebimento dos dados até a criação do \textit{dataset} que servirá de insumo para as fases do momento 2. As atividades e suas respectivas \textit{sprints} estão identificadas na tabela \ref{tab:step-1}
+% O momento 1 representa todas as atividades que fazem parte do escopo da entrega 1, referente às etapas que vão desde o recebimento dos dados até a criação do \textit{dataset} que servirá de insumo para as fases do momento 2. As atividades e suas respectivas \textit{sprints} estão identificadas na tabela \ref{tab:step-1}
 
-\begin{table}[H]
-  \centering
-  \caption{Cronograma de atividades do momento 1.}
-  \begin{tabular}{|l|l|l|l|l|l|l|l|}
-  \hline
-  \textbf{Atividade/Sprint}                                                  & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} \\ \hline
-  Estudo do dado                                                             & X &   &   &   &   &   &   \\ \hline
-  Filtragem do dado                                                          & X &   &   &   &   &   &   \\ \hline
-  Separação de PDFs                                                          &   & X &   &   &   &   &   \\ \hline
-  \begin{tabular}[c]{@{}l@{}}Extração de OCR de imagens\\ boas\end{tabular} &   & X & X &   &   &   &   \\ \hline
-  Criação de pipeline de filtros                                             &   &   & X & X & X &   &   \\ \hline
-  \begin{tabular}[c]{@{}l@{}}Extração de OCR de imagens\\ ruins\end{tabular} &   &   &   &   & X &   &   \\ \hline
-  Identifiação e proposta de métrica                                         &   &   &   &   & X & X &   \\ \hline
-  Organização do dataset                                                     &   &   &   &   &   & X & X \\ \hline
-  \end{tabular}
-  \legend{Fonte: autoral.}
-  \label{tab:step-1}
-\end{table}
+% \begin{table}[H]
+%   \centering
+%   \caption{Cronograma de atividades do momento 1.}
+%   \begin{tabular}{|l|l|l|l|l|l|l|l|}
+%   \hline
+%   \textbf{Atividade/Sprint}                                                  & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} \\ \hline
+%   Estudo do dado                                                             & X &   &   &   &   &   &   \\ \hline
+%   Filtragem do dado                                                          & X &   &   &   &   &   &   \\ \hline
+%   Separação de PDFs                                                          &   & X &   &   &   &   &   \\ \hline
+%   \begin{tabular}[c]{@{}l@{}}Extração de OCR de imagens\\ boas\end{tabular} &   & X & X &   &   &   &   \\ \hline
+%   Criação de pipeline de filtros                                             &   &   & X & X & X &   &   \\ \hline
+%   \begin{tabular}[c]{@{}l@{}}Extração de OCR de imagens\\ ruins\end{tabular} &   &   &   &   & X &   &   \\ \hline
+%   Identifiação e proposta de métrica                                         &   &   &   &   & X & X &   \\ \hline
+%   Organização do dataset                                                     &   &   &   &   &   & X & X \\ \hline
+%   \end{tabular}
+%   \legend{Fonte: autoral.}
+%   \label{tab:step-1}
+% \end{table}
 
 
-\subsection{Momento 2}
+% \subsection{Momento 2}
 
-O segundo momento do projeto consiste em consumir os dados criados e organizados no momento 1 para a criação e construção dos modelos de IA propostos para verificar a vericidade da hipótese proposta no início do trabalho. As atividades que caracterizam o momento final do projeto bem como suas \textit{sprints} estão descritos na tabela \ref{tab:step-2}.
+% O segundo momento do projeto consiste em consumir os dados criados e organizados no momento 1 para a criação e construção dos modelos de IA propostos para verificar a vericidade da hipótese proposta no início do trabalho. As atividades que caracterizam o momento final do projeto bem como suas \textit{sprints} estão descritos na tabela \ref{tab:step-2}.
 
-\begin{table}[H]
-  \centering
-  \caption{Cronograma de atividades do momento 1.}
-  \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
-  \hline
-  \textbf{Atividade/Sprint}     & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} & \textbf{11} & \textbf{12} \\ \hline
-  Programar as métricas         & X          &            &            &            &            &            &            &            &            &             &             &             \\ \hline
-  Estudar nova arquitetura      & X          & X          &            &            &            &            &            &            &            &             &             &             \\ \hline
-  Configuração de ambiente      &            &            & X          &            &            &            &            &            &            &             &             &             \\ \hline
-  Teste com Variational Encoder &            &            &            & X          & X          &            &            &            &            &             &             &             \\ \hline
-  Teste com GAN                 &            &            &            &            &            & X          & X          &            &            &             &             &             \\ \hline
-  Teste com Decrappification    &            &            &            &            &            &            &            & X          & X          &             &             &             \\ \hline
-  Validação dos resultados      &            &            &            &            &            &            &            &            &            & X           &             &             \\ \hline
-  Comparação dos métodos        &            &            &            &            &            &            &            &            &            &             & X           &             \\ \hline
-  Conclusão                     &            &            &            &            &            &            &            &            &            &             &             & X           \\ \hline
-  \end{tabular}
-  \legend{Fonte: autoral.}
-  \label{tab:step-2}
-\end{table}
+% \begin{table}[H]
+%   \centering
+%   \caption{Cronograma de atividades do momento 1.}
+%   \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+%   \hline
+%   \textbf{Atividade/Sprint}     & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} & \textbf{11} & \textbf{12} \\ \hline
+%   Programar as métricas         & X          &            &            &            &            &            &            &            &            &             &             &             \\ \hline
+%   Estudar nova arquitetura      & X          & X          &            &            &            &            &            &            &            &             &             &             \\ \hline
+%   Configuração de ambiente      &            &            & X          &            &            &            &            &            &            &             &             &             \\ \hline
+%   Teste com Variational Encoder &            &            &            & X          & X          &            &            &            &            &             &             &             \\ \hline
+%   Teste com GAN                 &            &            &            &            &            & X          & X          &            &            &             &             &             \\ \hline
+%   Teste com Decrappification    &            &            &            &            &            &            &            & X          & X          &             &             &             \\ \hline
+%   Validação dos resultados      &            &            &            &            &            &            &            &            &            & X           &             &             \\ \hline
+%   Comparação dos métodos        &            &            &            &            &            &            &            &            &            &             & X           &             \\ \hline
+%   Conclusão                     &            &            &            &            &            &            &            &            &            &             &             & X           \\ \hline
+%   \end{tabular}
+%   \legend{Fonte: autoral.}
+%   \label{tab:step-2}
+% \end{table}

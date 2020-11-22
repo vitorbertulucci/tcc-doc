@@ -2,6 +2,8 @@
 
 O estudo de Inteligência Artificial vem sendo cada vez mais comum na comunidade de tecnologia da informação para a criação de sistemas que buscam automatizar e auxiliar de maneira mais eficiente o trabalho humano. O presente capítulo traz a explicação de um conjunto de tecnologias da área de IA, permitindo entender os conceitos básicos necessários para o completo entendimento da hipótese proposta.
 
+Além disso, será discutido também alguns pontos importantes sobre o processamento de imagem simples, os principais filtros utilizados no ramo do reconhecimento de caracteres. Por fim, serão estudados também alguns trabalhos relacionados que dizem respeito ao trabalho realizado com OCR com finalidade de levantar as principais características de processamento de imagem que possam auxiliar e servir de embasamento para o presente trabalho.
+
 \section{Aprendizagem de Máquina}
 
 Aprendizado de Máquina do inglês \textit{Machine Learning} (ML) é uma das subáreas da Inteligência Artificial que visa criar mecanismos que possibilitem fazer com que uma máquina possa "aprender" sobre um determinado problema a partir de um conjunto de dados de entrada. Em outras palavras, ML permite que um dado algoritmo desenvolva uma função matemática que consiga representar tal conjunto de dados. Com essa função ou modelo matemático, é possível agora realizar inferências sobre outros dados, desde que esses sejam relacionados à mesma problemática \cite{deep-learning-book-br}.
@@ -11,21 +13,21 @@ O processo de aprendizagem se da início a partir de observações ou dados, com
 \begin{itemize}
   \item \textbf{Aprendizado supervisionado:} o objetivo principal de algoritmos supervisionados é conseguir desenvolver um modelo matemático a partir de um conjunto de dados anotados, no caso, dados de treinamento. O \textit{supervisionado} diz respeito ao conjunto de dados os quais já se sabe a saída esperada, ou seja, o dado já é anotado previamente. Em geral, esses algoritmos são utilizados para problemas de classificação e regressão.
 
-  % fonte: https://blogs.nvidia.com/blog/2018/08/02/supervised-unsupervised-learning/
+        % fonte: https://blogs.nvidia.com/blog/2018/08/02/supervised-unsupervised-learning/
 
-  \begin{figure}
-    \centering
-    \caption{Aprendizado supervisionado}
-    \includegraphics[scale=0.5]{figuras/nvidia-supervised-learning.png}
-    \legend{Fonte: \citeonline{learning-types}}
-    \label{fig:nvidia-supervised-learning}
-  \end{figure}
+        \begin{figure}
+          \centering
+          \caption{Aprendizado supervisionado}
+          \includegraphics[scale=0.5]{figuras/nvidia-supervised-learning.png}
+          \legend{Fonte: \citeonline{learning-types}}
+          \label{fig:nvidia-supervised-learning}
+        \end{figure}
 
-  \newpage
+        \newpage
 
   \item \textbf{Aprendizado não supervisionado:} diz respeito aos métodos de aprendizagem de máquina os quais utiliza-se como dado de entrada um dado que não possui nenhum tipo de anotação e que, muitas vezes, sua estrutura é desconhecida.
 
-  Tal processo de aprendizagem permite extrair características relevantes sobre o dado que possam servir de insumo para uma futura categorização e classificação do mesmo. Dependendo do problema em questão, a aprendizagem supervisionada pode organizar o dado em diferentes categorias \cite{learning-types} como clusterização, associação, \textit{autoencoders}, \textit{anomaly detection}, etc.
+        Tal processo de aprendizagem permite extrair características relevantes sobre o dado que possam servir de insumo para uma futura categorização e classificação do mesmo. Dependendo do problema em questão, a aprendizagem supervisionada pode organizar o dado em diferentes categorias \cite{learning-types} como clusterização, associação, \textit{autoencoders}, \textit{anomaly detection}, etc.
 
   \item \textbf{Aprendizado semi-supervisionado:} já o aprendizado semi-supervisionado junta um pouco dos dois mundos: dados com registros anotados e também dados com registros não anotados. A aplicabilidade para esse tipo de aprendizagem é quando se possui um dado onde não é trivial extrair informações relevantes sobre ele e tampouco é realizar toda a anotação da amostra em questão \cite{learning-types}.
 \end{itemize}
@@ -294,7 +296,7 @@ As principais características de um \textit{autoencoder} são:
 
 \begin{itemize}
   \item \textbf{\textit{Encoder:}} reduz a dimensão do dado de entrada e o comprime para uma versão codificada;
-  \item \textbf{\textit{Bottleneck:}} camada que contém o dado com o menor número de dimensões possíveis depois de sua codificação representado por um vetor de dimensão $n$; 
+  \item \textbf{\textit{Bottleneck:}} camada que contém o dado com o menor número de dimensões possíveis depois de sua codificação representado por um vetor de dimensão $n$;
   \item \textbf{\textit{Decoder:}} reconstrói o dado a partir do dado codificado do \textit{bottleneck} para uma representação mais próxima do dado de entrada possível;
   \item \textbf{Custo da reconstrução:} mede o quão bem o \textit{decoder} está realizando a atividade de decodificação do dado da camada de \textit{bottleneck} verificando o quão longe o dado gerado está quando comparado com o original.
 \end{itemize}
@@ -336,7 +338,7 @@ Os avanços nos modelos de redes GAN vem se mostrando bastante promissores, prin
 \end{figure}
 
 
-\subsection{\textit{Decrappification}}
+\subsection{\textit{Decrappification}} \label{ssec:decrappification}
 
 Mesmo atingindo marcos históricos na evolução dos modelos geradores, as redes GAN sofrem de um problema bastante inerente em suas arquiteturas: o custo de treinamento e a sensibilidade na alteração dos hiperparâmetros \cite{f8-decrappification}. Com isso, a equipe do \href{fast.ai}{fast.ai} iniciou um projeto de utilizar o \textit{transfer learning}\footnote{Capacidade de transferir os pesos ajustados de uma rede neural para outra, independente de suas diferentes aplicabilidades.} em modelos geradores para minimizar a correção dos pesos e calculos de funções de custo \cite{f8-decrappification}.
 
@@ -366,7 +368,7 @@ A expressão \textit{Optical Character Recognition} define uma tecnologia do ram
   \label{fig:ocr-placa-carro}
 \end{figure}
 
-\subsection{\textit{Tesseract}}
+\subsection{\textit{Tesseract}} \label{ssec:tesseract}
 
 Uma das tecnologias desenvolvidas com foco em reconhecimento de caracteres mais destacadas atualmente na comunidade de desenvolvimento de \textit{software} é o \textit{Tesseract}. Inicialmente desenvlovida pela empresa HP entre 1984 e 1994 e motivada pela qualidade ruim dos mecanismos de identificação de caracteres disponíveis no mercado na época \cite{tesseract-overview}, foi posta como código aberto para o uso por desenvolvedores em 2005 e atualmente encontra-se hospedada no Github\footnote{Plataforma de hospedagem e controle de versão de códigos de \textit{softwares}.}
 
@@ -378,11 +380,103 @@ Com isso, inicia-se o terceiro passo, o de reconhecimento dos caracteres. Tal pa
 
 \begin{itemize}
   \item \textbf{Reconhecer cada palavra de uma vez:} cada palavra reconhecida satisfatoriamente passa para um classificador adaptativo como dado de treinamento. Com isso, o classificador recebe a chance de aumentar o reconhecimento de caracteres na medida que o reconhecimento percorre a imagem.
-  \item \textbf{Varredura da imagem:} baseando-se no classificador adaptativo, o segundo passo é garantir que, caso uma palavra tenha sido reconhecida satisfatoriamente muito tarde na imagem, esssa palavra possa ser melhor identificada nas linhas anteriores. Então, com o classificador adaptativo melhorado, percorre-se novamente a imagem desde o início na tentativa de melhorar a identificação das palavras. 
+  \item \textbf{Varredura da imagem:} baseando-se no classificador adaptativo, o segundo passo é garantir que, caso uma palavra tenha sido reconhecida satisfatoriamente muito tarde na imagem, esssa palavra possa ser melhor identificada nas linhas anteriores. Então, com o classificador adaptativo melhorado, percorre-se novamente a imagem desde o início na tentativa de melhorar a identificação das palavras.
 \end{itemize}
 
-A biblioteca \textit{Tesseract} possui mais de 110 contribuidores da comunidade de \textit{software} livre e é evoluida diariamente por esses contribuidores. O \textit{Tesseract} também foi a tecnologia utilizada no projeto \citeonline{cnn-for-STF} e será utilizado como métrica para o presente trabalho.
+A biblioteca \textit{Tesseract} possui mais de 110 contribuidores da comunidade de \textit{software} livre e é evoluida diariamente por esses contribuidores. O \textit{Tesseract} também foi a tecnologia utilizada no projeto \citeonline{cnn-for-STF} e será utilizado como ferramenta para o presente trabalho.
 
 \ornament
 
 O completo entendimento de como o OCR funciona e quais seus principais mecanismos deriva de uma explicação bastante complexa e que facilmente poderia ser dividida em um outro projeto de conclusão de curso. Com isso, o entendimento simples de como ele funciona e uma simplificação de sua arquitetura são suficientes para o desenvolver do trabalho.
+
+
+\section{Filtros de Imagem} \label{sec:filtro-de-imagem}
+No ramo de visão computacional, vários estudos são realizados anualmente para construir algoritmos que tentem melhorar os ruídos de imagens e consequentemente melhorar o resultado do OCR. Regularmente, empresas e grandes pesquisadores se reúnem para testar novos algoritmos para testarem novas tecnologias para o reconhecimento de caracteres (CITAR O ENCONTRO ANUAL DE OCR).
+
+Como comentado anteriormente em \ref{ssec:tesseract}, o Tesseract, bem como outras ferramentas comuns de OCR, realizam um conjunto de atividades na imagem de entrada para então realizar o reconhecimento de caracteres \cite{image-preprocessing-for-improving-ocr}. Em geral, as principais atividades pré-reconhecimento consistem em:
+
+\begin{itemize}
+  \item Correção de ruídos (\textit{noise reduction/attenuation});
+  \item Correção de orientação;
+  \item Binarização;
+\end{itemize}
+
+Nota-se também, que boa parte dessas ferramentas são otimizadas para captura em \textit{scanners} e não englobam a correção de ruídos comuns de fotos feitas por câmeras normais \cite{image-preprocessing-for-improving-ocr}, como distorções geométricas, perda de foco e iluminação não homogênea, problemas bastante comuns na problemática apresentada no trabalho.
+
+Propõe-se então desenvolver um algoritmo que combine diferentes tipos de filtros de imagens simples para construir um corretor de imagens escaneadas utilizando a linguagem Python. Tal algoritmo será dividido em 4 (quatro) etapas, sendo elas: binarização, \textit{skew correction}, remoção de ruídos e \textit{thinning e skeletonization}.
+
+\subsection{Binarização}
+O processo de binarização consiste em transformar todos os píxels presentes na imagem com valores ou 0 ou 255 (preto ou branco). Com isso, o destaque das letras presentes na imagem são mais evidentes e o processo de identificação do caracter tende a ser mais assertivo. Esse processo envolve definir, a partir de algum valor de parada, chamado de \textit{threshold}. Algumas bibliotecas implementam os chamados de \textit{adaptatvive thresholds}, que consideram um valor resultante de uma análise sobre os pixels vizinhos ao que está sendo analisado.
+
+\begin{gather}
+  p_{ij} =
+  \begin{cases}
+    255, & \text{se } p_{ij}\geq T_{ij} \\
+    0, & \text{se } p_{ij} < T_{ij}
+  \end{cases}
+  \label{math:adaptative-threshold}
+\end{gather}
+
+onde \textit{i} e \textit{j} representam a posição do pixel na matriz da imagem e T representa a função que calcula o determinado \textit{threshold}, na respectiva posição do pixel.
+
+\begin{figure}[h]
+  \centering
+  \caption{Imagem em tom de cinza}
+  \includegraphics[scale=0.25]{figuras/binarization-original.jpg}
+  \legend{Fonte: Autoral}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \caption{Imagem com binarização simples com \textit{threshold} = 127}
+  \includegraphics[scale=0.25]{figuras/binarization-threshold.jpg}
+  \legend{Fonte: Autoral}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \caption{Imagem com binarização adaptativa sobre a imagem anteriormente binarizada}
+  \includegraphics[scale=0.25]{figuras/binarization-adaptative-threshold.jpg}
+  \legend{Fonte: Autoral}
+\end{figure}
+
+É possível observar que a binarização com o \textit{adaptative threshold} consegue manter a imagem com a dispersão de pretos e prancos mais homogênea.
+
+
+\subsection{Remoção de Ruídos} \label{ssec:image-denoising}
+
+% https://www.iosrjournals.org/iosr-jece/papers/Vol.%2011%20Issue%201/Version-1/L011117884.pdf
+% https://sci-hub.st/https://ieeexplore.ieee.org/abstract/document/6493228/
+
+Uma outra etapa importante para o pré-processamento de imagens para o OCR consiste em tentar remover os ruídos que são encontrados nas imagens escaneadas, como já comentado anteriormente. O foco das técnicas remoção de ruído é conseguir manter as principais características do documento, permitindo que as informações presentes nele sejam vistas de forma mais clara e limpa \cite{image-denoising-techniques}.
+
+As técnicas de filtro espacial, como filtro da média ou filtro da mediana, focam em suavizar a imagem (deixá-la mais homogênea) para a redução de ruído e em seguida borrar algumas formas importantes na imagem, como bordas ou figuras \cite{document-image-denoising}. Porém, para imagens contendo texto, o processo de borrar curvas pode comprometer o reconhecimento de caracteres do documento \cite{image-denoising-techniques}. Com isso, técnicas como a Transformação de Wavelet são utilizadas para preservar as curvas presentes na imagem \cite{image-denoising-techniques} mas são facilmente afetadas com rotações dos dados na imagem, principalmente em imagens que possuem textos. Outras abordagens, como \textit{Curvelet Transform} \cite{fast-discrete-curvelet-transforms} são algoritmos que concentram as correções em torno das curvas e são mais suscetíveis a propriedades directionais (linhas contendo textos) \cite{image-denoising-techniques}.
+
+As explicações e demonstrações matemáticas sobre os algoritmos de remoção de ruídos em geral são bem complexas e não condiz com o foco do presente trabalho. Por isso, tais demonstrações não serão apresentadas.
+
+\subsection{Correção de inclinação (\textit{Skew Correction})} \label{ssec:skew-correction}
+
+É comum ver em documentos digitalizados uma certa angulação na página que contém a informação, causada por um ajuste errado no momento de colocar o documento em \textit{scanners} ou até mesmo em fotos digitalizadas feitas por aplicativos de dispositivos móveis. Uma das etapas das ferramentas de reconhecimento de caracteres consiste em segmentar a imagem em linhas para então realizar o conhecimento de caractéres \cite{ocr-survey}. Portanto, se a orientação do texto não estiver homogênea em relação as bordas do documento, a precisão do algoritmo de identificação consequentemente diminui \cite{metrics-for-ocr-performance}.
+
+Portanto, além das diversas melhorias na minimização de ruídos que devem compor um pré-processamento de imagem para tentar garantir a qualidade do OCR, existe também a etapa de correção da orientação ou inclinação da imagem. Com isso, o algoritmo de segmentação irá realizar a identificação das linhas corretamente, aumentando as chances de identificação de caracteres.
+
+Por meio da projeção horizontal das palavras ou linhas do texto da palavra, é possível traçar histogramas que represente cada tipo de leitura e tentar identificar um com a representação mais homogênea \cite{skew-correction-and-slant-removal}.
+
+\begin{figure}[h]
+  \centering
+  \caption{Histogramas representando a projeção horizontal das palavras}
+  \includegraphics[scale=0.45]{figuras/skew-correction.png}
+  \legend{Fonte: \cite{skew-correction-and-slant-removal}}
+\end{figure}
+
+\section{Trabalhos Relacionados}
+
+Pesquisas no ramo de visão computacional para pré-processamento de imagens vem sendo realizadas há mais de duas décadas. Em uma dessas pesquisas, \citeonline{image-preprocessing-for-improving-ocr} desenvolveram um método para minimizar os erros das imagens com o intuito de aumentar a acurácia das extrações de texto por OCR. Naquela época, Bieniecki e seus companheiros verificaram que as principais ferramentas de OCR eram otimizadas apenas para documentos capturados por \textit{scanners} ao invés de capturados por câmeras convencionais. O trabalho deles foi então focado em tentar otimizar as fotos escaneadas vindas de câmeras digitais, que em geral possuem ruídos mais complexos do que os vistos em documentos vindos de \textit{scanners}, como perda de foco, distorções geométricas e iluminação não homogênea.
+
+As correções aplicadas por eles consideraram rotação da imagem para alinhamento do texto, correção de distorções geométricas vistas em bordas de livros, e correções de iluminação não homogênea, e conseguiram atingir resultados consideráveis utilizando o FileReader\footnote{O \textit{software} FileReader é uma aplicação de reconhecimento óptico de caracteres desenvolvida pela empresa multinacional ABBYY. Na data de publicação desse trabalho, a versão estável do produto está na versão 15.} na versão 7.0 como extrator de caracteres. Porém, para imagens mais danificadas, como de exemplos mostrados do \textit{dataset} do STJ, possivelmente seus algoritmos não teriam uma performance tão boa. O ponto positivo do trabalho realizado por eles é que permitiu dar atenção às correções dos algoritmos considerando imagens tiradas de câmeras digitais.
+
+Anos depois, \citeonline{document-image-denoising} apresentaram uma abordagem um pouco mais complexa utilizando \textit{Curvelet Transform} \cite{curvelet-transform} para a possível elimitação de fundos de imagem e ruídos de sinais, como o Gaussiano, atingindo resultados surpreendentes  conseguindo remover imagens de fundo de documentos, permitindo que os algoritmos de OCR pudessem fazer a extração do texto normalmente.
+
+A evolução dos testes de algoritmos de pré-processamento evoluiram também para o uso de Inteligência Artificial, como \citeonline{autoencoder-for-caracter-recognition} fizeram,  utilizando \textit{Deep Convolutional Denoising Autoencoders} para a correção de ruídos de imagens capturadas de telefones celulares e provou-se atingir cerca de 27\% de melhoria se comparado com o algoritmo do Tesseract convencional para o OCR, na época.
+
+Já o uso de \textit{GANs} para a correção de documentos não é algo que possui um estudo científico muito aprofundado até o presente momento, sendo mais encontrados em artigos extra oficiais e em competições de desenvolvimento publicadas na internet, como Kaggle e afins. Porém, em abordagens mais recentes, \citeonline{gan-historical-document-denoising} utilizaram os \textit{Autoencoders} e a variação de Godfellow para a reconstrução de documentos incunábulos escaneados e fotografatos de diferentes formas. Os resultados atingidos mostram o quão a área de correção de documentos pode ser promissora se combinada com as Redes Neurais Adversárias e suas diversas abordagens e evoluções.
